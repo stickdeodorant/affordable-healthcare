@@ -3,9 +3,9 @@ include 'inc/header.php';
 $provider = 'About Health Exchange';
 if($state) {
 	$featureTitle = 'Compare Affordable <strong>' . $state . '</strong> Health Plans!';
-	$subtitle = 'Healthcare-Insurance offers a broad selection of ' . $state . ' healthcare plan options that includes converage for individuals, families and short term from most of the leading ' . $state . ' health insurance companies.';
+	$subtitle = 'Affordable Healthcare offers a broad selection of ' . $state . ' healthcare plan options that includes converage for individuals, families and short term from most of the leading ' . $state . ' health insurance companies.';
 } else {
-	$featureTitle = 'Compare Affordable Health Plans!';
+	$featureTitle = 'Find Affordable Affordable Healthcare!';
 	$subtitle = 'Compare the latest Health Exchange Options Available';
 }
 $featureSubtitle = $subtitle;

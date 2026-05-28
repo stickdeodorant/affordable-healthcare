@@ -439,8 +439,8 @@ function sendPeriodicReport() {
     // Send email (using your existing email configuration)
     $to = 'kelliott@infinixmedia.com';
     $subject = 'Lead Management Daily Report - ' . date('Y-m-d');
-    $headers = "From: no-reply@healthcare-insurance.com\r\n";
-    $headers .= "Reply-To: no-reply@healthcare-insurance.com\r\n";
+    $headers = "From: no-reply@affordable-healthcare.com\r\n";
+    $headers .= "Reply-To: no-reply@affordable-healthcare.com\r\n";
     $headers .= "X-Mailer: PHP/" . phpversion();
     
     if (mail($to, $subject, $emailBody, $headers)) {

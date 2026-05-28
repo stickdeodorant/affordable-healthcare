@@ -11,8 +11,8 @@ class AppConfig {
         $gaIds = env_array('GA_MEASUREMENT_IDS', ['UA-203937944-1']);
 
         $this->config = [
-            'site_name' => env('SITE_NAME', 'Healthcare Insurance'),
-            'domain' => env('APP_DOMAIN', $_SERVER['HTTP_HOST'] ?? 'healthcare-insurance.com'),
+            'site_name' => env('SITE_NAME', 'Affordable Healthcare'),
+            'domain' => env('APP_DOMAIN', $_SERVER['HTTP_HOST'] ?? 'affordable-healthcare.com'),
             'environment' => env('APP_ENV', 'production'),
             
             // Database settings
@@ -64,7 +64,7 @@ class AppConfig {
             
             // API endpoints
             'api' => [
-                'base_url' => env('API_BASE_URL', 'https://healthcare-insurance.com'),
+                'base_url' => env('API_BASE_URL', 'https://affordable-healthcare.com'),
                 'zip_api' => env('ZIP_API_URL', 'https://zip.getziptastic.com/v2/US/'),
                 'trusted_form' => env('TRUSTED_FORM_URL', 'https://api.trustedform.com/trustedform.js')
             ],

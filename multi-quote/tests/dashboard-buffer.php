@@ -405,7 +405,7 @@ require_once __DIR__ . '/inc/config/db-config.php';
     <div class="sidebar">
         <div class="sidebar-header">
             <h3><i class="fas fa-chart-line"></i> Lead Manager</h3>
-            <small>Healthcare Insurance</small>
+            <small>Affordable Healthcare</small>
         </div>
         
         <nav class="sidebar-nav">

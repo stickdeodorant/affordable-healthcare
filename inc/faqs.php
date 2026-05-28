@@ -12,12 +12,12 @@
 			<strong>Premium:</strong> what you pay your insurance company each month for coverage.<br>
 			<strong>Deductible:</strong> a set amount you must pay to providers before your insurance company starts paying its share of the bills. Your deductible resets each plan year.<br>
 			<strong>Copayments and Coinsurance:</strong> Copays are a flat fee (e.g., $20 to visit a doctor\'s office). Coinsurance is a percentage of costs (for example, 25% of the cost of a prescription drug).',
-			'CO' => 'Healthcare-Insurance offers a varied selection of Colorado health plans for individuals, families and short term needs from most of the leading Colorado health insurance companies to-date.<br>&nbsp;<br>
+			'CO' => 'Affordable Healthcare offers a varied selection of Colorado health plans for individuals, families and short term needs from most of the leading Colorado health insurance companies to-date.<br>&nbsp;<br>
 			<strong>Terms and cost to consider</strong><br>
 			<strong>Premium:</strong> what you pay your insurance company each month for coverage.<br>
 			<strong>Deductible:</strong> a set amount you must pay to providers before your insurance company starts paying its share of the bills. Your deductible resets each plan year.<br>
 			<strong>Copayments and Coinsurance:</strong> Copays are a flat fee (e.g., $20 to visit a doctor\'s office). Coinsurance is a percentage of costs (for example, 25% of the cost of a prescription drug).',
-			'IA' => 'In Iowa, enrollment hit unprecedented highs in 2016, while it did increased in 2018 and in 2020, it\'s never reached the levels it had been at in 2016. With that being said, enrollments for healthcare insurance surpassed its 2016 levels in 2021.<br>&nbsp;<br>
+			'IA' => 'In Iowa, enrollment hit unprecedented highs in 2016, while it did increased in 2018 and in 2020, it\'s never reached the levels it had been at in 2016. With that being said, enrollments for Affordable Healthcare surpassed its 2016 levels in 2021.<br>&nbsp;<br>
 			<strong>Terms and cost to consider</strong><br>
 			<strong>Premium:</strong> what you pay your insurance company each month for coverage.<br>
 			<strong>Deductible:</strong> a set amount you must pay to providers before your insurance company starts paying its share of the bills. Your deductible resets each plan year.<br>

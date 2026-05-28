@@ -38,11 +38,11 @@
 							$featureCaption['mobile'] = '';
 						}
 						echo '<h6 id="zip-caption" class="zip-caption mt-2 mb-3 font-weight-normal" style="text-transform:capitalize;">';
-								$featureCaptionIsUniform = is_array($featureCaption)
-									&& count($featureCaption) > 0
-									&& isset($featureCaption[0])
-									&& ($featureCaption === array_fill(0, count($featureCaption), $featureCaption[0]));
-								if ($featureCaptionIsUniform) {
+						$featureCaptionIsUniform = is_array($featureCaption)
+							&& count($featureCaption) > 0
+							&& isset($featureCaption[0])
+							&& ($featureCaption === array_fill(0, count($featureCaption), $featureCaption[0]));
+						if ($featureCaptionIsUniform) {
 							echo $featureCaption['default'];
 						} else if ((!empty($featureCaption['default']) || !empty($featureCaption['filled'])) && (!empty($featureCaption['mobile']) || !empty($featureCaption['mfilled']))) {
 							if ($featureCaption['default'] == $featureCaption['filled']) {
@@ -154,7 +154,7 @@
 							</svg>
 						</div>
 						<div class="bottom-nav">
-							<input class="button bg-accent text-white" type="submit" value="Find Plans">
+							<input class="button bg-accent text-white" type="submit" value="Find My Quote">
 						</div>
 						</form>
 						<div class="row badges justify-content-center mt-3">
@@ -330,11 +330,14 @@
 									}
 									echo '</h6>';
 								} ?>
+
 					</div>
+					<p class="disclaimer mt-0 mb-0 small text-white mx-auto" style="text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4); max-width: 600px;">By clicking "Find My Quote," you understand that affordable-healthcare.com is a third party lead generation website. We are not an insurance company and do not issue insurance policies. Your information may be shared with affiliate agencies, marketing companies, or service providers that may contact you about health insurance options.</p>
 				</div>
 			</div>
 		<?php } ?>
 		<?php /* Affiliation logos */ ?>
-		<?php //include __DIR__ . '/aff-logos.php'; ?>
+		<?php //include __DIR__ . '/aff-logos.php'; 
+		?>
 
 		</header>

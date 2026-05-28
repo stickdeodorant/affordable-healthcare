@@ -639,7 +639,7 @@ $currentIncomeOptions = $incomeMatrix[$currentHousehold];
                                 <div class="form-group">
                                     <p class="small text-muted">
                                         By clicking submit, I agree to receive calls, texts and emails from
-                                        <?= SecurityHelper::escape($config->get('site_name', 'Healthcare Insurance')) ?>
+                                        <?= SecurityHelper::escape($config->get('site_name', 'Affordable Healthcare')) ?>
                                         and partner companies regarding healthcare options. I understand that
                                         consent is not required as a condition of purchase. Message and data
                                         rates may apply.

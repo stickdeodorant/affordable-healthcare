@@ -3,11 +3,11 @@
 	<div class="container-fluid scale">
 		<div class="container">
 			<div class="row">
-				<div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 text-center">
-					<h3 class="h1">Shop and compare a wide range of healthcare insurance plans</h3>
-					<p>Find plans and options that fit your budget</p>
-					<p>Compare affordable options against hundreds of other healthcare plans that include Top Tier Brands and Private Marketplace choices.</p>
-					<p>Speak a licensed agent today to compare and discuss the most affordable healthcare insurance coverage possible.</p>
+				<div class="col-12 col-sm-10 offset-sm-1 col-md-10 offset-md-1 text-center">
+					<h3 class="h1">Find Affordable Healthcare Options</h3>
+					<p style="font-style:italic;">Don't overpay for health coverage.</p>
+					<p><?= $sitename ?> helps consumers request a healthcare quote and connect with affiliate agencies that may be able to discuss health insurance options. Our goal is to make the shopping process easier by helping you request information about plans that may fit your needs, budget, location, and eligibility.</p>
+					<p>We do our best to work with reputable affiliate agencies. However, healthcare plans can vary, and some products may offer more limited benefits than others. Before enrolling, ask clear questions about benefits, prescriptions, doctors, maximum out of pocket exposure, and whether the plan is comprehensive health insurance coverage.</p>
 					<?php if(isset($_GET['call'])) { ?><a href="tel:<?=$phonemin['fb-call']?>" class="button bg-accent text-white"><?=$phone['fb-call']?></a><?php } else { ?><div><a class="button bg-accent text-white scale-4x scroll-top" href="/#">Find Plans</a></div><?php } ?>
 				</div>
 			</div>

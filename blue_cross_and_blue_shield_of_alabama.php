@@ -4,7 +4,7 @@ $provider = 'Blue Cross Blue Shield of Alabama';
 if($state) {
 	$featureTitle = 'Compare Affordable <strong>' . $state . '</strong> Health Plans!';
 } else {
-	$featureTitle = 'Compare Affordable Health Plans!';
+	$featureTitle = 'Find Affordable Affordable Healthcare!';
 }
 $featureSubtitle = 'Start Comparing '.$provider.' Healthcare Options';
 // Use 0 or '0' for a caption value to hide the value, defaults to main otherwise

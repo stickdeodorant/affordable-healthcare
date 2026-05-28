@@ -4,7 +4,7 @@ $provider = 'POS Health Plans';
 if($state) {
 	$featureTitle = 'Compare Affordable <strong>' . $state . '</strong> Health Plans!';
 } else {
-	$featureTitle = 'Compare Affordable Health Plans!';
+	$featureTitle = 'Find Affordable Affordable Healthcare!';
 }
 $featureSubtitle = 'Start Comparing '. $state .' '.$provider.'';
 // Use 0 or '0' for a caption value to hide the value, defaults to main otherwise

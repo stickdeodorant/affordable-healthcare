@@ -331,7 +331,7 @@ if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
 					
 				<?php } else { ?>
 						
-					<?=$sitename?> is privately owned and operated by HCI Compare LLC. Invitations for applications for insurance on Health-Insurance.com are made through HCI Compare LLC, a subsidiary of Healthcare-Insurance, only where licensed and appointed. HCI Compare LLC licensing information can be found <a data-toggle="modal" data-target="#licensesModal" style="font-weight: bold; color: inherit !important; cursor: pointer;">here</a>. Submission of your information constitutes permission for an agent to contact you with additional information about the cost and coverage details of health plans.
+					<?=$sitename?> is privately owned and operated by HCI Compare LLC. Invitations for applications for insurance on Health-Insurance.com are made through HCI Compare LLC, a subsidiary of Affordable Healthcare, only where licensed and appointed. HCI Compare LLC licensing information can be found <a data-toggle="modal" data-target="#licensesModal" style="font-weight: bold; color: inherit !important; cursor: pointer;">here</a>. Submission of your information constitutes permission for an agent to contact you with additional information about the cost and coverage details of health plans.
 
 				<?php } ?>
 			</small>
@@ -462,7 +462,7 @@ if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
 			$('#loading').modal('show');
 			$.ajax({
 				type: 'POST',
-				url: 'https://healthcare-insurance.com/get-quotes/inc/insert_confirmation.php',
+				url: 'https://affordable-healthcare.com/get-quotes/inc/insert_confirmation.php',
 				data: 'email=' + $('#email').val() + '&ipaddress=' + $('input[name="IP_Address"]').val() + '&error=' + response,
 				success: function (data) {
 					console.log('Success: ' + data);
@@ -520,7 +520,7 @@ if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
 
 				// Claim Trusted Form Certificate
 				$.ajax({
-					url: 'https://healthcare-insurance.com/get-quotes/trusted-form-processing.php',
+					url: 'https://affordable-healthcare.com/get-quotes/trusted-form-processing.php',
 					type: "POST",
 					data: {certID: trustedformCert},
 					// dataType: "json",

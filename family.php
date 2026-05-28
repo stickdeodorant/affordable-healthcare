@@ -4,7 +4,7 @@ if($state) {
 	$featureTitle = 'Compare Affordable <strong>' . $state . '</strong> Health Plans!';
 	$subtitle = 'You may qualify for a plan with no monthly cost';
 } else {
-	$featureTitle = 'Compare Affordable Health Plans!';
+	$featureTitle = 'Find Affordable Affordable Healthcare!';
 	$subtitle = 'You may qualify for a plan with no monthly cost';
 }
 $featureSubtitle = 'You may qualify for a plan with no monthly cost';

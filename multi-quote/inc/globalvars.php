@@ -7,7 +7,7 @@ $appEnv = env('APP_ENV', 'production');
 $appDebug = env_bool('APP_DEBUG', $appEnv !== 'production');
 
 // Site Details
-$sitename = env('SITE_NAME', 'Healthcare Insurance');
+$sitename = env('SITE_NAME', 'Affordable Healthcare');
 $address = env('SITE_ADDRESS', '8881 Ave, White Hall, OK 71612');
 $domain = env('APP_DOMAIN', $_SERVER['HTTP_HOST'] ?? 'localhost');
 $siteurl = env('APP_URL', (isset($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . ($domain ?? 'localhost'));

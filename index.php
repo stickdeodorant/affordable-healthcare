@@ -1,17 +1,17 @@
 <?php
 $pageName = 'home';
 include 'inc/header.php';
-if(isset($state)) {
+if (isset($state)) {
 	$featureTitle = 'Compare Affordable <strong>' . $state . '</strong> Health Plans!';
 	$subtitle = 'You may qualify for a plan with no monthly cost';
 } else {
-	$featureTitle = 'Compare Affordable Health Plans!';
+	$featureTitle = 'Find Affordable Affordable Healthcare!';
 	$subtitle = 'You may qualify for a plan with no monthly cost';
 }
-$featureSubtitle = 'Browse available plans in under one minute, enter your zip code below';
+$featureSubtitle = 'Don\'t overpay for health coverage';
 // Use 0 or '0' for a caption value to hide the value, defaults to main otherwise
 $featureCaption = [
-	'default' => 'Enter your zip and see what savings are available!',
+	'default' => 'Healthcare quotes are moments away.',
 	'mobile' => '',
 	'filled' => '',
 	'mfilled' => '',
@@ -19,8 +19,9 @@ $featureCaption = [
 include 'inc/feature.php';
 ?>
 <main>
-	<?php include 'inc/sections/steps.php'; ?>
 	<?php include 'inc/sections/cta-banner.php'; ?>
+	<?php include 'inc/sections/steps.php'; ?>
+	<?php /*
 	<section class="container-fluid">
 		<div class="container">
 			<div class="row mt-5 d-flex pb-5 text-center text-lg-left">
@@ -34,8 +35,11 @@ include 'inc/feature.php';
 			</div>
 		</div>
 	</section>
+	*/ ?>
 	<section id="grassy" class="bg-accent" style="background-image: linear-gradient(rgba(139, 195, 74, 0.9),rgba(139, 195, 74, 0.9)), url(/img/grass.svg); background-size: 575px auto;">
-		<svg x="0px" y="0px" viewBox="0 0 1364.8 100" style="enable-background:new 0 0 1364.8 100; z-index: 1;" xml:space="preserve"><path d="M1364.8,99.8V0H0v100C273,0.1,682.5,0,1364.8,99.8z"/></svg>
+		<svg x="0px" y="0px" viewBox="0 0 1364.8 100" style="enable-background:new 0 0 1364.8 100; z-index: 1;" xml:space="preserve">
+			<path d="M1364.8,99.8V0H0v100C273,0.1,682.5,0,1364.8,99.8z" />
+		</svg>
 		<div class="container-fluid scale">
 			<div class="container">
 				<?php /*
@@ -49,11 +53,13 @@ include 'inc/feature.php';
 					</div>
 				*/ ?>
 				<div class="row">
-					<div class="col-sm-10 offset-sm-1 text-center">
-						<h3 class="h1">The Open Enrollment Period Is Closed</h3>
-						<p>The timeframe when individuals or families can enroll in a health insurance plan, apply changes to their healthcare options, or cancel a plan.<p>
-						<p>Enrollment through the Health Insurance Marketplace normally takes place from Nov. 1 through Jan 15. All plans acquired during this time are effective January 1st of the following year. Don't Worry, there are still options available!</p>
-						<?php if(isset($_GET['call'])) { ?><a href="tel:<?=$phonemin['fb-call']?>" class="button bg-primary text-white"><?=$phone['fb-call']?></a><?php } else { ?><a class="button bg-primary text-white mr-2 scale-4x scroll-top" href="/get-quotes">Find Plans</a><?php } ?>
+					<div class="col-sm-12 text-center">
+						<h3 class="h1">Open Enrollment And Qualifying Life Events</h3>
+						<p>Open Enrollment is the yearly period when many consumers can enroll in comprehensive Marketplace health insurance. For 2027 coverage, Open Enrollment is currently scheduled to begin on November 1, 2026 in most states and end on December 15, 2026 in most states. Some state based Marketplaces may have later deadlines, including December 23 or December 31, 2026, and some deadlines may change.
+						<p>
+						<p>Outside Open Enrollment, you may need a qualifying life event, also called a QLE, to enroll in certain types of comprehensive coverage. A QLE may include losing qualifying coverage, getting married, having a baby, adopting a child, moving, or another eligible household change.</p>
+						<p class="bold" style="font-style: italic;">Ask the agent to confirm the enrollment rules and deadlines that apply in your state.</p>
+						<?php if (isset($_GET['call'])) { ?><a href="tel:<?= $phonemin['fb-call'] ?>" class="button bg-primary text-white"><?= $phone['fb-call'] ?></a><?php } else { ?><a class="button bg-primary text-white mr-2 scale-4x scroll-top" href="/get-quotes">Find Plans</a><?php } ?>
 					</div>
 				</div>
 			</div>
@@ -61,33 +67,27 @@ include 'inc/feature.php';
 		<img src="/img/picking-fruit.svg" style="position: absolute; right: calc(48px + 5vw); top: calc(-32px - 4vw);
 width: calc(32px + 12vw); max-width: 50%; transform: scaleX(-1); z-index: 2;" alt="cartoon girl picking fruit from tree">
 		<img src="/img/running-girl.svg" alt="cartoon girl running, fitness" style="position: absolute; bottom: calc(-16px + 5vw); left: 30px; width: calc(64px + 6vw); max-width: 50%; z-index: 2;">
-		<svg x="0px" y="0px" viewBox="0 0 1366 100" style="enable-background:new 0 0 1366 100; z-index: 3;" xml:space="preserve"><g><path d="M0,100h836.7C614.7,100,341.5,66.7,0,0V100z"/><path d="M836.7,100H1366V0C1229.4,66.7,1058.7,100,836.7,100z"/></g></svg>
+		<svg x="0px" y="0px" viewBox="0 0 1366 100" style="enable-background:new 0 0 1366 100; z-index: 3;" xml:space="preserve">
+			<g>
+				<path d="M0,100h836.7C614.7,100,341.5,66.7,0,0V100z" />
+				<path d="M836.7,100H1366V0C1229.4,66.7,1058.7,100,836.7,100z" />
+			</g>
+		</svg>
 	</section>
-	<section id="beforeafter" class="container-fluid">
+	<section id="consumer-caution" class="container-fluid mb-5">
 		<div class="container">
 			<div class="row">
 				<div class="col-12">
-					<h3 class="h1">Advantages of <br class="d-inline-block d-md-none"><?php echo $sitename; ?></h3>
-				</div>
-			</div>
-			<div class="row mt-5">
-				<div class="col-md-6 px-sm-2 py-2 px-md-5">
-					<h3 class="mb-3 h2">Individual<span class="d-inline-block d-md-none">&nbsp;Plans</span></h3>
-					<p>Looking for an individual healthcare plan? Affordable health insurance is just a few clicks away! Get started with <?=$sitename?> TODAY!</p>
-					<img class="withwithout mb-4" src="/img/before.svg" alt="cartoon man with his arms up, disappointed">
-				</div>
-				<div class="col-md-6 px-sm-2 py-2 px-md-5">
-					<h3 class="mb-3 h2">Family<span class="d-inline-block d-md-none">&nbsp;Plans</span></h3>
-					<p>Looking to increase the healthcare coverage for your spouse or dependents? Learn more about your options today, try today for FREE!</p>
-					<img class="withwithout mb-4" src="/img/after.svg" alt="cartoon man, celebrating, happy">
+					<div class="card border-rounded-lg border-2 border-muted p-4">
+						<h3 class="h1">Consumer Caution</h3>
+						<p class="mb-1">Before enrolling in any plan, ask whether it is comprehensive health insurance coverage. Ask whether your doctors and prescriptions are covered, what your benefits are, and what your maximum out of pocket exposure may be. Avoid high pressure sales tactics and ask for written plan details before&nbsp;enrolling.</p>
+						<a class="text-right" href="/consumer-caution">Read Consumer Caution ></a>
+					</div>
 				</div>
 			</div>
 		</div>
-		<div>
-			<?php if(isset($_GET['call'])) { ?><a href="tel:<?=$phonemin['fb-call']?>" class="button bg-accent text-white"><?=$phone['fb-call']?></a><?php } else { ?><a class="button bg-accent text-white mt-4 mb-5 scale-4x scroll-top" href="/get-quotes">Find Plans</a><?php } ?>
-		</div>
-			</section>
-			<?php include 'inc/sections/faq-section.php'; ?>
+	</section>
+	<?php /* include 'inc/sections/faq-section.php'; */ ?>
 	<?php /* include 'inc/sections/plane-banner.php'; */ ?>
 </main>
 <?php include 'inc/footer.php'; ?>

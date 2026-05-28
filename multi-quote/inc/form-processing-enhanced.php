@@ -615,8 +615,8 @@ function sendPermanentBlacklistNotification($email, $phone, $submissionCount) {
     
     $payload = [
         "from" => [
-            "email" => "no-reply@healthcare-insurance.com",
-            "name" => "Healthcare Insurance"
+            "email" => "no-reply@affordable-healthcare.com",
+            "name" => "Affordable Healthcare"
         ],
         "to" => [
             ["email" => $notificationEmail]

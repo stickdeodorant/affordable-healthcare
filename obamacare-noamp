@@ -47,7 +47,7 @@ include 'inc/feature.php';
 						<h3 class="h1">Shop and compare <?=$provider?> Plans</h3>
 						<p>Find plans and options that fit your budget</p>
             <p>Compare affordable <?=$provider?> options against hundreds of other healthcare plans that include Blue Cross Blue Shield, Cobra, Aetna, ACA, and Private Marketplace choices.</p>
-            <p>Speak a licensed agent today to compare and discuss the most affordable healthcare insurance coverage possible.</p>
+            <p>Speak a licensed agent today to compare and discuss the most affordable Affordable Healthcare coverage possible.</p>
 						<div><a class="button bg-accent text-white scale-4x scroll-top" href="/#">Find Plans</a></div>
 					</div>
 				</div>
