@@ -7,10 +7,10 @@
         <div class="col-lg-4 col-xl-5 text-center text-sm-left"><img class="logo" src="/img/logo.svg" alt="<?php echo $sitename; ?> logo"></div>
         <div class="col-lg-8 col-xl-7 py-2 py-md-0 text-center text-lg-right d-none d-md-flex justify-content-end align-items-center nav-links">
           <a href="/">Home</a>
-          <a href="/smart-shopping">Smart Shopping</a>
-          <a href="/consumer-caution">Consumer Caution</a>
-          <a href="/faq">FAQ</a>
-          <a href="/terms">Terms</a>
+          <a href="/smart-shopping.php">Smart Shopping</a>
+          <a href="/consumer-caution.php">Consumer Caution</a>
+          <a href="/faq.php">FAQ</a>
+          <a href="/terms.php">Terms</a>
         </div>
         <?php //if($_SESSION['agent'])  { ?>
         <?php /* if($call_now == 'true')  { ?>
