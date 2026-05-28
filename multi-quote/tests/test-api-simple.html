@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Blacklist API Simple Test</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        .content {
+            padding: 30px;
+        }
+        .test-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .test-section h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-right: 10px;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        #result {
+            margin-top: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            display: none;
+        }
+        #result.show {
+            display: block;
+        }
+        .success {
+            background: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        .loading {
+            background: #fff3cd;
+            border-color: #ffeaa7;
+            color: #856404;
+        }
+        pre {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+        td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        tr:hover {
+            background: #f8f9fa;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .badge-permanent {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .badge-temporary {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .badge-expired {
+            background: #e0e0e0;
+            color: #666;
+        }
+        .status-box {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+            text-align: center;
+        }
+        .stat-card h3 {
+            font-size: 2.5em;
+            color: #667eea;
+            margin: 10px 0;
+        }
+        .stat-card p {
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 Blacklist API Test</h1>
+            <p>Quick test to verify your blacklist API is working correctly</p>
+        </div>
+        
+        <div class="content">
+            <!-- Test Section -->
+            <div class="test-section">
+                <h2>
+                    <span>⚡</span>
+                    Quick Test
+                </h2>
+                <p style="margin-bottom: 15px; color: #666;">
+                    Click the button below to test the API endpoint. This simulates what DataTables does.
+                </p>
+                <button onclick="testAPI()">🚀 Test API Now</button>
+                <button onclick="testDirect()">🔗 Open API Directly</button>
+                <button onclick="testAuth()">🔐 Test Authentication</button>
+            </div>
+
+            <!-- Result Section -->
+            <div id="result">
+                <!-- Results will appear here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function showResult(html, type = '') {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = html;
+            resultDiv.className = 'show ' + type;
+        }
+
+        function testAPI() {
+            showResult('<h3>⏳ Testing...</h3><p>Fetching data from API...</p>', 'loading');
+
+            // Try multiple possible paths
+            const paths = [
+                '../inc/api/get-blacklist.php',
+                'inc/api/get-blacklist.php',
+                '/multi-quote/inc/api/get-blacklist.php'
+            ];
+
+            let tested = 0;
+            let success = false;
+
+            paths.forEach(path => {
+                fetch(path)
+                    .then(response => {
+                        tested++;
+                        if (response.ok) {
+                            return response.json();
+                        } else {
+                            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                        }
+                    })
+                    .then(data => {
+                        if (!success) {
+                            success = true;
+                            displaySuccess(data, path);
+                        }
+                    })
+                    .catch(error => {
+                        tested++;
+                        if (tested === paths.length && !success) {
+                            displayError('All paths failed. Check console for details.');
+                            console.error('Path', path, 'error:', error);
+                        }
+                    });
+            });
+        }
+
+        function displaySuccess(data, path) {
+            console.log('API Response:', data);
+
+            let html = `
+                <h3 class="success">✅ API Test Successful!</h3>
+                <p><strong>Path used:</strong> <code>${path}</code></p>
+            `;
+
+            if (data.success) {
+                // Show statistics
+                if (data.stats) {
+                    html += `
+                        <div class="status-box">
+                            <div class="stat-card">
+                                <p>Total Blacklisted</p>
+                                <h3>${data.stats.total || 0}</h3>
+                            </div>
+                            <div class="stat-card">
+                                <p>Permanent</p>
+                                <h3>${data.stats.permanent || 0}</h3>
+                            </div>
+                            <div class="stat-card">
+                                <p>Temporary</p>
+                                <h3>${data.stats.temporary || 0}</h3>
+                            </div>
+                            <div class="stat-card">
+                                <p>Blocked Today</p>
+                                <h3>${data.stats.today || 0}</h3>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // Show data table
+                if (data.data && data.data.length > 0) {
+                    html += `
+                        <h4>📋 Blacklist Entries (${data.data.length})</h4>
+                        <div style="overflow-x: auto;">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                        <th>Status</th>
+                                        <th>Attempts</th>
+                                        <th>Last Attempt</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                    `;
+
+                    data.data.slice(0, 10).forEach(row => {
+                        let statusClass = 'badge-';
+                        if (row.status === 'Permanent') statusClass += 'permanent';
+                        else if (row.status === 'Temporary') statusClass += 'temporary';
+                        else statusClass += 'expired';
+
+                        html += `
+                            <tr>
+                                <td>${row.email}</td>
+                                <td>${row.phone || 'N/A'}</td>
+                                <td><span class="badge ${statusClass}">${row.status}</span></td>
+                                <td>${row.attempts || 0}</td>
+                                <td>${row.last_attempt || 'N/A'}</td>
+                            </tr>
+                        `;
+                    });
+
+                    html += `
+                                </tbody>
+                            </table>
+                        </div>
+                    `;
+
+                    if (data.data.length > 10) {
+                        html += `<p style="margin-top: 10px; color: #666;">Showing 10 of ${data.data.length} entries</p>`;
+                    }
+                } else {
+                    html += `
+                        <div style="padding: 20px; text-align: center; background: #f8f9fa; border-radius: 8px; margin-top: 15px;">
+                            <p style="color: #666;">✅ API is working, but the blacklist is empty</p>
+                        </div>
+                    `;
+                }
+
+                // Show raw JSON
+                html += `
+                    <details style="margin-top: 20px;">
+                        <summary style="cursor: pointer; padding: 10px; background: #f8f9fa; border-radius: 5px;">
+                            <strong>📄 View Raw JSON Response</strong>
+                        </summary>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    </details>
+                `;
+            } else {
+                html += `
+                    <div class="error">
+                        <h4>❌ API returned an error:</h4>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    </div>
+                `;
+            }
+
+            showResult(html, 'success');
+        }
+
+        function displayError(message) {
+            showResult(`
+                <h3 class="error">❌ API Test Failed</h3>
+                <p><strong>Error:</strong> ${message}</p>
+                <h4>Troubleshooting Steps:</h4>
+                <ol>
+                    <li>Check that the API file exists at: <code>/multi-quote/inc/api/get-blacklist.php</code></li>
+                    <li>Verify database connection in <code>db-config.php</code></li>
+                    <li>Make sure the <code>email_blacklist</code> table exists</li>
+                    <li>Check session authentication</li>
+                    <li>Review PHP error logs</li>
+                </ol>
+                <p>For detailed debugging, upload and run <code>test-blacklist-api.php</code></p>
+            `, 'error');
+        }
+
+        function testDirect() {
+            window.open('../inc/api/get-blacklist.php', '_blank');
+        }
+
+        function testAuth() {
+            showResult('<h3>⏳ Testing authentication...</h3>', 'loading');
+
+            fetch('../inc/api/get-blacklist.php')
+                .then(response => {
+                    if (response.status === 401) {
+                        showResult(`
+                            <h3 class="error">🔐 Authentication Failed</h3>
+                            <p>The API requires authentication but the session is not active.</p>
+                            <h4>Solutions:</h4>
+                            <ol>
+                                <li>Make sure you're logged into the admin panel</li>
+                                <li>Try accessing the blacklist page first, then return here</li>
+                                <li>Check session configuration in your app</li>
+                            </ol>
+                        `, 'error');
+                    } else if (response.ok) {
+                        return response.json().then(data => {
+                            showResult(`
+                                <h3 class="success">✅ Authentication Successful</h3>
+                                <p>Your session is active and the API accepted the request.</p>
+                                <p>Status: <strong>${response.status} ${response.statusText}</strong></p>
+                            `, 'success');
+                        });
+                    } else {
+                        showResult(`
+                            <h3 class="error">❌ Unexpected Response</h3>
+                            <p>HTTP Status: <strong>${response.status} ${response.statusText}</strong></p>
+                            <p>This might indicate a server error or misconfiguration.</p>
+                        `, 'error');
+                    }
+                })
+                .catch(error => {
+                    showResult(`
+                        <h3 class="error">❌ Connection Error</h3>
+                        <p>${error.message}</p>
+                        <p>Check your network connection and server configuration.</p>
+                    `, 'error');
+                });
+        }
+
+        // Auto-test on page load
+        window.onload = function() {
+            setTimeout(testAPI, 500);
+        };
+    </script>
+</body>
+</html>

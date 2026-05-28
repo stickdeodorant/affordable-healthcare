@@ -1,0 +1,65 @@
+# Environment files (NEVER commit these)
+.env
+.env.local
+.env.production
+.env.*.local
+
+# Logs
+*.log
+error_log
+logs/
+*.logs
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# IDE / Editor
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+*~
+
+# Dependencies
+node_modules/
+vendor/
+bower_components/
+
+# Build outputs
+dist/
+build/
+*.min.js.map
+*.min.css.map
+
+# Uploads and user content (sync separately or use cloud storage)
+uploads/
+user-uploads/
+
+# Cache
+*.cache
+.cache/
+cache/
+
+# Test files with credentials (add back sanitized versions)
+multi-quote/tests/!index.php
+multi-quote/test-parser-functions.php
+multi-quote/standalone-fix.php
+
+# Backup files
+*.bak
+*.backup
+*.old
+*~
+
+# Local development
+ampps/
+xampp/

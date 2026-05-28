@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lead Management Dashboard</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap5.min.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        :root {
+            --primary-color: #005D75;
+            --secondary-color: #00B9E9;
+            --success-color: #1B8335;
+            --danger-color: #B2282E;
+            --warning-color: #FF8300;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        .sidebar {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            padding: 15px 20px;
+            margin: 5px 15px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            color: #fff;
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+        
+        .sidebar .nav-link i {
+            width: 20px;
+            margin-right: 10px;
+        }
+        
+        .main-content {
+            padding: 30px;
+        }
+        
+        .stat-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .stat-card .stat-icon {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            font-size: 24px;
+        }
+        
+        .stat-card.primary .stat-icon {
+            background-color: rgba(0, 93, 117, 0.1);
+            color: var(--primary-color);
+        }
+        
+        .stat-card.success .stat-icon {
+            background-color: rgba(27, 131, 53, 0.1);
+            color: var(--success-color);
+        }
+        
+        .stat-card.danger .stat-icon {
+            background-color: rgba(178, 40, 46, 0.1);
+            color: var(--danger-color);
+        }
+        
+        .stat-card.warning .stat-icon {
+            background-color: rgba(255, 131, 0, 0.1);
+            color: var(--warning-color);
+        }
+        
+        .data-table-container {
+            background: #fff;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        .badge-status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 500;
+            font-size: 12px;
+        }
+        
+        .badge-success {
+            background-color: rgba(27, 131, 53, 0.1);
+            color: var(--success-color);
+        }
+        
+        .badge-error {
+            background-color: rgba(178, 40, 46, 0.1);
+            color: var(--danger-color);
+        }
+        
+        .badge-pending {
+            background-color: rgba(255, 131, 0, 0.1);
+            color: var(--warning-color);
+        }
+        
+        .badge-blacklisted {
+            background-color: rgba(0, 0, 0, 0.1);
+            color: #333;
+        }
+        
+        .action-buttons button {
+            padding: 5px 10px;
+            margin: 0 2px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        
+        .chart-container {
+            background: #fff;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            margin-bottom: 20px;
+        }
+        
+        .filter-section {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        .tab-content {
+            padding-top: 20px;
+        }
+        
+        .nav-tabs .nav-link {
+            color: var(--primary-color);
+            border: none;
+            border-bottom: 3px solid transparent;
+            border-radius: 0;
+            padding: 10px 20px;
+        }
+        
+        .nav-tabs .nav-link.active {
+            color: var(--primary-color);
+            background-color: transparent;
+            border-bottom: 3px solid var(--secondary-color);
+        }
+        
+        .bulk-actions {
+            position: sticky;
+            top: 0;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            z-index: 100;
+            display: none;
+        }
+        
+        .bulk-actions.show {
+            display: block;
+        }
+        
+        .loading-spinner {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+        }
+        
+        .loading-spinner.show {
+            display: block;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                z-index: 1000;
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+            
+            .sidebar.show {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Spinner -->
+    <div class="loading-spinner">
+        <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-3 col-lg-2 d-md-block sidebar">
+                <div class="position-sticky pt-3">
+                    <div class="text-center text-white mb-4">
+                        <h4><i class="fas fa-chart-line"></i> Lead Manager</h4>
+                    </div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#dashboard" data-page="dashboard">
+                                <i class="fas fa-tachometer-alt"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#buffer" data-page="buffer">
+                                <i class="fas fa-clock"></i> 7-Day Buffer
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#history" data-page="history">
+                                <i class="fas fa-history"></i> Lead History
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#blacklist" data-page="blacklist">
+                                <i class="fas fa-ban"></i> Blacklist
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#resubmission" data-page="resubmission">
+                                <i class="fas fa-redo"></i> Resubmission Queue
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#analytics" data-page="analytics">
+                                <i class="fas fa-chart-bar"></i> Analytics
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#activity" data-page="activity">
+                                <i class="fas fa-list"></i> Activity Log
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main Content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
+                <!-- Dashboard Section -->
+                <div id="dashboard-section" class="page-section">
+                    <h2 class="mb-4">Dashboard Overview</h2>
+                    
+                    <!-- Stats Row -->
+                    <div class="row">
+                        <div class="col-xl-3 col-md-6">
+                            <div class="stat-card primary">
+                                <div class="d-flex align-items-center">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-users"></i>
+                                    </div>
+                                    <div class="ms-3">
+                                        <h6 class="text-muted mb-1">Total Leads Today</h6>
+                                        <h3 class="mb-0" id="stat-total-today">0</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-xl-3 col-md-6">
+                            <div class="stat-card success">
+                                <div class="d-flex align-items-center">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <div class="ms-3">
+                                        <h6 class="text-muted mb-1">Successful</h6>
+                                        <h3 class="mb-0" id="stat-successful">0</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-xl-3 col-md-6">
+                            <div class="stat-card danger">
+                                <div class="d-flex align-items-center">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-times-circle"></i>
+                                    </div>
+                                    <div class="ms-3">
+                                        <h6 class="text-muted mb-1">Failed</h6>
+                                        <h3 class="mb-0" id="stat-failed">0</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-xl-3 col-md-6">
+                            <div class="stat-card warning">
+                                <div class="d-flex align-items-center">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-clock"></i>
+                                    </div>
+                                    <div class="ms-3">
+                                        <h6 class="text-muted mb-1">Pending Resubmit</h6>
+                                        <h3 class="mb-0" id="stat-pending">0</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Charts Row -->
+                    <div class="row mt-4">
+                        <div class="col-lg-8">
+                            <div class="chart-container">
+                                <h5 class="mb-3">Submission Trends (Last 7 Days)</h5>
+                                <canvas id="trendChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="chart-container">
+                                <h5 class="mb-3">Status Distribution</h5>
+                                <canvas id="statusChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Recent Activity -->
+                    <div class="data-table-container mt-4">
+                        <h5 class="mb-3">Recent Submissions</h5>
+                        <table id="recentTable" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Data will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 7-Day Buffer Section -->
+                <div id="buffer-section" class="page-section" style="display: none;">
+                    <h2 class="mb-4">7-Day Lead Buffer</h2>
+                    
+                    <!-- Bulk Actions -->
+                    <div class="bulk-actions" id="bulkActions">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <span class="me-2"><span id="selectedCount">0</span> leads selected</span>
+                            </div>
+                            <div>
+                                <button class="btn btn-sm btn-success" onclick="bulkResubmit()">
+                                    <i class="fas fa-redo"></i> Resubmit Selected
+                                </button>
+                                <button class="btn btn-sm btn-warning" onclick="queueSelected()">
+                                    <i class="fas fa-clock"></i> Queue for Later
+                                </button>
+                                <button class="btn btn-sm btn-danger" onclick="clearSelection()">
+                                    <i class="fas fa-times"></i> Clear Selection
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Filter Section -->
+                    <div class="filter-section">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label>Status Filter:</label>
+                                <select class="form-select" id="bufferStatusFilter">
+                                    <option value="">All Status</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="error">Error</option>
+                                    <option value="success">Success</option>
+                                    <option value="resubmitted">Resubmitted</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Date Range:</label>
+                                <select class="form-select" id="bufferDateFilter">
+                                    <option value="all">All Time</option>
+                                    <option value="today">Today</option>
+                                    <option value="yesterday">Yesterday</option>
+                                    <option value="3days">Last 3 Days</option>
+                                    <option value="7days">Last 7 Days</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Resubmit Count:</label>
+                                <select class="form-select" id="bufferResubmitFilter">
+                                    <option value="">Any</option>
+                                    <option value="0">Never Resubmitted</option>
+                                    <option value="1">1 Attempt</option>
+                                    <option value="2">2 Attempts</option>
+                                    <option value="3+">3+ Attempts</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label>&nbsp;</label>
+                                <button class="btn btn-primary d-block w-100" onclick="applyBufferFilters()">
+                                    <i class="fas fa-filter"></i> Apply Filters
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Buffer Table -->
+                    <div class="data-table-container">
+                        <table id="bufferTable" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <input type="checkbox" id="selectAll" onchange="toggleSelectAll()">
+                                    </th>
+                                    <th>Lead ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Submitted</th>
+                                    <th>Expires</th>
+                                    <th>Status</th>
+                                    <th>Resubmits</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Data will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Lead History Section -->
+                <div id="history-section" class="page-section" style="display: none;">
+                    <h2 class="mb-4">Lead History</h2>
+                    
+                    <!-- History Stats -->
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <div class="stat-card">
+                                <h6 class="text-muted">Total Historical Leads</h6>
+                                <h4 id="historyTotal">0</h4>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-card">
+                                <h6 class="text-muted">Average Response Time</h6>
+                                <h4 id="avgResponseTime">0ms</h4>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-card">
+                                <h6 class="text-muted">Conversion Rate</h6>
+                                <h4 id="conversionRate">0%</h4>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-card">
+                                <h6 class="text-muted">Total Revenue</h6>
+                                <h4 id="totalRevenue">$0</h4>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- History Table -->
+                    <div class="data-table-container">
+                        <table id="historyTable" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Lead ID</th>
+                                    <th>Timestamp</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>State</th>
+                                    <th>Campaign</th>
+                                    <th>Status</th>
+                                    <th>Response Time</th>
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Data will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Blacklist Section -->
+                <div id="blacklist-section" class="page-section" style="display: none;">
+                    <h2 class="mb-4">Email & Phone Blacklist</h2>
+                    
+                    <!-- Blacklist Stats -->
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <div class="stat-card">
+                                <h6 class="text-muted">Total Blacklisted</h6>
+                                <h4 id="totalBlacklisted">0</h4>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-card">
+                                <h6 class="text-muted">Permanently Blocked</h6>
+                                <h4 id="permanentlyBlocked">0</h4>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-card">
+                                <h6 class="text-muted">Temporarily Blocked</h6>
+                                <h4 id="temporarilyBlocked">0</h4>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-card">
+                                <h6 class="text-muted">Blocked Today</h6>
+                                <h4 id="blockedToday">0</h4>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Add to Blacklist -->
+                    <div class="filter-section">
+                        <h5>Add to Blacklist</h5>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <input type="email" class="form-control" id="blacklistEmail" placeholder="Email address">
+                            </div>
+                            <div class="col-md-3">
+                                <input type="tel" class="form-control" id="blacklistPhone" placeholder="Phone number">
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-select" id="blacklistType">
+                                    <option value="temporary">Temporary (8 hours)</option>
+                                    <option value="permanent">Permanent</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-danger w-100" onclick="addToBlacklist()">
+                                    <i class="fas fa-ban"></i> Add to Blacklist
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Blacklist Table -->
+                    <div class="data-table-container">
+                        <table id="blacklistTable" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Status</th>
+                                    <th>Attempts</th>
+                                    <th>First Blocked</th>
+                                    <th>Last Attempt</th>
+                                    <th>Block Until</th>
+                                    <th>Reason</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Data will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Resubmission Queue Section -->
+                <div id="resubmission-section" class="page-section" style="display: none;">
+                    <h2 class="mb-4">Resubmission Queue</h2>
+                    
+                    <!-- Queue Controls -->
+                    <div class="filter-section">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <button class="btn btn-success" onclick="processQueue()">
+                                    <i class="fas fa-play"></i> Process Queue Now
+                                </button>
+                                <button class="btn btn-warning ms-2" onclick="pauseQueue()">
+                                    <i class="fas fa-pause"></i> Pause Queue
+                                </button>
+                            </div>
+                            <div class="col-md-6 text-end">
+                                <span class="badge bg-info">Queue Status: <span id="queueStatus">Active</span></span>
+                                <span class="badge bg-secondary ms-2">Items in Queue: <span id="queueCount">0</span></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Queue Table -->
+                    <div class="data-table-container">
+                        <table id="queueTable" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Queue ID</th>
+                                    <th>Lead ID</th>
+                                    <th>Email</th>
+                                    <th>Priority</th>
+                                    <th>Status</th>
+                                    <th>Scheduled</th>
+                                    <th>Attempts</th>
+                                    <th>Last Attempt</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Data will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Analytics Section -->
+                <div id="analytics-section" class="page-section" style="display: none;">
+                    <h2 class="mb-4">Analytics & Reports</h2>
+                    
+                    <!-- Date Range Selector -->
+                    <div class="filter-section">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label>Start Date:</label>
+                                <input type="date" class="form-control" id="analyticsStartDate">
+                            </div>
+                            <div class="col-md-3">
+                                <label>End Date:</label>
+                                <input type="date" class="form-control" id="analyticsEndDate">
+                            </div>
+                            <div class="col-md-3">
+                                <label>Group By:</label>
+                                <select class="form-select" id="analyticsGroupBy">
+                                    <option value="day">Day</option>
+                                    <option value="week">Week</option>
+                                    <option value="month">Month</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label>&nbsp;</label>
+                                <button class="btn btn-primary d-block w-100" onclick="updateAnalytics()">
+                                    <i class="fas fa-sync"></i> Update Analytics
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Analytics Charts -->
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="chart-container">
+                                <h5>Submission Volume</h5>
+                                <canvas id="volumeChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="chart-container">
+                                <h5>Success Rate</h5>
+                                <canvas id="successRateChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-4">
+                        <div class="col-lg-6">
+                            <div class="chart-container">
+                                <h5>Top States</h5>
+                                <canvas id="statesChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="chart-container">
+                                <h5>Hourly Distribution</h5>
+                                <canvas id="hourlyChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Export Options -->
+                    <div class="data-table-container mt-4">
+                        <h5>Export Reports</h5>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <button class="btn btn-outline-primary w-100" onclick="exportReport('csv')">
+                                    <i class="fas fa-file-csv"></i> Export as CSV
+                                </button>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-outline-success w-100" onclick="exportReport('excel')">
+                                    <i class="fas fa-file-excel"></i> Export as Excel
+                                </button>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-outline-danger w-100" onclick="exportReport('pdf')">
+                                    <i class="fas fa-file-pdf"></i> Export as PDF
+                                </button>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-outline-info w-100" onclick="emailReport()">
+                                    <i class="fas fa-envelope"></i> Email Report
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Activity Log Section -->
+                <div id="activity-section" class="page-section" style="display: none;">
+                    <h2 class="mb-4">Admin Activity Log</h2>
+                    
+                    <!-- Activity Filter -->
+                    <div class="filter-section">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <select class="form-select" id="activityUserFilter">
+                                    <option value="">All Users</option>
+                                    <!-- Will be populated dynamically -->
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-select" id="activityTypeFilter">
+                                    <option value="">All Actions</option>
+                                    <option value="resubmit_single">Single Resubmit</option>
+                                    <option value="resubmit_bulk">Bulk Resubmit</option>
+                                    <option value="blacklist_add">Add to Blacklist</option>
+                                    <option value="blacklist_remove">Remove from Blacklist</option>
+                                    <option value="queue_process">Process Queue</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="date" class="form-control" id="activityDateFilter">
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-primary w-100" onclick="filterActivityLog()">
+                                    <i class="fas fa-filter"></i> Filter
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Activity Table -->
+                    <div class="data-table-container">
+                        <table id="activityTable" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Timestamp</th>
+                                    <th>User</th>
+                                    <th>Action</th>
+                                    <th>Target</th>
+                                    <th>Details</th>
+                                    <th>IP Address</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Data will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <!-- Lead Details Modal -->
+    <div class="modal fade" id="leadDetailsModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Lead Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="leadDetailsContent">
+                    <!-- Content will be loaded dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Resubmit Confirmation Modal -->
+    <div class="modal fade" id="resubmitModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm Resubmission</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to resubmit <span id="resubmitCount">0</span> lead(s)?</p>
+                    <div class="form-group">
+                        <label>Priority:</label>
+                        <select class="form-select" id="resubmitPriority">
+                            <option value="1">Low</option>
+                            <option value="5" selected>Normal</option>
+                            <option value="10">High</option>
+                        </select>
+                    </div>
+                    <div class="form-group mt-2">
+                        <label>Schedule for:</label>
+                        <select class="form-select" id="resubmitSchedule">
+                            <option value="now">Now</option>
+                            <option value="1hour">In 1 Hour</option>
+                            <option value="6hours">In 6 Hours</option>
+                            <option value="24hours">In 24 Hours</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-success" onclick="confirmResubmit()">Resubmit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- Dashboard JavaScript - Separate file recommended -->
+    <script src="dashboard.js"></script>
+</body>
+</html>

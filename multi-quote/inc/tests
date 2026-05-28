@@ -1,0 +1,92 @@
+<?php
+session_start();
+if (!isset($_SESSION['admin_authenticated'])) {
+    http_response_code(401);
+    echo json_encode(['error' => 'Unauthorized']);
+    exit;
+}
+
+header('Content-Type: application/json');
+
+// Include database configuration (going up one directory from /api/ to /inc/)
+require_once dirname(__DIR__) . '/config/db-config.php';
+
+// Get database connection
+$mysqli = getDBConnection();
+
+if (!$mysqli) {
+    header('Content-Type: application/json');
+    die(json_encode(['error' => 'Database connection failed']));
+}
+
+// Set response header if not already set
+if (!headers_sent()) {
+    header('Content-Type: application/json');
+}
+
+$action = $_POST['action'] ?? '';
+
+switch ($action) {
+    case 'add':
+        $email = $_POST['email'] ?? '';
+        $phone = $_POST['phone'] ?? '';
+        $type = $_POST['type'] ?? 'temporary';
+        
+        if (!$email && !$phone) {
+            echo json_encode(['error' => 'Email or phone required']);
+            exit;
+        }
+        
+        $isPermanent = ($type === 'permanent') ? 1 : 0;
+        $blockUntil = $isPermanent ? '2099-12-31 23:59:59' : date('Y-m-d H:i:s', strtotime('+8 hours'));
+        
+        $stmt = $mysqli->prepare("
+            INSERT INTO email_blacklist 
+            (email, phone, block_until, is_permanent, first_blacklisted_date, 
+             last_attempt_date, blacklist_reason, flagged_by_admin)
+            VALUES (?, ?, ?, ?, NOW(), NOW(), 'Admin added', TRUE)
+            ON DUPLICATE KEY UPDATE
+                phone = VALUES(phone),
+                block_until = VALUES(block_until),
+                is_permanent = VALUES(is_permanent),
+                last_attempt_date = NOW(),
+                flagged_by_admin = TRUE
+        ");
+        
+        $stmt->bind_param("sssi", $email, $phone, $blockUntil, $isPermanent);
+        
+        if ($stmt->execute()) {
+            echo json_encode(['success' => true]);
+        } else {
+            echo json_encode(['error' => 'Failed to add to blacklist']);
+        }
+        
+        $stmt->close();
+        break;
+        
+    case 'remove':
+        $email = $_POST['email'] ?? '';
+        
+        if (!$email) {
+            echo json_encode(['error' => 'Email required']);
+            exit;
+        }
+        
+        $stmt = $mysqli->prepare("DELETE FROM email_blacklist WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        
+        if ($stmt->execute()) {
+            echo json_encode(['success' => true]);
+        } else {
+            echo json_encode(['error' => 'Failed to remove from blacklist']);
+        }
+        
+        $stmt->close();
+        break;
+        
+    default:
+        echo json_encode(['error' => 'Invalid action']);
+}
+
+$mysqli->close();
+?>

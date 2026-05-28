@@ -1,0 +1,46 @@
+/* Loading modal: matches the styling used in p/signup.php */
+
+#loading .modal-body .col-12 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+#loading .modal-body .col-12 .submit-text {
+  color: #000;
+}
+
+.circle-progress-value {
+  stroke-width: 10px;
+  stroke: #1ABAE7;
+  stroke-dasharray: 8% 2%;
+}
+
+.circle-progress-circle {
+  stroke-width: 10px;
+  stroke: #EEE;
+}
+
+.circle-progress-text {
+  font-weight: bold;
+  fill: #1ABae7;
+}
+
+.submit-progress {
+  position: relative;
+  width: 300px;
+}
+
+.circle-progress {
+  display: block;
+  width: inherit;
+  height: auto;
+}
+
+.submit-text {
+  font-size: 1.3em;
+  margin-top: 1rem;
+  transition: .5s ease all;
+}
