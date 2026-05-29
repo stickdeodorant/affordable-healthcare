@@ -332,7 +332,7 @@
 								} ?>
 
 					</div>
-					<p class="disclaimer mt-0 mb-0 small text-white mx-auto" style="text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4); max-width: 600px;">By clicking "Find My Quote," you understand that affordable-healthcare.com is a third party lead generation website. We are not an insurance company and do not issue insurance policies. Your information may be shared with affiliate agencies, marketing companies, or service providers that may contact you about health insurance options.</p>
+					<p class="disclaimer mt-0 mb-0 small text-white mx-auto" style="text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4); max-width: 600px;">By clicking "Find My Quote," you understand that healthcare-quotes.com is a third party lead generation website. We are not an insurance company and do not issue insurance policies. Your information may be shared with affiliate agencies, marketing companies, or service providers that may contact you about health insurance options.</p>
 				</div>
 			</div>
 		<?php } ?>

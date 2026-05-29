@@ -202,7 +202,7 @@ $(document).ready(function(){
   function ajaxInsertBadEmail() {
     $.ajax({
       type: 'POST',
-      url: 'https://affordable-healthcare.com/get-quotes/inc/insert_bademail.php',
+      url: 'https://healthcare-quotes.com/get-quotes/inc/insert_bademail.php',
       data: 'email=' + $('input[name="Email"]').val() + '&ipaddress=' + $('input[name="IP_Address"]').val() + '&referrer=' + $('input[name="notes"]').val() + '&city' + $('input[name="city"]').val() + '&state' + $('input[name="state"]').val() + '&zip' + $('input[name="zip"]').val(),
       success: function (response) {
         console.log(response);
@@ -220,7 +220,7 @@ $(document).ready(function(){
   function ajaxInsert(response) {
     $.ajax({
       type: 'POST',
-      url: 'https://affordable-healthcare.com/get-quotes/inc/insert_confirmation.php',
+      url: 'https://healthcare-quotes.com/get-quotes/inc/insert_confirmation.php',
       data: 'first_name=' + $('input[name="First_Name"]').val() + '&email=' + $('input[name="Email"]').val() + '&ipaddress=' + $('input[name="IP_Address"]').val() + '&error=' + response,
       success: function (data) {
         sessionStorage.setItem('entryStatus', 'success');
@@ -250,7 +250,7 @@ $(document).ready(function(){
   function flexPostback(response) {
 
     $.ajax({
-      url: 'https://affordable-healthcare.com/fc/inc/postback-flex.php',
+      url: 'https://healthcare-quotes.com/fc/inc/postback-flex.php',
       type: "POST",
       data: {
         hid: sessionStorage.getItem('hid'),
@@ -379,7 +379,7 @@ $(document).ready(function(){
 
       // Claim Trusted Form Certificate
       $.ajax({
-        url: 'https://affordable-healthcare.com/get-quotes/trusted-form-processing.php',
+        url: 'https://healthcare-quotes.com/get-quotes/trusted-form-processing.php',
         type: "POST",
         data: {certID: trustedformCert},
         // dataType: "json",
@@ -434,7 +434,7 @@ $(document).ready(function(){
           setTimeout(function() {
             console.log($("#msform").not("#Redirect_URL,#birthmonth,#birthday,#birthyear").serialize());
             $.ajax({
-              url: 'https://affordable-healthcare.com/get-quotes/form-processing.php',
+              url: 'https://healthcare-quotes.com/get-quotes/form-processing.php',
               type: "POST",
               data: $("#msform").not("#Redirect_URL,#birthmonth,#birthday,#birthyear").serialize(),
               dataType: "json",

@@ -11,7 +11,7 @@ require_once __DIR__ . '/../FormFieldGenerator.php';
 
 // Configuration
 $config = [
-    'domain' => $_SERVER['HTTP_HOST'] ?? 'affordable-healthcare.com',
+    'domain' => $_SERVER['HTTP_HOST'] ?? 'healthcare-quotes.com',
     'pivot_lpid' => defined('PIVOT_LPID') ? PIVOT_LPID : '1003'
 ];
 

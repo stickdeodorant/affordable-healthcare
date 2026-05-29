@@ -5,7 +5,7 @@ if (isset($state)) {
 	$featureTitle = 'Compare Affordable <strong>' . $state . '</strong> Health Plans!';
 	$subtitle = 'You may qualify for a plan with no monthly cost';
 } else {
-	$featureTitle = 'Find Affordable Affordable Healthcare!';
+	$featureTitle = 'Find Affordable Healthcare!';
 	$subtitle = 'You may qualify for a plan with no monthly cost';
 }
 $featureSubtitle = 'Don\'t overpay for health coverage';
@@ -33,13 +33,13 @@ $featureCaption = [
 							<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
 								<div class="card-header" id="headingOne">
 									<h5 class="card-header-title my-0">
-										What is affordable-healthcare.com?
+										What is healthcare-quotes.com?
 									</h5>
 								</div>
 							</a>
 							<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
 								<div class="card-body">
-									affordable-healthcare.com is a private health insurance comparison service that helps connect you with licensed agents to review plan options available in your area.
+									healthcare-quotes.com is a private health insurance comparison service that helps connect you with licensed agents to review plan options available in your area.
 								</div>
 							</div>
 						</div>

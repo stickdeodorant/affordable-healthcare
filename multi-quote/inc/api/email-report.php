@@ -123,7 +123,7 @@ try {
     // Send email using Mailtrap - credentials from environment
     require_once __DIR__ . '/../../../inc/env.php';
     $apiKey = 'Bearer ' . env('MAILTRAP_TOKEN', '');
-    $fromEmail = env('MAILTRAP_FROM_EMAIL', 'no-reply@affordable-healthcare.com');
+    $fromEmail = env('MAILTRAP_FROM_EMAIL', 'no-reply@healthcare-quotes.com');
     $fromName = env('MAILTRAP_FROM_NAME', 'Affordable Healthcare') . ' - Lead Analytics';
     $subject = "Lead Analytics Report: $startDate to $endDate";
     

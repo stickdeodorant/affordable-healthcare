@@ -106,15 +106,15 @@ if (!function_exists('detect_environment')) {
         
         // Production domains (add your production domains here)
         $productionDomains = [
-            'affordable-healthcare.com',
-            'www.affordable-healthcare.com',
+            'healthcare-quotes.com',
+            'www.healthcare-quotes.com',
             // Add any other production domains
         ];
         
         // Staging domains
         $stagingDomains = [
-            'staging.affordable-healthcare.com',
-            'test.affordable-healthcare.com',
+            'staging.healthcare-quotes.com',
+            'test.healthcare-quotes.com',
         ];
         
         // Local development indicators

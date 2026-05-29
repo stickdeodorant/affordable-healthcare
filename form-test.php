@@ -15,7 +15,7 @@ function sendPermanentBlacklistEmail($email, $submission_count) {
     // Prepare the payload
     $payload = json_encode([
         "from" => [
-            "email" => env('MAILTRAP_FROM_EMAIL', 'no-reply@affordable-healthcare.com'),
+            "email" => env('MAILTRAP_FROM_EMAIL', 'no-reply@healthcare-quotes.com'),
             "name" => env('MAILTRAP_FROM_NAME', 'Affordable Healthcare')
         ],
         "to" => [
