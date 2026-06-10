@@ -496,7 +496,7 @@ $currentIncomeOptions = $incomeMatrix[$currentHousehold];
                                                 <?php
                                                 $currentYear = date('Y');
                                                 $minAge = 18;
-                                                $maxAge = 64;
+                                                $maxAge = 90;
                                                 for ($year = $currentYear - $minAge; $year >= $currentYear - $maxAge; $year--):
                                                 ?>
                                                     <option value="<?= $year ?>"

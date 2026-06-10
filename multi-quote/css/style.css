@@ -43,7 +43,7 @@ small {
 }
 
 .text-primary {
-	color: #1abae7 !important;
+	color: #67cdcb !important;
 }
 
 .bg-primary,
@@ -51,7 +51,7 @@ small {
 .bg-primary:focus,
 a.bg-primary:hover,
 a.bg-primary:focus {
-	background-color: #1abae7 !important;
+	background-color: #67cdcb !important;
 }
 
 .text-secondary {
@@ -203,7 +203,7 @@ body header {
 }
 
 body footer {
-	background-color: #1abae7;
+	background-color: #67cdcb;
 	color: #fff;
 }
 
@@ -483,7 +483,7 @@ select.list-dt {
 }
 
 select.list-dt:focus {
-	border-bottom: 2px solid #1abae7;
+	border-bottom: 2px solid #67cdcb;
 }
 
 
@@ -557,7 +557,7 @@ select.list-dt:focus {
 /*Color number of the step and the connector before it*/
 #progressbar li.active:before,
 #progressbar li.active:after {
-	background: #1abae7;
+	background: #67cdcb;
 }
 
 #progressbar li.active:first-child:after {
@@ -670,14 +670,14 @@ select.list-dt:focus {
 	width: 12px;
 	height: 12px;
 	border-radius: 0;
-	background-color: #1abae7;
+	background-color: #67cdcb;
 	opacity: 0;
 	transition: all 0.2s ease;
 }
 
 /* Checked state */
 .custom-control-input:checked~.custom-control-label::before {
-	border-color: #1abae7;
+	border-color: #67cdcb;
 }
 
 .custom-control-input:checked~.custom-control-label::after {
@@ -686,7 +686,7 @@ select.list-dt:focus {
 
 /* Hover state */
 .custom-control-label:hover::before {
-	border-color: #1abae7;
+	border-color: #67cdcb;
 }
 
 /* Focus state */
@@ -814,7 +814,7 @@ select+.parsley-errors-list {
 
 .circle-progress-value {
 	stroke-width: 10px;
-	stroke: #1ABAE7;
+	stroke: #67cdcb;
 	stroke-dasharray: 8% 2%;
 }
 
@@ -825,7 +825,7 @@ select+.parsley-errors-list {
 
 .circle-progress-text {
 	font-weight: bold;
-	fill: #1ABae7;
+	fill: #67cdcb;
 }
 
 .submit-progress {
@@ -1043,4 +1043,328 @@ select+.parsley-errors-list {
     .submit-text .circle-svg path {
         stroke-width: 12;
     }
+}
+
+/* Multi-quote form refresh */
+#msform {
+	text-align: center;
+	position: relative;
+	background: #ffffff;
+	border: 1px solid rgba(21, 46, 91, 0.08);
+	border-radius: 16px;
+	box-shadow: 0 20px 40px -28px rgba(8, 36, 74, 0.4);
+	overflow: hidden;
+	font-family: 'Open Sans', 'Segoe UI', sans-serif;
+}
+
+#msform fieldset {
+	background: transparent;
+	padding-bottom: 12px;
+}
+
+#msform fieldset .form-card {
+	padding: 1.4rem 2rem 2rem;
+}
+
+#msform .form-headline {
+	font-family: 'Heebo', 'Segoe UI', sans-serif;
+	font-size: clamp(1.65rem, 2.4vw, 2.25rem);
+	line-height: 1.2;
+	font-weight: 800;
+	letter-spacing: 0.01em;
+	color: #152e5b;
+	margin-bottom: 1.25rem;
+}
+
+#msform .fs-title {
+	font-size: 1.15rem;
+	font-weight: 600;
+	color: #2f3f4f;
+	margin-bottom: 1.1rem;
+}
+
+#msform label {
+	font-size: 1rem;
+	font-weight: 600;
+	color: #152e5b;
+}
+
+#msform input,
+#msform select,
+#msform textarea {
+	border: 2px solid #203a72;
+	border-radius: 10px;
+	font-size: 1.05rem;
+	font-weight: 600;
+	color: #152e5b;
+	background-color: #fff;
+	box-shadow: none;
+	min-height: 54px;
+	padding: 0.55rem 0.8rem;
+	transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#msform input:focus,
+#msform select:focus,
+#msform textarea:focus {
+	border-color: #67cdcb;
+	box-shadow: 0 0 0 0.2rem rgba(103, 205, 203, 0.22);
+	outline: 0;
+}
+
+#msform ::placeholder {
+	color: #7d8795;
+	font-weight: 500;
+}
+
+#progressbar {
+	height: 12px;
+	border-radius: 999px;
+	background: #d5dde5;
+	margin-bottom: 1.1rem;
+	overflow: hidden;
+	padding: 0;
+	display: flex;
+	align-items: stretch;
+}
+
+#progressbar li {
+	list-style: none;
+	flex: 1 1 0;
+	height: 12px;
+	position: relative;
+	margin: 0;
+	background: #c8d2dc;
+}
+
+#progressbar li:first-child {
+	flex: 1 1 0;
+}
+
+#progressbar li:after {
+	content: none;
+}
+
+#progressbar li:before {
+	content: none;
+}
+
+#progressbar li.active:before,
+#progressbar li.active:after {
+	background: #67cdcb;
+}
+
+#progressbar li.active {
+	background: #67cdcb;
+}
+
+#progressbar li:first-child:after {
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
+
+#progressbar li:last-child:after {
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+#progressbar li:first-child {
+	border-top-left-radius: 999px;
+	border-bottom-left-radius: 999px;
+}
+
+#progressbar li:last-child {
+	border-top-right-radius: 999px;
+	border-bottom-right-radius: 999px;
+}
+
+#msform .radio-group {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 0.8rem;
+	margin: 1rem 0 1.6rem;
+}
+
+#msform .radio-option {
+	position: relative;
+}
+
+#msform .custom-control-label {
+	padding: 0.75rem 1rem;
+	padding-left: 1rem;
+	min-width: 120px;
+	justify-content: center;
+	border: 2px solid #d5dde5;
+	border-radius: 10px;
+	background: #fff;
+	font-size: 1rem;
+	font-weight: 700;
+	color: #2f3f4f;
+	transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#msform .custom-control-label::before,
+#msform .custom-control-label::after {
+	display: none;
+}
+
+#msform .custom-control-input:checked + .custom-control-label {
+	border-color: #67cdcb;
+	background: rgba(103, 205, 203, 0.15);
+	color: #13676b;
+	box-shadow: 0 10px 20px -16px rgba(8, 36, 74, 0.55);
+}
+
+#msform .btn,
+#msform .action-button {
+	background-image: none;
+	background-color: #f2c230;
+	color: #fff;
+	font-family: 'Heebo', 'Segoe UI', sans-serif;
+	font-weight: 800;
+	font-size: 1.08rem;
+	line-height: 1;
+	min-height: 52px;
+	padding: 0.85rem 1.5rem;
+	border: none;
+	border-radius: 8px;
+	box-shadow: 0 14px 28px -20px rgba(8, 36, 74, 0.55);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	transition: transform 0.18s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+#msform .form-card {
+	text-align: center;
+}
+
+#msform .btn.btn-secondary,
+#msform .action-button.prev {
+	background-color: #fff;
+	color: #203a72;
+	border: 2px solid #203a72;
+	box-shadow: none;
+}
+
+#msform .btn.btn-secondary:hover,
+#msform .action-button.prev:hover {
+	background-color: #eef4fb;
+	color: #152e5b;
+	border-color: #152e5b;
+	box-shadow: none;
+}
+
+#msform .action-button {
+	margin-top: 0.35rem;
+}
+
+#msform .action-button + .action-button {
+	margin-left: 0.6rem;
+}
+
+#msform select {
+	appearance: none;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23152e5b' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: right 0.75rem center;
+	background-size: 16px;
+	padding-right: 2.25rem;
+}
+
+#msform .form-step[data-step="3"] .form-group,
+#msform .form-step[data-step="6"] .form-group {
+	max-width: 420px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#msform .dob {
+	gap: 0.55rem;
+	margin-top: 0.35rem;
+}
+
+#msform .dob .col-auto {
+	padding-left: 0;
+	padding-right: 0;
+	flex: 0 0 108px;
+	max-width: 108px;
+}
+
+#msform .btn:hover,
+#msform .action-button:hover {
+	background-color: #152e5b;
+	color: #fff;
+	transform: translateY(-1px);
+	box-shadow: 0 16px 30px -20px rgba(8, 36, 74, 0.6);
+	border-bottom: none;
+}
+
+#msform .btn:focus,
+#msform .btn:focus-visible,
+#msform .btn:active,
+#msform .action-button:focus,
+#msform .action-button:focus-visible,
+#msform .action-button:active {
+	background-color: #152e5b;
+	color: #fff;
+	outline: 0;
+	box-shadow: 0 0 0 0.2rem rgba(21, 46, 91, 0.25);
+	border-bottom: none;
+}
+
+#msform .btn.hidden,
+#msform .action-button.hidden {
+	position: absolute;
+	opacity: 0;
+	z-index: -999;
+}
+
+@media (max-width: 767px) {
+	#msform {
+		border-radius: 12px;
+	}
+
+	#msform fieldset .form-card {
+		padding: 1.1rem 1rem 1.35rem;
+	}
+
+	#msform .form-headline {
+		font-size: clamp(1.35rem, 7vw, 1.85rem);
+		line-height: 1.2;
+	}
+
+	#msform input,
+	#msform select,
+	#msform textarea {
+		min-height: 50px;
+		font-size: 1rem;
+	}
+
+	#msform .dob {
+		gap: 0.4rem;
+	}
+
+	#msform .dob .col-auto {
+		flex: 1 1 calc(33.333% - 0.4rem);
+		max-width: calc(33.333% - 0.4rem);
+	}
+
+	#msform .btn,
+	#msform .action-button {
+		width: min(100%, 320px);
+		font-size: 1rem;
+		padding-left: 0.9rem;
+		padding-right: 0.9rem;
+	}
+
+	#msform .action-button.prev:not(.hidden),
+	#msform .action-button.prev:not(.hidden)+.action-button.next {
+		width: calc(50% - 0.45rem);
+	}
+
+	#msform .action-button + .action-button {
+		margin-left: 0.45rem;
+	}
 }

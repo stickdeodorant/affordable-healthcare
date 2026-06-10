@@ -333,6 +333,7 @@ body {
 
 body main {
 	padding-top: 10rem;
+	overflow-x: hidden;
 }
 
 @media (min-height: 700px) and (min-width: 1200px) {
@@ -841,13 +842,18 @@ body .ah-hero {
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 	min-height: 100vh;
+	min-height: 100svh;
+	display: flex;
+	flex-direction: column;
+	padding-top: var(--ah-header-safe);
 	color: var(--color-ink);
-	margin-bottom: -15rem;
+	margin-bottom: 0;
+	--ah-header-safe: 152px;
 	/* scene vars */
-	--ah-scene-right: 6%;
-	--ah-scene-bottom: 3%;
-	--ah-scene-w: min(58vw, 940px);
-	--ah-scene-h: min(68vh, 640px);
+	--ah-scene-right: 4%;
+	--ah-scene-bottom: 6%;
+	--ah-scene-w: min(54vw, 860px);
+	--ah-scene-h: min(62vh, 620px);
 	--ah-shape-right: -8%;
 	--ah-shape-top: -15%;
 	--ah-shape-w: 88%;
@@ -859,9 +865,17 @@ body .ah-hero .container {
 	z-index: 2;
 }
 
+body .ah-hero > .container:first-child {
+	flex: 1 1 auto;
+	display: flex;
+}
+
 body .ah-hero .ah-hero-row {
-	min-height: calc(100vh - 88px);
-	padding-bottom: 68px;
+	flex: 1 1 auto;
+	min-height: 0;
+	padding-top: 0.75rem;
+	padding-bottom: 0.75rem;
+	align-items: center !important;
 }
 
 body .ah-hero::before {
@@ -884,7 +898,7 @@ body .ah-hero .ah-hero-art {
 	position: relative;
 	overflow: visible;
 	z-index: 1;
-	min-height: calc(100vh - 88px);
+	min-height: clamp(420px, 56vh, 640px);
 }
 
 body .ah-hero .ah-hero-scene {
@@ -976,30 +990,30 @@ body .ah-hero .ah-layer-bush {
 }
 
 body .ah-hero .ah-layer-cloud {
-	z-index: 7;
+	z-index: 4;
 }
 
 body .ah-hero .ah-layer-cloud-1 {
-	left: 32%;
-	top: 8%;
+	left: 22%;
+	bottom: 76%;
 	width: 8.8%;
 }
 
 body .ah-hero .ah-layer-cloud-2 {
 	left: 45%;
-	top: 11%;
+	bottom: 70%;
 	width: 8.1%;
 }
 
 body .ah-hero .ah-layer-cloud-3 {
 	left: 57%;
-	top: 6.5%;
+	bottom: 78%;
 	width: 9%;
 }
 
 body .ah-hero .ah-layer-cloud-4 {
-	left: 66%;
-	top: 14.8%;
+	left: 76%;
+	bottom: 70%;
 	width: 5%;
 }
 
@@ -1057,8 +1071,12 @@ body .ah-hero .ah-lock {
 
 body .ah-hero .ah-btn {
 	min-width: 185px;
+	min-height: 56px;
 	padding: 29px 50px;
 	font-size: 1.6rem;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 	letter-spacing: 0;
 	border: none;
 	cursor: pointer;
@@ -1077,24 +1095,67 @@ body .ah-hero .zip-caption {
 body .ah-hero .ah-disclaimer {
 	max-width: none;
 	margin: 0;
-	padding: 0.5rem 1rem;
-	font-size: 0.75rem;
-	font-weight: 100;
+	padding: 0.7rem 0.95rem;
+	font-size: 0.8rem;
+	font-weight: 300;
 	line-height: 1.45;
 	color: var(--color-muted);
-	text-align: center;
+	text-align: left;
 	text-shadow: none;
 }
 
 body .ah-hero .ah-hero-disclaimer-wrap {
-	position: absolute;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	width: 100%;
-	background: rgba(255, 255, 255, 0.92);
-	border-top: 1px solid rgba(8, 36, 74, 0.08);
+	position: relative;
+	width: min(100%, 980px);
+	margin: 0.4rem auto 0.55rem;
+	background: rgba(255, 255, 255, 0.9);
+	border: 1px solid rgba(8, 36, 74, 0.12);
+	border-radius: 0.65rem;
 	z-index: 4;
+}
+
+@media (min-width: 992px) and (max-width: 1439px) {
+	body .ah-hero {
+		--ah-header-safe: 152px;
+		--ah-scene-w: min(50vw, 740px);
+		--ah-scene-h: min(50vh, 500px);
+		--ah-scene-right: 2%;
+		--ah-scene-bottom: 3%;
+	}
+
+	body .ah-hero .ah-hero-row {
+		padding-top: 0.5rem;
+		padding-bottom: 0.5rem;
+	}
+
+	body .ah-hero .ah-hero-copy {
+		padding-top: 2rem !important;
+		padding-bottom: 5.5rem !important;
+	}
+
+	body .ah-hero .ah-hero-title {
+		max-width: 520px;
+	}
+}
+
+@media (min-width: 1440px) {
+	body .ah-hero {
+		--ah-header-safe: 152px;
+		--ah-scene-w: min(46vw, 860px);
+		--ah-scene-h: min(52vh, 560px);
+		--ah-scene-right: 3%;
+		--ah-scene-bottom: 4%;
+	}
+
+	body .ah-hero .ah-hero-row {
+		padding-top: 0.75rem;
+		padding-bottom: 0.75rem;
+	}
+
+	body .ah-hero .ah-hero-copy {
+		padding-top: 2.5rem !important;
+		padding-bottom: 6.25rem !important;
+	}
 }
 
 /* ── Animations ──────────────────────────────────────────────── */
@@ -1247,10 +1308,12 @@ body .ah-hero .ah-layer-mom-daughter {
 	}
 
 	body .ah-hero {
-		min-height: auto;
-		padding-top: 72px;
-		--ah-scene-w: min(96vw, 520px);
-		--ah-scene-h: 250px;
+		min-height: 100svh;
+		padding-top: var(--ah-header-safe);
+		margin-bottom: 0;
+		--ah-header-safe: 150px;
+		--ah-scene-w: min(94vw, 480px);
+		--ah-scene-h: clamp(225px, 35vh, 275px);
 		--ah-scene-right: auto;
 		--ah-scene-bottom: auto;
 		--ah-shape-right: -22%;
@@ -1261,12 +1324,17 @@ body .ah-hero .ah-layer-mom-daughter {
 
 	body .ah-hero .ah-hero-copy {
 		padding-top: 1.5rem !important;
-		padding-bottom: 1rem !important;
+		padding-bottom: 0.5rem !important;
+	}
+
+	body .ah-hero .input-container {
+		width: min(100%, 340px);
 	}
 
 	body .ah-hero .ah-hero-art {
 		padding: 0 8px;
-		min-height: calc(var(--ah-scene-h) + 8px);
+		min-height: calc(var(--ah-scene-h) - 24px);
+		margin-top: -0.35rem;
 	}
 
 	body .ah-hero .ah-hero-scene {
@@ -1277,17 +1345,20 @@ body .ah-hero .ah-layer-mom-daughter {
 		width: var(--ah-scene-w);
 		height: var(--ah-scene-h);
 		max-height: none;
+		transform: translateY(-34px) scale(1.08);
+		transform-origin: top center;
 	}
 
 	body .ah-hero .ah-hero-title {
 		font-size: clamp(2rem, 8vw, 2.55rem);
-		max-width: 360px;
+		max-width: 340px;
+		line-height: 1.02;
 	}
 
 	body .ah-hero .ah-hero-sub {
 		max-width: 345px;
 		font-size: 1rem;
-		margin-bottom: 1rem;
+		margin-bottom: 0.75rem;
 	}
 
 	body .ah-hero .ah-zip {
@@ -1296,26 +1367,40 @@ body .ah-hero .ah-layer-mom-daughter {
 	}
 
 	body .ah-hero .ah-btn {
-		width: 180px;
+		width: min(100%, 340px);
+		min-height: 52px;
 		font-size: 1.35rem;
 		padding: 12px 18px;
 	}
 
+	body .ah-hero .zip-caption {
+		font-size: 1.05rem;
+		margin-top: 0.65rem !important;
+	}
+
+	body .ah-hero #secure-icon {
+		max-height: 34px;
+	}
+
 	body .ah-hero .ah-disclaimer {
 		max-width: 100%;
-		font-size: 0.68rem;
+		font-size: 0.7rem;
 		line-height: 1.45;
 		text-align: left;
 		padding: 0.45rem 0.6rem;
 	}
 
 	body .ah-hero .ah-hero-row {
+		padding-top: 0;
 		padding-bottom: 0;
 	}
 
 	body .ah-hero .ah-hero-disclaimer-wrap {
 		position: relative;
-		border-top: 0;
+		width: 100%;
+		margin: 0.35rem 0 0;
+		border: 0;
+		border-radius: 0;
 		background: rgba(244, 246, 248, 0.92);
 	}
 
@@ -1471,7 +1556,7 @@ body .ah-hero .ah-layer-mom-daughter {
 @media (min-width: 1366px) {
 	body .ah-hero {
 		/* --ah-scene-right: 8%; */
-		--ah-scene-right: -15%;
+		--ah-scene-right: 0;
 		--ah-scene-bottom: 10%;
 		--ah-scene-w: min(45vw, 900px);
 		--ah-scene-h: min(70vh, 660px);
@@ -1871,12 +1956,13 @@ body main #consumer-caution .card a {
 }
 
 body main #plane-banner {
-	-webkit-transition: all 1s ease-in-out;
-	transition: all 1s ease-in-out;
+	overflow: hidden;
 }
 
 body main #plane-banner svg {
 	float: right;
+	-webkit-transform: translateX(0%);
+	transform: translateX(0%);
 	-webkit-filter: drop-shadow(calc(1vw - 1px) calc(0.5vw + 2px) 0 rgba(124, 72, 12, 0.05));
 	filter: drop-shadow(calc(1vw - 1px) calc(0.5vw + 2px) 0 rgba(124, 72, 12, 0.05));
 }

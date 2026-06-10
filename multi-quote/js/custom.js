@@ -186,7 +186,7 @@ $(document).ready(function () {
      * Handle radio button selections
      */
     // Update the existing radio button handler to save household to session
-    $('.radio-option input[type="radio"]').on('change', function () {
+    $('.radio-option input[type="radio"]').on('change', function (event) {
         var targetField = $(this).data('target');
         if (targetField) {
             $('#' + targetField).val($(this).val());
@@ -216,6 +216,16 @@ $(document).ready(function () {
 
         // Save to localStorage
         saveFieldToLocalStorage($(this).attr('name'), $(this).val());
+
+        // Only auto-advance on real user interactions, not scripted .trigger('change') events
+        if (event && event.originalEvent) {
+            var stepNumber = parseInt($(this).closest('.form-step').data('step'), 10);
+            if (shouldAutoAdvanceStep(stepNumber)) {
+                setTimeout(function () {
+                    autoAdvanceStep(stepNumber);
+                }, 120);
+            }
+        }
     });
 
     // Function to update income options dynamically
@@ -273,12 +283,57 @@ $(document).ready(function () {
         }
     }
 
+    function shouldAutoAdvanceStep(stepNumber) {
+        return [1, 2, 3].indexOf(stepNumber) !== -1;
+    }
+
+    function autoAdvanceStep(stepNumber) {
+        if (isInitializing || animating || !shouldAutoAdvanceStep(stepNumber)) {
+            return;
+        }
+
+        var $step = $('.form-step[data-step="' + stepNumber + '"]');
+        if (!$step.length || !$step.is(':visible')) {
+            return;
+        }
+
+        var $nextButton = $step.find('.next').first();
+        if (!$nextButton.length || $nextButton.hasClass('processing')) {
+            return;
+        }
+
+        var nextStep = parseInt($nextButton.data('next-step'), 10);
+        if (!nextStep) {
+            return;
+        }
+
+        if (!validateStep(stepNumber)) {
+            return;
+        }
+
+        $nextButton.addClass('processing');
+        saveStepData(stepNumber);
+        transitionStep(stepNumber, nextStep);
+
+        setTimeout(function () {
+            $nextButton.removeClass('processing');
+        }, 800);
+    }
+
     // When navigating to Step 6, check if we need to update income options
     $(document).on('click', '.next[data-next-step="6"]', function () {
         setTimeout(function () {
             var currentHousehold = $('#household').val() || localStorage.getItem('Household') || '1';
             updateIncomeOptions(currentHousehold);
         }, 500);
+    });
+
+    $(document).on('change', '.form-step[data-step="3"] #urgency', function (event) {
+        // Ignore programmatic changes during populate/restore
+        if (!(event && event.originalEvent)) {
+            return;
+        }
+        autoAdvanceStep(3);
     });
 
     /**

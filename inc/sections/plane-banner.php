@@ -1,4 +1,4 @@
-<div id="plane-banner" class="container-fluid my-3 my-sm-5" style="transform: translateX(100%);">
+<div id="plane-banner" class="container-fluid my-3 my-sm-5">
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
@@ -13,7 +13,7 @@
 						<path d="M22.8,6c-1.2-4.1-5.3-6.7-8.1-5.8c-1.8,0.6-2.3,1.7-1.8,3.8l3.8,14.4l10.4,4.3L22.8,6z" style="fill:#cbd4d9;"/>
 						<path d="M49.1,22.6c0.6-1.3,0.6-1.9,0.5-2.9c-0.1-1.3-1.2-2.3-1.3-2.4c-2.5-2.2-5.9,2-7.8,2.6
 							c-1.6,0.5-3.3,0.2-4.9-0.5c-8.3-4-20.6-8.3-21.9-8.7C8.6,9.3,5,12.3,4.3,16c-0.7,3.2,0.8,8.3,6.5,9.4c10.3,1.9,29.5,4.9,29.5,4.9
-							s3.4,0.4,4.6-1.3L49.1,22.6z" style="fill:#1abae7;"/>
+							s3.4,0.4,4.6-1.3L49.1,22.6z" style="fill:#67cdcb;"/>
 						<g>
 							<defs>
 								<path id="SVGID_plane_1_" d="M49.1,22.6c0.6-1.3,0.6-1.9,0.5-2.9c-0.1-1.3-1.2-2.3-1.3-2.4c-2.5-2.2-5.9,2-7.8,2.6

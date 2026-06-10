@@ -30,7 +30,7 @@
                       <select id="birthyear" name="birthyear" required="" data-parsley-required="parsley" class="form-control" aria-required="true" data-parsley-error-message="Birth Year Required" tabindex="3">
                           <option disabled="" selected="" value="">YEAR</option>
                           <?php
-                              $range = 64;
+                                $range = 90;
                               $limit = 18;
                               $current = date('Y');
                               $eldest = $current - $range;
