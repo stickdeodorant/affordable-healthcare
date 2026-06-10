@@ -82,6 +82,10 @@
 ?>
 <html lang="en" >
 <head>
+	<?php
+		$bootstrapCssVersion = @filemtime(__DIR__ . '/../css/bootstrap.min.css') ?: time();
+		$mainCssVersion = @filemtime(__DIR__ . '/../css/style.css') ?: time();
+	?>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1,user-scalable=no">
 	<title><?php if(isset($title) == true && !empty($title)) { echo $title . ' | '; } echo $sitename; ?></title>
@@ -115,7 +119,7 @@
 			</script>
 		<?php endif; ?>
 	<?php endif; ?>
-	<link rel='stylesheet' href='/css/bootstrap.min.css'>
+	<link rel='stylesheet' href='/css/bootstrap.min.css?v=<?= $bootstrapCssVersion ?>'>
 	<?php /*<link rel='stylesheet' href='/css/fonts.css'>*/ ?>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" integrity="sha512-yHknP1/AwR+yx26cB1y0cjvQUMvEa2PFzt1c9LlS4pRQ5NOTZFWbhBig+X9G9eYW/8m0/4OXNx8pxJ6z57x0dw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -131,7 +135,7 @@
 		.icon-stack .icon-overlay.icon-pencil { transform: translate(8%, -6%); }
 		.icon-stack .icon-overlay.icon-scale { transform: translate(-6%, 0); }
 	</style>
-	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/style.css?v=<?= $mainCssVersion ?>">
 	<link rel="apple-touch-icon" href="/img/favicon.png">
 	<link rel="icon" href="/img/favicon.png" type="image/x-icon">
 	<script>

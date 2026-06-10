@@ -65,11 +65,12 @@
 				<?php */ ?>
 			<?php //} 
 			?>
+			<?php $mainJsVersion = @filemtime(__DIR__ . '/../js/index.js') ?: time(); ?>
 			<script src='/js/jquery-3.2.1.min.js'></script>
 			<script src='/js/popper.min.js'></script>
 			<script src='/js/bootstrap.min.js'></script>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js" integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-			<script src='/js/index.js'></script>
+			<script src='/js/index.js?v=<?= $mainJsVersion ?>'></script>
 			<div class="container">
 				<!-- Modal -->
 				<div class="modal fade" id="policyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
