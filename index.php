@@ -5,7 +5,7 @@ if (isset($state)) {
 	$featureTitle = 'Compare Affordable <strong>' . $state . '</strong> Health Plans!';
 	$subtitle = 'You may qualify for a plan with no monthly cost';
 } else {
-	$featureTitle = 'Find Affordable Healthcare!';
+	$featureTitle = '<span class="text-secondary">Find Affordable</span> Healthcare!';
 	$subtitle = 'You may qualify for a plan with no monthly cost';
 }
 $featureSubtitle = 'Don\'t overpay for health coverage';
@@ -16,18 +16,18 @@ $featureCaption = [
 	'filled' => '',
 	'mfilled' => '',
 ];
-include 'inc/feature.php';
+include 'inc/hero.php';
 ?>
 <main>
 	<?php include 'inc/sections/cta-banner.php'; ?>
-	<?php include 'inc/sections/steps.php'; ?>
-	<?php /*
+	<?php include 'inc/sections/steps2.php'; ?>
+	<?php include 'inc/sections/plane-banner.php'; ?>
 	<section class="container-fluid">
 		<div class="container">
 			<div class="row mt-5 d-flex pb-5 text-center text-lg-left">
 				<div class="col-lg-7 offset-lg-1 order-md-2 scale scale-right">
 					<h3 class="h1">Searching For Affordable Healthcare Plans Made Easy!</h3>
-					<p>Looking for a healthcare plan in your budget doesn't have to be difficult. When you browse for affordable healthcare online, you should be able to sort through plans with ease. That is why <?=$sitename?> provide FREE healthcare quotes through our customized search engine. We make looking for affordable insurance simple. Find out more about <?php echo $state_abbr; ?> health insurance TODAY!</p>
+					<p>Looking for a healthcare plan in your budget does not have to be difficult. <?= $sitename ?> is a private health insurance comparison service that helps connect you with licensed agents to review plan options available in your area. Comparing options through this site does not require a fee, and plan availability, pricing, and eligibility vary by state and individual circumstances.</p>
 				</div>
 				<div class="d-md-none d-lg-block col-lg-4 order-md-1 mt-4 mt-md-0">
 					<?php include 'inc/testimonials.php'; ?>
@@ -35,26 +35,15 @@ include 'inc/feature.php';
 			</div>
 		</div>
 	</section>
-	*/ ?>
-	<section id="grassy" class="bg-accent" style="background-image: linear-gradient(rgba(139, 195, 74, 0.9),rgba(139, 195, 74, 0.9)), url(/img/grass.svg); background-size: 575px auto;">
+	<section id="grassy" class="bg-tertiary" style="background: var(--color-ink)">
 		<svg x="0px" y="0px" viewBox="0 0 1364.8 100" style="enable-background:new 0 0 1364.8 100; z-index: 1;" xml:space="preserve">
 			<path d="M1364.8,99.8V0H0v100C273,0.1,682.5,0,1364.8,99.8z" />
 		</svg>
 		<div class="container-fluid scale">
 			<div class="container">
-				<?php /*
-					<div class="row">
-						<div class="col-sm-10 offset-sm-1 text-center">
-							<h3 class="h1">Special Enrollment Period</h3>
-							<p>There is currently a SPECIAL ENROLLMENT PERIOD that has been enacted by the government due the COVI-19 emergency. A special enrollment period has been set in place to help individuals and families enroll through the Health Insurance Marketplace for an Obamacare plan outside of the Open Enrollment Period.</p>
-							<p>This Special Enrollment Period issued by the federal government started February 15, 2021, and will end August 15, 2021.</p>
-							<?php if(isset($_GET['call'])) { ?><a href="tel:<?=$phonemin['fb-call']?>" class="button bg-primary text-white"><?=$phone['fb-call']?></a><?php } else { ?><a class="button bg-primary text-white mr-2 scale-4x" href="/get-quotes">Find Plans</a><?php } ?>
-						</div>
-					</div>
-				*/ ?>
 				<div class="row">
 					<div class="col-sm-12 text-center">
-						<h3 class="h1">Open Enrollment And Qualifying Life Events</h3>
+						<h3 class="h1 text-white">Open Enrollment And Qualifying Life Events</h3>
 						<p>Open Enrollment is the yearly period when many consumers can enroll in comprehensive Marketplace health insurance. For 2027 coverage, Open Enrollment is currently scheduled to begin on November 1, 2026 in most states and end on December 15, 2026 in most states. Some state based Marketplaces may have later deadlines, including December 23 or December 31, 2026, and some deadlines may change.
 						<p>
 						<p>Outside Open Enrollment, you may need a qualifying life event, also called a QLE, to enroll in certain types of comprehensive coverage. A QLE may include losing qualifying coverage, getting married, having a baby, adopting a child, moving, or another eligible household change.</p>
@@ -64,9 +53,8 @@ include 'inc/feature.php';
 				</div>
 			</div>
 		</div>
-		<img src="/img/picking-fruit.svg" style="position: absolute; right: calc(48px + 5vw); top: calc(-32px - 4vw);
-width: calc(32px + 12vw); max-width: 50%; transform: scaleX(-1); z-index: 2;" alt="cartoon girl picking fruit from tree">
-		<img src="/img/running-girl.svg" alt="cartoon girl running, fitness" style="position: absolute; bottom: calc(-16px + 5vw); left: 30px; width: calc(64px + 6vw); max-width: 50%; z-index: 2;">
+		<img src="/img/hired.svg" alt="New Job" style="position: absolute; bottom: calc(-16px + 1vw); left: 20px; width: calc(64px + 23vw); max-width: 50%; z-index: 5;">
+		<img src="/img/pregnant.svg" alt="Pregnancy" style="position: absolute; right: calc(0px + 3vw); top: calc(-32px - 7vw); width: calc(32px + 26vw); max-width: 50%; transform: scaleX(-1); z-index: 2;">
 		<svg x="0px" y="0px" viewBox="0 0 1366 100" style="enable-background:new 0 0 1366 100; z-index: 3;" xml:space="preserve">
 			<g>
 				<path d="M0,100h836.7C614.7,100,341.5,66.7,0,0V100z" />
@@ -87,7 +75,6 @@ width: calc(32px + 12vw); max-width: 50%; transform: scaleX(-1); z-index: 2;" al
 			</div>
 		</div>
 	</section>
-	<?php /* include 'inc/sections/faq-section.php'; */ ?>
-	<?php /* include 'inc/sections/plane-banner.php'; */ ?>
+	<?php include 'inc/sections/faq-section.php'; ?>
 </main>
 <?php include 'inc/footer.php'; ?>
