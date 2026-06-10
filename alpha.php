@@ -4,7 +4,7 @@ if($state) {
 	$featureTitle = 'Compare Affordable <strong>' . $state . '</strong> Health Plans!';
 	$subtitle = 'You may qualify for a plan with no monthly cost';
 } else {
-	$featureTitle = 'Find Affordable Healthcare!';
+	$featureTitle = '<span class="text-secondary">Find Affordable</span> Healthcare!';
 	$subtitle = 'You may qualify for a plan with no monthly cost';
 }
 $featureSubtitle = 'You may qualify for a plan with no monthly cost';
@@ -18,7 +18,7 @@ $featureCaption = [
 if ( $_GET['call'] == 'true') {
 	include 'inc/call.php';
 } else {
-	include 'inc/feature.php';
+	include 'inc/hero.php';
 }
 ?>
 <main>
@@ -61,9 +61,9 @@ if ( $_GET['call'] == 'true') {
 				</div>
 			</div>
 		</div>
-		<img src="/img/picking-fruit.svg" style="position: absolute; right: calc(48px + 5vw); top: calc(-32px - 4vw);
+		<img src="/img/hired.svg" style="position: absolute; right: calc(48px + 5vw); top: calc(-32px - 4vw);
 width: calc(32px + 12vw); max-width: 50%; transform: scaleX(-1); z-index: 2;" alt="cartoon girl picking fruit from tree">
-		<img src="/img/running-girl.svg" alt="cartoon girl running, fitness" style="position: absolute; bottom: calc(-16px + 5vw); left: 30px; width: calc(64px + 6vw); max-width: 50%; z-index: 2;">
+		<img src="/img/pregnant.svg" alt="cartoon girl running, fitness" style="position: absolute; bottom: calc(-16px + 5vw); left: 30px; width: calc(64px + 6vw); max-width: 50%; z-index: 2;">
 		<svg x="0px" y="0px" viewBox="0 0 1366 100" style="enable-background:new 0 0 1366 100; z-index: 3;" xml:space="preserve"><g><path d="M0,100h836.7C614.7,100,341.5,66.7,0,0V100z"/><path d="M836.7,100H1366V0C1229.4,66.7,1058.7,100,836.7,100z"/></g></svg>
 	</section>
 	<section id="beforeafter" class="container-fluid">

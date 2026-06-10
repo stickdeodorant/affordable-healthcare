@@ -67,7 +67,7 @@ h2 {
 
 .circle-progress-value {
 	stroke-width: 10px;
-	stroke: #1ABAE7;
+	stroke: #67cdcb;
 	stroke-dasharray: 8% 2%;
 }
 .circle-progress-circle {
@@ -76,7 +76,7 @@ h2 {
 }
 .circle-progress-text {
 	font-weight: bold;
-	fill: #1ABae7;
+	fill: #67cdcb;
 }
 .submit-progress {
     position: relative;

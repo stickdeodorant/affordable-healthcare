@@ -5,7 +5,7 @@ if($state) {
 	$featureTitle = 'Compare Affordable <strong>' . $state . '</strong> Health Plans!';
 	$subtitle = 'You may qualify for a plan with no monthly cost';
 } else {
-	$featureTitle = 'Find Affordable Healthcare!';
+	$featureTitle = '<span class="text-secondary">Find Affordable</span> Healthcare!';
 	$subtitle = 'You may qualify for a plan with no monthly cost';
 }
 $featureSubtitle = 'You may qualify for a plan with no monthly cost';
@@ -16,7 +16,7 @@ $featureCaption = [
 	'filled' => '',
 	'mfilled' => '',
 ];
-include 'inc/feature.php';
+include 'inc/hero.php';
 ?>
 <main>
 	<?php include 'inc/sections/steps.php'; ?>

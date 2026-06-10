@@ -5,7 +5,7 @@ if($state) {
 	$featureTitle = 'Compare Affordable <strong>' . $state . '</strong> Health Plans!';
 	$subtitle = 'You may qualify for a plan with no monthly cost';
 } else {
-	$featureTitle = 'Find Affordable Healthcare!';
+	$featureTitle = '<span class="text-secondary">Find Affordable</span> Healthcare!';
 	$subtitle = 'You may qualify for a plan with no monthly cost';
 }
 $featureSubtitle = 'You may qualify for a plan with no monthly cost';
@@ -16,7 +16,7 @@ $featureCaption = [
 	'filled' => '',
 	'mfilled' => '',
 ];
-include 'inc/feature.php';
+include 'inc/hero.php';
 ?>
 <main>
 	<?php include 'inc/sections/steps.php'; ?>
@@ -47,9 +47,9 @@ include 'inc/feature.php';
 				</div>
 			</div>
 		</div>
-		<img src="/img/picking-fruit.svg" style="position: absolute; right: calc(48px + 5vw); top: calc(-32px - 4vw);
+		<img src="/img/hired.svg" style="position: absolute; right: calc(48px + 5vw); top: calc(-32px - 4vw);
 width: calc(32px + 12vw); max-width: 50%; transform: scaleX(-1); z-index: 2;" alt="cartoon girl picking fruit from tree">
-		<img src="/img/running-girl.svg" alt="cartoon girl running, fitness" style="position: absolute; bottom: calc(-16px + 5vw); left: 30px; width: calc(64px + 6vw); max-width: 50%; z-index: 2;">
+		<img src="/img/pregnant.svg" alt="cartoon girl running, fitness" style="position: absolute; bottom: calc(-16px + 5vw); left: 30px; width: calc(64px + 6vw); max-width: 50%; z-index: 2;">
 		<svg x="0px" y="0px" viewBox="0 0 1366 100" style="enable-background:new 0 0 1366 100; z-index: 3;" xml:space="preserve"><g><path d="M0,100h836.7C614.7,100,341.5,66.7,0,0V100z"/><path d="M836.7,100H1366V0C1229.4,66.7,1058.7,100,836.7,100z"/></g></svg>
 	</section>
 	<section id="beforeafter" class="container-fluid">
@@ -92,7 +92,7 @@ width: calc(32px + 12vw); max-width: 50%; transform: scaleX(-1); z-index: 2;" al
 							<path d="M22.8,6c-1.2-4.1-5.3-6.7-8.1-5.8c-1.8,0.6-2.3,1.7-1.8,3.8l3.8,14.4l10.4,4.3L22.8,6z" style="fill:#cbd4d9;"/>
 							<path d="M49.1,22.6c0.6-1.3,0.6-1.9,0.5-2.9c-0.1-1.3-1.2-2.3-1.3-2.4c-2.5-2.2-5.9,2-7.8,2.6
 								c-1.6,0.5-3.3,0.2-4.9-0.5c-8.3-4-20.6-8.3-21.9-8.7C8.6,9.3,5,12.3,4.3,16c-0.7,3.2,0.8,8.3,6.5,9.4c10.3,1.9,29.5,4.9,29.5,4.9
-								s3.4,0.4,4.6-1.3L49.1,22.6z" style="fill:#1abae7;"/>
+								s3.4,0.4,4.6-1.3L49.1,22.6z" style="fill:#67cdcb;"/>
 							<g>
 								<defs>
 									<path id="SVGID_plane_1_" d="M49.1,22.6c0.6-1.3,0.6-1.9,0.5-2.9c-0.1-1.3-1.2-2.3-1.3-2.4c-2.5-2.2-5.9,2-7.8,2.6

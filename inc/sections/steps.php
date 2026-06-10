@@ -1,4 +1,4 @@
-<section id="steps" class="scale container-fluid pt-5">
+<section id="steps" class="scale container-fluid py-5">
 	<div class="container">
 		<div class="row">
 			<h3 class="h1 col-12 text-center pb-4">Follow A Few Steps For Affordable Healthcare</h3>

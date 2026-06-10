@@ -150,7 +150,7 @@ $did = $_SESSION['did'] ? $_SESSION['did'] : $_GET['did'];
                         <div class="card-body">
                             <div class="insurance-card-content">
                                 <div class="card-image-section">
-                                    <img src="../img/agent-photo3.webp" alt="Customer Service Representative" class="agent-image" style="filter: brightness(1.1)  saturate(0.9) drop-shadow(2px 4px 6px white)">
+                                    <img src="../img/agent-photo4.png" alt="Customer Service Representative" class="agent-image" style="filter: brightness(1.1)  saturate(0.9) drop-shadow(2px 4px 6px white)">
                                 </div>
 
                                 <div class="card-text-section pl-xl-5 pr-lx-3">
@@ -971,7 +971,7 @@ $did = $_SESSION['did'] ? $_SESSION['did'] : $_GET['did'];
     }
 
     body footer {
-        background-color: #1abae7;
+        background-color: #67cdcb;
         color: #fff;
     }
 

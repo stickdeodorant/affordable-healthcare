@@ -922,6 +922,20 @@ body .ah-hero .ah-layer {
 	-webkit-user-drag: none;
 }
 
+body .ah-hero .ah-layer-cloud,
+body .ah-hero .ah-layer-tree-1,
+body .ah-hero .ah-layer-tree-2,
+body .ah-hero .ah-layer-tree-3,
+body .ah-hero .ah-layer-tree-4,
+body .ah-hero .ah-layer-tree-5,
+body .ah-hero .ah-layer-bush,
+body .ah-hero .ah-layer-dad-son,
+body .ah-hero .ah-layer-mom-daughter,
+body .ah-hero .ah-layer-mountain {
+	will-change: transform, opacity;
+	backface-visibility: hidden;
+}
+
 body .ah-hero .ah-layer-bg-shape {
 	display: none;
 }
@@ -1160,19 +1174,27 @@ body .ah-hero .ah-hero-disclaimer-wrap {
 
 /* ── Animations ──────────────────────────────────────────────── */
 body .ah-hero .ah-layer-cloud-1 {
-	animation: cloud-drift-a 18s ease-in-out infinite alternate;
+	animation: cloud-drift-a 30s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite,
+		cloud-opacity 12s ease-in-out infinite;
+	animation-delay: -2s;
 }
 
 body .ah-hero .ah-layer-cloud-2 {
-	animation: cloud-drift-b 22s ease-in-out infinite alternate;
+	animation: cloud-drift-b 34s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite,
+		cloud-opacity 14s ease-in-out infinite;
+	animation-delay: -6s;
 }
 
 body .ah-hero .ah-layer-cloud-3 {
-	animation: cloud-drift-c 26s ease-in-out infinite alternate;
+	animation: cloud-drift-c 40s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite,
+		cloud-opacity 16s ease-in-out infinite;
+	animation-delay: -4s;
 }
 
 body .ah-hero .ah-layer-cloud-4 {
-	animation: cloud-drift-d 16s ease-in-out infinite alternate;
+	animation: cloud-drift-d 28s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite,
+		cloud-opacity 10s ease-in-out infinite;
+	animation-delay: -8s;
 }
 
 body .ah-hero .ah-layer-tree-1,
@@ -1207,92 +1229,136 @@ body .ah-hero .ah-layer-bush {
 }
 
 body .ah-hero .ah-layer-dad-son {
-	animation: character-float-a 6s ease-in-out infinite;
+	animation: character-float-a 8.2s ease-in-out infinite;
+	animation-delay: -1.2s;
 }
 
 body .ah-hero .ah-layer-mom-daughter {
-	animation: character-float-b 6.8s ease-in-out infinite;
+	animation: character-float-b 9.4s ease-in-out infinite;
+	animation-delay: -2s;
+}
+
+body .ah-hero .ah-layer-mountain {
+	animation: ridge-settle 20s ease-in-out infinite;
 }
 
 @keyframes cloud-drift-a {
-	from {
-		transform: translateX(0) translateY(0);
+	0% {
+		transform: translate3d(0, 0, 0) scale(1);
 	}
 
-	to {
-		transform: translateX(16px) translateY(-4px);
+	50% {
+		transform: translate3d(7px, -1px, 0) scale(1.012);
+	}
+
+	100% {
+		transform: translate3d(14px, -3px, 0) scale(1.02);
 	}
 }
 
 @keyframes cloud-drift-b {
-	from {
-		transform: translateX(0) translateY(0);
+	0% {
+		transform: translate3d(0, 0, 0) scale(1);
 	}
 
-	to {
-		transform: translateX(12px) translateY(-3px);
+	50% {
+		transform: translate3d(6px, -2px, 0) scale(1.01);
+	}
+
+	100% {
+		transform: translate3d(11px, -3px, 0) scale(1.016);
 	}
 }
 
 @keyframes cloud-drift-c {
-	from {
-		transform: translateX(0) translateY(0);
+	0% {
+		transform: translate3d(0, 0, 0) scale(1);
 	}
 
-	to {
-		transform: translateX(18px) translateY(-5px);
+	50% {
+		transform: translate3d(8px, -2px, 0) scale(1.012);
+	}
+
+	100% {
+		transform: translate3d(16px, -4px, 0) scale(1.02);
 	}
 }
 
 @keyframes cloud-drift-d {
-	from {
-		transform: translateX(0) translateY(0);
+	0% {
+		transform: translate3d(0, 0, 0) scale(1);
 	}
 
-	to {
-		transform: translateX(10px) translateY(-3px);
+	50% {
+		transform: translate3d(4px, -1px, 0) scale(1.008);
+	}
+
+	100% {
+		transform: translate3d(9px, -2px, 0) scale(1.014);
+	}
+}
+
+@keyframes cloud-opacity {
+	0%,
+	100% {
+		opacity: 0.9;
+	}
+
+	50% {
+		opacity: 1;
 	}
 }
 
 @keyframes foliage-sway {
 	0% {
-		transform: rotate(0deg);
+		transform: rotate(0deg) translateY(0);
 	}
 
 	50% {
-		transform: rotate(0.9deg);
+		transform: rotate(0.6deg) translateY(-0.5px);
 	}
 
 	100% {
-		transform: rotate(-0.7deg);
+		transform: rotate(-0.45deg) translateY(0);
 	}
 }
 
 @keyframes character-float-a {
 	0% {
-		transform: translateY(0);
+		transform: translate3d(0, 0, 0) rotate(0deg);
 	}
 
 	50% {
-		transform: translateY(-4px);
+		transform: translate3d(0, -2.5px, 0) rotate(-0.35deg);
 	}
 
 	100% {
-		transform: translateY(0);
+		transform: translate3d(0, 0, 0) rotate(0deg);
 	}
 }
 
 @keyframes character-float-b {
 	0% {
-		transform: translateY(0);
+		transform: translate3d(0, 0, 0) rotate(0deg);
 	}
 
 	50% {
-		transform: translateY(-3px);
+		transform: translate3d(0, -2px, 0) rotate(0.3deg);
 	}
 
 	100% {
-		transform: translateY(0);
+		transform: translate3d(0, 0, 0) rotate(0deg);
+	}
+}
+
+@keyframes ridge-settle {
+	0%,
+	100% {
+		transform: translate3d(0, 0, 0);
+	}
+
+	50% {
+		transform: translate3d(0, -1px, 0);
 	}
 }
 

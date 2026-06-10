@@ -4,7 +4,7 @@ $provider = 'Blue Cross Blue Shield of Texas';
 if($state) {
 	$featureTitle = 'Compare Affordable <strong>' . $state . '</strong> Health Plans!';
 } else {
-	$featureTitle = 'Find Affordable Healthcare!';
+	$featureTitle = '<span class="text-secondary">Find Affordable</span> Healthcare!';
 }
 $featureSubtitle = 'Start Comparing '.$provider.' Healthcare Options';
 // Use 0 or '0' for a caption value to hide the value, defaults to main otherwise
@@ -14,7 +14,7 @@ $featureCaption = [
 	'filled' => '',
 	'mfilled' => '',
 ];
-include 'inc/feature.php';
+include 'inc/hero.php';
 ?>
 <main>
 	<?php include 'inc/sections/steps.php'; ?>

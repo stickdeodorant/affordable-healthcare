@@ -44,7 +44,7 @@ $conn = get_db_connection();
 <div class="container py-5 my-5">
  
  <form method="post" action="../get-quotes/inc/download_confirmation.php" class="text-center">
-  <input class="btn btn-primary text-white border-0 mt-5 py-3 px-5" style="background-color:#1abae7!important" type="submit" value="Export Full List" name="Export">
+  <input class="btn btn-primary text-white border-0 mt-5 py-3 px-5" style="background-color:#67cdcb!important" type="submit" value="Export Full List" name="Export">
  
   <table class="table table-striped table-hover mt-5">
     <thead>

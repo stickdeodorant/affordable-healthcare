@@ -5,7 +5,7 @@ if($state) {
 	$featureTitle = 'Compare Affordable <strong>' . $state . '</strong> Health Plans!';
 	$subtitle = 'Affordable Healthcare offers a broad selection of ' . $state . ' healthcare plan options that includes converage for individuals, families and short term from most of the leading ' . $state . ' health insurance companies.';
 } else {
-	$featureTitle = 'Find Affordable Healthcare!';
+	$featureTitle = '<span class="text-secondary">Find Affordable</span> Healthcare!';
 	$subtitle = 'Compare the latest Health Exchange Options Available';
 }
 $featureSubtitle = $subtitle;
@@ -16,7 +16,7 @@ $featureCaption = [
 	'filled' => '',
 	'mfilled' => '',
 ];
-include 'inc/feature.php';
+include 'inc/hero.php';
 ?>
 <main>
 	<?php include 'inc/sections/steps.php'; ?>

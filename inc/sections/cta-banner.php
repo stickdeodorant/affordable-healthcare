@@ -1,7 +1,8 @@
-<section class="bg-primary">
+<section class="bg-primary" style="margin-top: 20%;">
 	<svg x="0px" y="0px" viewBox="0 0 1364.8 100" style="enable-background:new 0 0 1364.8 100; z-index: 1;" xml:space="preserve"><path d="M1364.8,99.8V0H0v100C273,0.1,682.5,0,1364.8,99.8z"/></svg>
 	<div class="container-fluid scale">
 		<div class="container">
+			<img src="/img/waiting-room.svg" alt="Healthcare Waiting Room" class="waiting-room">
 			<div class="row">
 				<div class="col-12 col-sm-10 offset-sm-1 col-md-10 offset-md-1 text-center">
 					<h3 class="h1">Find Affordable Healthcare Options</h3>
@@ -13,6 +14,5 @@
 			</div>
 		</div>
 	</div>
-	<img src="/img/doctors3.svg" alt="insurance doctors" class="doctors">
 	<svg x="0px" y="0px" viewBox="0 0 1366 100" style="enable-background:new 0 0 1366 100;" xml:space="preserve"><g><path d="M0,100h836.7C614.7,100,341.5,66.7,0,0V100z"/><path d="M836.7,100H1366V0C1229.4,66.7,1058.7,100,836.7,100z"/></g></svg>
 </section>
