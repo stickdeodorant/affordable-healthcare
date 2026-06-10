@@ -1,8 +1,9 @@
 <nav class="d-flex align-items-center">
+  <?php $logoVersion = @filemtime(__DIR__ . '/../../img/logo.svg') ?: time(); ?>
   <div class="container h-100" style="color: #333;">
     <div class="row align-items-center h-100">
       <div class="col-lg-4 col-xl-5 text-center text-sm-left">
-        <img class="logo" src="/img/logo.svg" alt="<?php echo $sitename; ?> logo">
+        <img class="logo" src="/img/logo.svg?v=<?= $logoVersion ?>" alt="<?php echo $sitename; ?> logo">
       </div>
       <?php /* if($call_now == 'true')  { ?>
         <div class="col-lg-8 col-xl-7 py-2 py-md-0 text-center text-lg-right d-none d-md-flex justify-content-end align-items-center">

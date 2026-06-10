@@ -1,10 +1,11 @@
 <?php //if($_SESSION['agent'])  { ?>
+<?php $logoVersion = @filemtime(__DIR__ . '/../../img/logo.svg') ?: time(); ?>
 <?php /* if($pageName != 'typ')  { ?>
 	<style>.display-inline-block{ display: inline-block; }.display-inline{ display: inline; }</style>
 	<nav class="d-flex align-items-center">
 		<div class="container h-100" style="color: #5b727d; max-width: 1140px; font-family: 'Questrial', helvetica, sans-serif;">
 			<div class="row align-items-center h-100 py-3">
-				<div class="col-lg-4 col-xl-5 text-center text-sm-left"><img class="logo" src="/img/logo.svg" alt="<?php echo $sitename; ?> logo" style="max-height: 58px;max-width: 90%;width: auto;"></div>
+				<div class="col-lg-4 col-xl-5 text-center text-sm-left"><img class="logo" src="/img/logo.svg?v=<?= $logoVersion ?>" alt="<?php echo $sitename; ?> logo" style="max-height: 58px;max-width: 90%;width: auto;"></div>
 					<?php if ($call_now == 'true') { ?>
 						<div class="col-lg-8 col-xl-7 py-2 py-md-0 text-center text-lg-right d-none d-md-flex justify-content-end align-items-center">
 							<p class="d-inline-block mb-0" style="font-size: 24px; margin-bottom: 0;">Need&nbsp;a&nbsp;quote?&ensp;<b>Call&nbsp;toll&nbsp;free:&ensp;</b></p>
@@ -25,7 +26,7 @@
 	<nav class="navbar top" role="navigation">
 		<div class="container">
 			<div class="navbar-header">
-				<img src="./img/logo.svg" alt="" title="" style="height: 50px; width: auto; margin: 10px 0;">
+				<img src="./img/logo.svg?v=<?= $logoVersion ?>" alt="" title="" style="height: 50px; width: auto; margin: 10px 0;">
 			</div>
 		</div>
 	</nav>
