@@ -6,7 +6,7 @@
 				<svg><circle></svg>
 				<img src="/img/people/2.png" alt="">
 				<span>Mitchel M.</span>
-				<br><small data-social="facebook">Feb 2, 2017</small>
+				<br><small data-social="facebook">Feb 2, 2026</small>
 			</div>
 		</li><li>
 			<p class="testimonial-body">Open Enrollment was coming up quickly, and I did not want to make the wrong choice. <?php echo $sitename; ?> helped me review clear options, ask questions, and feel confident about the coverage I selected.</p>
@@ -14,7 +14,7 @@
 				<svg><circle></svg>
 				<img src="/img/people/21.png" alt="">
 				<span>Christie J.</span>
-				<br><small data-social="facebook">May 5, 2017</small>
+				<br><small data-social="facebook">May 5, 2026</small>
 			</div>
 		</li><li>
 			<p class="testimonial-body">I did not expect the process to be this straightforward. I entered my ZIP code, reviewed the plans that matched my needs, and got help understanding the differences before I enrolled.</p>
@@ -22,7 +22,7 @@
 				<svg><circle></svg>
 				<img src="/img/people/8.png" alt="">
 				<span>Frank G.</span>
-				<br><small data-social="facebook">Jun 17, 2017</small>
+				<br><small data-social="facebook">Jun 17, 2025</small>
 			</div>
 		</li><li>
 			<p class="testimonial-body">What stood out to me was how easy it was to compare details side by side. I could focus on doctors, prescriptions, and monthly costs instead of bouncing between different websites.</p>
@@ -30,7 +30,7 @@
 				<svg><circle></svg>
 				<img src="/img/people/20.png" alt="">
 				<span>Mary S.</span>
-				<br><small data-social="facebook">Jan 11, 2018</small>
+				<br><small data-social="facebook">Jan 11, 2025</small>
 			</div>
 		</li><li>
 			<p class="testimonial-body">I had been putting this off for weeks because it felt complicated. With <?php echo $sitename; ?>, the process was simple and organized, and I was able to make a decision much faster than I expected.</p>
@@ -38,7 +38,7 @@
 				<svg><circle></svg>
 				<img src="/img/people/13.png" alt="">
 				<span>Alex D.</span>
-				<br><small data-social="facebook">Nov 21, 2017</small>
+				<br><small data-social="facebook">Nov 21, 2024</small>
 			</div>
 		</li>
 	</ul>
