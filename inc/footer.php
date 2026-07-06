@@ -3,7 +3,7 @@
 					<div class="row">
 						<div class="col-lg-4 pr-lg-4">
 							<h5>Consumer Caution</h5>
-							<p>We feel confident in our verified affiliate agencies and do our best to make sure consumers are in good hands. However, healthcare-quotes.com is a third party lead generation website. We are not an insurance company and cannot make claims or guarantees about coverage, pricing, benefits, eligibility, or plan availability.</p>
+							<p>We feel confident in our verified affiliate agencies and do our best to make sure consumers are in good hands. However, affordable-healthcare.com is a third party lead generation website. We are not an insurance company and cannot make claims or guarantees about coverage, pricing, benefits, eligibility, or plan availability.</p>
 							<a href="/consumer-caution.php" class="footer-link-emphasis">Consumer Caution</a>
 						</div>
 						<div class="col-lg-4 px-lg-4">

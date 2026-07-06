@@ -621,7 +621,7 @@ function sendPermanentBlacklistNotification($email, $phone, $submissionCount) {
     $notificationEmail = env('MAILTRAP_RECIPIENT', 'kelliott@infinixmedia.com');
     
     $payload = [
-        "from" => ["email" => "no-reply@healthcare-quotes.com", "name" => "Affordable Healthcare"],
+        "from" => ["email" => "no-reply@affordable-healthcare.com", "name" => "Affordable Healthcare"],
         "to" => [["email" => $notificationEmail]],
         "subject" => "Permanent Blacklist Notification",
         "text" => sprintf(

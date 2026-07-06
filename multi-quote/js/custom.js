@@ -1221,7 +1221,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: 'POST',
-            url: 'https://healthcare-quotes.com/get-quotes/inc/insert_confirmation.php',
+            url: 'https://affordable-healthcare.com/get-quotes/inc/insert_confirmation.php',
             data: 'first_name=' + firstName +
                 '&email=' + ($('input[name="Email"]').val() || localStorage.getItem('Email')) +
                 '&ipaddress=' + $('input[name="IP_Address"]').val() +
@@ -1255,7 +1255,7 @@ $(document).ready(function () {
      */
     function flexPostback() {
         $.ajax({
-            url: 'https://healthcare-quotes.com/fc/inc/postback-flex.php',
+            url: 'https://affordable-healthcare.com/fc/inc/postback-flex.php',
             type: "POST",
             data: {
                 hid: sessionStorage.getItem('hid'),

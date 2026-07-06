@@ -145,7 +145,7 @@ $captionHtml = ah_feature_normalize_caption(isset($featureCaption) ? $featureCap
 					echo $captionHtml;
 				} ?>
 
-				<p class="disclaimer mt-0 mb-0 small">By clicking "Find My Quote," you understand that healthcare-quotes.com is a third party lead generation website. We are not an insurance company and do not issue insurance policies. Your information may be shared with affiliate agencies, marketing companies, or service providers that may contact you about health insurance options.</p>
+				<p class="disclaimer mt-0 mb-0 small">By clicking "Find My Quote," you understand that affordable-healthcare.com is a third party lead generation website. We are not an insurance company and do not issue insurance policies. Your information may be shared with affiliate agencies, marketing companies, or service providers that may contact you about health insurance options.</p>
 			</div>
 
 			<div class="col-12 col-lg-6 ah-hero-art" aria-hidden="true">

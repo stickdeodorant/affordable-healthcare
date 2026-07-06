@@ -345,7 +345,7 @@ function submitToBoberdoo($formData) {
     $boberdooData = [
         'TYPE' => '85',
         'SRC' => 'InfinixMedia',
-        'Landing_Page' => 'healthcare-quotes.com',
+        'Landing_Page' => 'affordable-healthcare.com',
         'IP_Address' => $formData['ip_address'] ?? $_SERVER['REMOTE_ADDR'],
         'First_Name' => $formData['First_Name'] ?? '',
         'Last_Name' => $formData['Last_Name'] ?? '',

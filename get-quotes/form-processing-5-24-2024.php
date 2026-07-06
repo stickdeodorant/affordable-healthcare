@@ -147,7 +147,7 @@ function sendPermanentBlacklistEmail($email, $phone, $submission_count) {
     // Prepare the payload
     $payload = json_encode([
         "from" => [
-            "email" => "no-reply@healthcare-quotes.com",
+            "email" => "no-reply@affordable-healthcare.com",
             "name" => "Affordable Healthcare"
         ],
         "to" => [

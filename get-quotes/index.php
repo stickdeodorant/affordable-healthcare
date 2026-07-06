@@ -3,7 +3,7 @@
 $queryString = $_SERVER['QUERY_STRING'] ? '?' . $_SERVER['QUERY_STRING'] : '';
 
 // Define the new URL to which you want to redirect the user
-$newURL = "https://healthcare-quotes.com/multi-quote" . $queryString;
+$newURL = "https://affordable-healthcare.com/multi-quote" . $queryString;
 
 // Perform the redirect
 header("Location: " . $newURL);

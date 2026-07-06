@@ -463,7 +463,7 @@ if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
 			$('#loading').modal('show');
 			$.ajax({
 				type: 'POST',
-				url: 'https://healthcare-quotes.com/get-quotes/inc/insert_confirmation.php',
+				url: 'https://affordable-healthcare.com/get-quotes/inc/insert_confirmation.php',
 				data: 'email=' + $('#email').val() + '&ipaddress=' + $('input[name="IP_Address"]').val() + '&error=' + response,
 				success: function (data) {
 					console.log('Success: ' + data);

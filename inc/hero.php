@@ -166,7 +166,7 @@ $_pubId        = isset($_GET['Pub_ID'])  ? htmlspecialchars($_GET['Pub_ID'], ENT
 	</div>
     <div class="container">
         <div class="ah-hero-disclaimer-wrap">
-            <p class="ah-disclaimer small mb-0">By clicking "Find Plans," you understand that healthcare-quotes.com is a third party lead generation website. We are not an insurance company and do not issue insurance policies. Your information may be shared with affiliate agencies, marketing companies, or service providers that may contact you about health insurance options.</p>
+            <p class="ah-disclaimer small mb-0">By clicking "Find Plans," you understand that affordable-healthcare.com is a third party lead generation website. We are not an insurance company and do not issue insurance policies. Your information may be shared with affiliate agencies, marketing companies, or service providers that may contact you about health insurance options.</p>
         </div>
     </div>
 </section>
