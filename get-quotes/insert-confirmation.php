@@ -1,12 +1,20 @@
 <?php
+require_once __DIR__ . '/../inc/env.php';
 
-// Database Credentials
-$dbHost = "localhost";
-$dbUser = "healthcareins_ajax_form";
-$dbPass = "rV!jftyyW90L$16RJUEC";
-$dbName = "healthcareins_form_submissions";
+$appEnv = env('APP_ENV', 'production');
+$appDebug = env_bool('APP_DEBUG', $appEnv !== 'production');
+
+// Dedicated DB config for confirmation inserts with fallback to shared DB settings.
+$dbHost = env('FORM_SUBMISSIONS_DB_HOST', env('DB_HOST', 'localhost'));
+$dbUser = env('FORM_SUBMISSIONS_DB_USER', env('DB_USER', ''));
+$dbPass = env('FORM_SUBMISSIONS_DB_PASS', env('DB_PASS', ''));
+$dbName = env('FORM_SUBMISSIONS_DB_NAME', env('DB_NAME', ''));
 
 try {
+    if ($dbUser === '' || $dbName === '') {
+        throw new Exception('Database credentials are not configured.');
+    }
+
     // Create connection
     $conn = new mysqli($dbHost, $dbUser, $dbPass, $dbName);
 
@@ -103,28 +111,9 @@ try {
     $stmt->close();
     $conn->close();
 } catch (Exception $e) {
+    error_log('insert-confirmation.php error: ' . $e->getMessage());
     echo json_encode([
         "status" => "error",
-        "message" => $e->getMessage(),
-        "debug" => [
-            "postData" => $postData,
-            "primaryPhone" => $primaryPhone,
-            "email" => $email,
-            "city" => $city,
-            "state" => $state,
-            "zip" => $zip,
-            "householdIncome" => $householdIncome,
-            "householdSize" => $householdSize,
-            "currentlyInsured" => $currentlyInsured,
-            "age" => $age,
-            "dob" => $dob,
-            "leadId" => $leadId,
-            "landingPage" => $landingPage,
-            "trustedformToken" => $trustedformToken,
-            "ipAddress" => $postData['requestData']['IP_Address'] ?? null,
-            "subId" => $subId,
-            "sellerCompanyName" => $sellerCompanyName,
-            "apiResponseDetailsJson" => $apiResponseDetailsJson
-        ]
+        "message" => $appDebug ? $e->getMessage() : 'Unable to process submission at this time.'
     ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 }

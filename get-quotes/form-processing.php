@@ -181,9 +181,9 @@ function sendPermanentBlacklistEmail($email, $phone, $submission_count) {
     curl_close($ch);
 
     if ($err) {
-        echo 'cURL Error: ' . $err;
+        error_log('sendPermanentBlacklistEmail cURL Error: ' . $err);
     } else {
-        echo 'Message has been sent. Response: ' . $result;
+        error_log('sendPermanentBlacklistEmail success response: ' . $result);
     }
 }
 

@@ -7,7 +7,7 @@
   <fieldset>
       <div class="form-card">
           <h2 class="fs-title">What is your date of birth?</h2>
-          <input id="dob" name="DOB" type="hidden" autocomplete="bday" maxlength="10" minlength="10" <?php if(isset($_GET['DOB'])) { echo 'value="'.$_GET['DOB'].'"'; }?>>
+          <input id="dob" name="DOB" type="hidden" autocomplete="bday" maxlength="10" minlength="10" <?php if(isset($_GET['DOB'])) { echo 'value="' . htmlspecialchars((string)$_GET['DOB'], ENT_QUOTES, 'UTF-8') . '"'; }?>>
           <div class="row">
               <div class="form-group col-4">
                   <div>

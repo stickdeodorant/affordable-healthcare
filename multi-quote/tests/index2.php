@@ -210,7 +210,7 @@
         <!-- Hidden inputs (retaining your tracking and session values) -->
         <?php if (isset($_SESSION['fb']) && $_SESSION['fb'] === 'true') { ?>
             <input type="hidden" name="TYPE" id="type" value="19">
-            <input type="hidden" name="SRC" id="src" value="<?= base64_encode("Infinix-KFB") ?>">
+            <input type="hidden" name="SRC" id="src" value="<?= base64_encode("Infinix-MFB") ?>">
         <?php } elseif (isset($_SESSION['campaign'])) { ?>
             <input type="hidden" name="TYPE" id="type" value="19">
             <input type="hidden" name="SRC" id="src" value="<?= base64_encode($_SESSION['campaign']) ?>">
@@ -219,7 +219,7 @@
             <input type="hidden" name="SRC" id="src" value="<?= base64_encode('InfinixMedia-Ksp') ?>">
         <?php } else { ?>
             <input type="hidden" name="TYPE" id="type" value="24">
-            <input type="hidden" name="SRC" id="src" value="<?= base64_encode("Infinix-K-Ping") ?>">
+            <input type="hidden" name="SRC" id="src" value="<?= base64_encode("Infinix-M-Ping") ?>">
         <?php } ?>
         <?php if (isset($_GET['gclid'])) { ?>
             <input type="hidden" name="gclid" id="gclid_field" value="<?= $_GET['gclid'] ?>">

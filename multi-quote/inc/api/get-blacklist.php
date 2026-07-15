@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (!isset($_SESSION['admin_authenticated'])) {
+if (!isset($_SESSION['admin_authenticated']) || $_SESSION['admin_authenticated'] !== true) {
     http_response_code(401);
     echo json_encode(['error' => 'Unauthorized']);
     exit;

@@ -30,7 +30,7 @@ $postdata = json_encode([
     ],
     "retain" => [
         "reference" => $clickID ?? "",
-        "vendor" => $src ?? "Infinix-K"
+        "vendor" => $src ?? "Infinix-M"
     ]
 ]);
 

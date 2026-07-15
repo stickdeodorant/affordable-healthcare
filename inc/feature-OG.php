@@ -1,3 +1,4 @@
+<?php $safeGet = array_map(function($v) { return htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8'); }, $_GET); ?>
 <header class="container-fluid text-center d-flex flex-wrap">
 	<div class="container justify-content-center align-self-center">
 		<div class="row row1">
@@ -18,61 +19,61 @@
 								<input type="hidden" name="page" value="<?php echo $url; ?>">
 								<input type="hidden" name="engine" value="">
 								<input type="hidden" name="keyword" value="">
-								<input type="hidden" name="gclid" value="<?= $_GET['gclid'] ?>">
+								<input type="hidden" name="gclid" value="<?= $safeGet['gclid'] ?? '' ?>">
 								<input type="hidden" name="notes" value="">
 
 								<?php if (isset($_GET['First_Name'])) { ?>
-									<input name="First_Name" type="hidden" value="<?= $_GET['First_Name'] ?>">
+									<input name="First_Name" type="hidden" value="<?= $safeGet['First_Name'] ?? '' ?>">
 								<?php } ?>
 								<?php if (isset($_GET['Last_Name'])) { ?>
-									<input name="Last_Name" type="hidden" value="<?= $_GET['Last_Name'] ?>">
+									<input name="Last_Name" type="hidden" value="<?= $safeGet['Last_Name'] ?? '' ?>">
 								<?php } ?>
 								<?php if (isset($_GET['Primary_Phone'])) { ?>
-									<input name="Primary_Phone" type="hidden" value="<?= $_GET['Primary_Phone'] ?>">
+									<input name="Primary_Phone" type="hidden" value="<?= $safeGet['Primary_Phone'] ?? '' ?>">
 								<?php } ?>
 								<?php if (isset($_GET['Email'])) { ?>
-									<input name="Email" type="hidden" value="<?= $_GET['Email'] ?>">
+									<input name="Email" type="hidden" value="<?= $safeGet['Email'] ?? '' ?>">
 								<?php } ?>
 								<?php if (isset($_GET['Household_Income'])) { ?>
-									<input name="Household_Income" type="hidden" value="<?= $_GET['Household_Income'] ?>">
+									<input name="Household_Income" type="hidden" value="<?= $safeGet['Household_Income'] ?? '' ?>">
 								<?php } ?>
 								<?php if (isset($_GET['DOB'])) { ?>
-									<input name="DOB" type="hidden" value="<?= $_GET['DOB'] ?>">
+									<input name="DOB" type="hidden" value="<?= $safeGet['DOB'] ?? '' ?>">
 								<?php } ?>
 								<?php if (isset($_GET['Address'])) { ?>
-									<input name="Address" type="hidden" value="<?= $_GET['Address'] ?>">
+									<input name="Address" type="hidden" value="<?= $safeGet['Address'] ?? '' ?>">
 								<?php } ?>
 								<?php if (isset($_GET['city'])) { ?>
-									<input name="city" type="hidden" value="<?= $_GET['city'] ?>">
+									<input name="city" type="hidden" value="<?= $safeGet['city'] ?? '' ?>">
 								<?php } ?>
 								<?php if (isset($_GET['state'])) { ?>
-									<input name="state" type="hidden" value="<?= $_GET['state'] ?>">
+									<input name="state" type="hidden" value="<?= $safeGet['state'] ?? '' ?>">
 								<?php } ?>
 								<?php if (isset($_GET['ad_id'])) { ?>
-									<input name="ad_id" type="hidden" value="<?= $_GET['ad_id'] ?>">
+									<input name="ad_id" type="hidden" value="<?= $safeGet['ad_id'] ?? '' ?>">
 								<?php } elseif (isset($_GET['utm_agid'])) { ?>
-									<input name="ad_id" type="hidden" value="<?= $_GET['utm_agid'] ?>">
+									<input name="ad_id" type="hidden" value="<?= $safeGet['utm_agid'] ?? '' ?>">
 								<?php } elseif (isset($_GET['utm_agid'])) { ?>
-									<input name="ad_id" type="hidden" value="<?= $_GET['utm_agid'] ?>">
+									<input name="ad_id" type="hidden" value="<?= $safeGet['utm_agid'] ?? '' ?>">
 								<?php } elseif (isset($_SESSION['ad_id']) && !empty($_SESSION['ad_id'])) { ?>
-									<input name="ad_id" type="hidden" value="<?= $_SESSION['ad_id'] ?>">
+									<input name="ad_id" type="hidden" value="<?= htmlspecialchars((string)$_SESSION['ad_id'], ENT_QUOTES, 'UTF-8') ?>">
 								<?php } ?>
 								<?php if (isset($_GET['utm_campaign'])) { ?>
-									<input name="adset_id" type="hidden" value="<?= $_GET['utm_campaign'] ?>">
+									<input name="adset_id" type="hidden" value="<?= $safeGet['utm_campaign'] ?? '' ?>">
 								<?php } ?>
 								<?php if (isset($_GET['Pub_ID'])) { ?>
-									<input name="Pub_ID" type="hidden" value="<?= $_GET['Pub_ID'] ?>">
+									<input name="Pub_ID" type="hidden" value="<?= $safeGet['Pub_ID'] ?? '' ?>">
 								<?php } ?>
 								<?php if (isset($_GET['Sub_ID'])) { ?>
-									<input name="Sub_ID" type="hidden" value="<?= $_GET['Sub_ID'] ?>">
+									<input name="Sub_ID" type="hidden" value="<?= $safeGet['Sub_ID'] ?? '' ?>">
 								<?php } ?>
 								<?php if (isset($_GET['utm_medium'])) { ?>
-									<input name="utm_medium" type="hidden" value="<?= $_GET['utm_medium'] ?>">
+									<input name="utm_medium" type="hidden" value="<?= $safeGet['utm_medium'] ?? '' ?>">
 								<?php } ?>
 
 								<!-- <input name="zip" type="tel" placeholder="My zip code is..." class="form-control" maxlength="5" style="width: 90%; float: left;"> -->
 								<input id="zip" name="zip" type="tel" pattern="\d{5}" maxlength="5" required="" placeholder="Zip code..." class="mx-auto h2 text-center mb-0 py-2 w-100" <?php if (isset($_GET['Zip'])) {
-																								echo 'value="' . $_GET['Zip'] . '"';
+																								echo 'value="' . ($safeGet['Zip'] ?? '') . '"';
 																							} ?>>
 								<i class="ti ti-lock"></i>
 							</div>

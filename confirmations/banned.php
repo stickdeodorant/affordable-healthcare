@@ -44,6 +44,7 @@ $conn = get_db_connection();
 <div class="container py-5 my-5">
  
  <form method="post" action="../get-quotes/inc/download_confirmation.php" class="text-center">
+  <input type="hidden" name="export_type" value="bademail">
   <input class="btn btn-primary text-white border-0 mt-5 py-3 px-5" style="background-color:#67cdcb!important" type="submit" value="Export Full List" name="Export">
  
   <table class="table table-striped table-hover mt-5">
@@ -73,22 +74,18 @@ $conn = get_db_connection();
    ?>
     <tbody>
       <tr>
-        <td><?php echo $id; ?></td>
-        <td><?php echo $email; ?></td>
-        <td><?php echo $ipaddress; ?></td>
-        <td><?php echo $date; ?></td>
-        <td><?php echo $time; ?></td>
-        <td><?php echo $referrer; ?></td>
+        <td><?php echo htmlspecialchars((string)$id, ENT_QUOTES, 'UTF-8'); ?></td>
+        <td><?php echo htmlspecialchars((string)$email, ENT_QUOTES, 'UTF-8'); ?></td>
+        <td><?php echo htmlspecialchars((string)$ipaddress, ENT_QUOTES, 'UTF-8'); ?></td>
+        <td><?php echo htmlspecialchars((string)$date, ENT_QUOTES, 'UTF-8'); ?></td>
+        <td><?php echo htmlspecialchars((string)$time, ENT_QUOTES, 'UTF-8'); ?></td>
+        <td><?php echo htmlspecialchars((string)$referrer, ENT_QUOTES, 'UTF-8'); ?></td>
       </tr>
     </tbody>
    <?php
     }
    ?>
    </table>
-   <?php 
-    $serialize_user_arr = serialize($user_arr);
-   ?>
-  <textarea name='export_data' style='display: none;'><?php echo $serialize_user_arr; ?></textarea>
  </form>
 </div>
 

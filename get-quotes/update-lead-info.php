@@ -1,6 +1,10 @@
 <?php
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
+require_once __DIR__ . '/../inc/env.php';
+
+$appEnv = env('APP_ENV', 'production');
+$appDebug = env_bool('APP_DEBUG', $appEnv !== 'production');
+ini_set('display_errors', $appDebug ? '1' : '0');
+error_reporting($appDebug ? E_ALL : 0);
 
 /**********************************************************
  * 
@@ -13,7 +17,14 @@ $data = ($_POST) ? $_POST : $_GET;
 
 // Define additional parameters
 $format = 'JSON';
-$apiKey = '168f7f23d0e70ee7c055af9c936fd38a4de75e2da9b93be92b2c110c1dd3f9d3';
+$apiKey = env('BOBERDOO_API_KEY', '');
+$boberdooApiUrl = env('BOBERDOO_API_URL', 'https://infinixmedia.leadportal.com/new_api/api.php?');
+
+if ($apiKey === '') {
+    http_response_code(500);
+    echo json_encode(['status' => 'error', 'message' => 'Boberdoo API key not configured']);
+    exit;
+}
 $action = 'updateLead';
 
 // Merge additional parameters with incoming data
@@ -23,7 +34,7 @@ $data = array_merge(['Format' => $format, 'API_Action' => $action, 'Key' => $api
 $postdata = http_build_query($data);
 
 // Initialize cURL
-$cURLConnection = curl_init('https://infinixmedia.leadportal.com/new_api/api.php?');
+$cURLConnection = curl_init($boberdooApiUrl);
 curl_setopt($cURLConnection, CURLOPT_POST, true);
 curl_setopt($cURLConnection, CURLOPT_POSTFIELDS, $postdata);
 curl_setopt($cURLConnection, CURLOPT_RETURNTRANSFER, true);
@@ -37,8 +48,9 @@ if ($apiResponse === false) {
     // If cURL fails, return an error in JSON format
     $error = [
         'status' => 'error',
-        'message' => 'cURL Error: ' . curl_error($cURLConnection)
+        'message' => 'Unable to reach lead API service'
     ];
+    error_log('update-lead-info.php cURL error: ' . curl_error($cURLConnection));
     curl_close($cURLConnection);
     header('Content-Type: application/json');
     echo json_encode($error);

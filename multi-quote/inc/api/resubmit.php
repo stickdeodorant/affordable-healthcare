@@ -8,6 +8,12 @@
 session_start();
 header('Content-Type: application/json');
 
+if (!isset($_SESSION['admin_authenticated']) || $_SESSION['admin_authenticated'] !== true) {
+    http_response_code(401);
+    echo json_encode(['success' => false, 'error' => 'Unauthorized']);
+    exit;
+}
+
 // Include required files
 require_once __DIR__ . '/../config/db-config.php';
 require_once __DIR__ . '/../../boberdoo-response-parser.php';

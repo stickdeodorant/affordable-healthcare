@@ -468,12 +468,13 @@ $currentIncomeOptions = $incomeMatrix[$currentHousehold];
                                             </select>
                                         </div>
 
-                                        <div class="col-auto px-0">
+                                        <div class="col-auto d-flex px-0" style="flex-direction: column;">
                                             <label for="birthday" class="sr-only">Birth Day</label>
                                             <select name="birthday"
                                                 id="birthday"
                                                 required
                                                 class="form-control"
+                                                style="align-self: center;"
                                                 aria-label="Birth day">
                                                 <option value="">Day</option>
                                                 <?php for ($i = 1; $i <= 31; $i++): ?>

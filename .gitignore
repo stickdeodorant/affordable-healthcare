@@ -63,3 +63,6 @@ multi-quote/standalone-fix.php
 # Local development
 ampps/
 xampp/
+
+# Web server config
+.htaccess

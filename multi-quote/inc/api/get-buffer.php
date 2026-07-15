@@ -7,6 +7,12 @@
 session_start();
 header('Content-Type: application/json');
 
+if (!isset($_SESSION['admin_authenticated']) || $_SESSION['admin_authenticated'] !== true) {
+    http_response_code(401);
+    echo json_encode(['error' => 'Unauthorized']);
+    exit;
+}
+
 // Include database configuration
 require_once dirname(__DIR__) . '/config/db-config.php';
 

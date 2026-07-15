@@ -90,7 +90,7 @@ $captionHtml = ah_feature_normalize_caption(isset($featureCaption) ? $featureCap
 							<input type="hidden" name="page" value="<?php echo $url; ?>">
 							<input type="hidden" name="engine" value="">
 							<input type="hidden" name="keyword" value="">
-							<input type="hidden" name="gclid" value="<?= isset($_GET['gclid']) ? $_GET['gclid'] : '' ?>">
+							<input type="hidden" name="gclid" value="<?= htmlspecialchars(isset($_GET['gclid']) ? $_GET['gclid'] : '', ENT_QUOTES, 'UTF-8') ?>">
 							<input type="hidden" name="notes" value="">
 
 							<?php
@@ -110,24 +110,24 @@ $captionHtml = ah_feature_normalize_caption(isset($featureCaption) ? $featureCap
 							];
 							foreach ($passThroughFields as $field) {
 								if (isset($_GET[$field])) {
-									echo '<input name="' . $field . '" type="hidden" value="' . $_GET[$field] . '">';
+									echo '<input name="' . htmlspecialchars($field, ENT_QUOTES, 'UTF-8') . '" type="hidden" value="' . htmlspecialchars($_GET[$field], ENT_QUOTES, 'UTF-8') . '">';
 								}
 							}
 
 							if (isset($_GET['utm_campaign'])) {
-								echo '<input name="adset_id" type="hidden" value="' . $_GET['utm_campaign'] . '">';
+								echo '<input name="adset_id" type="hidden" value="' . htmlspecialchars($_GET['utm_campaign'], ENT_QUOTES, 'UTF-8') . '">';
 							}
 
 							if (isset($_GET['ad_id'])) {
-								echo '<input name="ad_id" type="hidden" value="' . $_GET['ad_id'] . '">';
+								echo '<input name="ad_id" type="hidden" value="' . htmlspecialchars($_GET['ad_id'], ENT_QUOTES, 'UTF-8') . '">';
 							} elseif (isset($_GET['utm_agid'])) {
-								echo '<input name="ad_id" type="hidden" value="' . $_GET['utm_agid'] . '">';
+								echo '<input name="ad_id" type="hidden" value="' . htmlspecialchars($_GET['utm_agid'], ENT_QUOTES, 'UTF-8') . '">';
 							} elseif (isset($_SESSION['ad_id']) && !empty($_SESSION['ad_id'])) {
-								echo '<input name="ad_id" type="hidden" value="' . $_SESSION['ad_id'] . '">';
+								echo '<input name="ad_id" type="hidden" value="' . htmlspecialchars($_SESSION['ad_id'], ENT_QUOTES, 'UTF-8') . '">';
 							}
 
 							$pubId = isset($_GET['Pub_ID']) ? $_GET['Pub_ID'] : 'K-1';
-							echo '<input name="Pub_ID" type="hidden" value="' . $pubId . '">';
+							echo '<input name="Pub_ID" type="hidden" value="' . htmlspecialchars($pubId, ENT_QUOTES, 'UTF-8') . '">';
 							?>
 
 							<input id="zip" name="zip" type="tel" pattern="\d{5}" maxlength="5" required="" placeholder="Zip code..." class="mx-auto h2 text-center mb-0 py-2 w-100" value="<?= $zipValue ?>">

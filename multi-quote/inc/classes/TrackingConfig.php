@@ -1,9 +1,9 @@
 <?php /*
 class TrackingConfig {
     private static $campaigns = [
-        'fb' => ['type' => 19, 'src' => 'Infinix-KFB'],
+        'fb' => ['type' => 19, 'src' => 'Infinix-MFB'],
         'search_partners' => ['type' => 29, 'src' => 'InfinixMedia-Ksp'],
-        'default' => ['type' => 24, 'src' => 'Infinix-K-Ping']
+        'default' => ['type' => 24, 'src' => 'Infinix-M-Ping']
     ];
     
     private static $trackingParams = [
@@ -33,10 +33,10 @@ class TrackingConfig {
 class TrackingConfig
 {
     private static $campaigns = [
-        'fb' => ['type' => 19, 'src' => 'Infinix-KFB'],
-        'search_partners' => ['type' => 29, 'src' => 'InfinixMedia-Ksp'],
-        'usha' => ['type' => 24, 'src' => 'Infinix-K-PingU'],
-        'default' => ['type' => 24, 'src' => 'Infinix-K-Ping']
+        // 'fb' => ['type' => 19, 'src' => 'Infinix-MFB'],
+        // 'search_partners' => ['type' => 29, 'src' => 'Infinix-Msp'],
+        // 'usha' => ['type' => 24, 'src' => 'Infinix-M-PingU'],
+        'default' => ['type' => 24, 'src' => 'Infinix-M-Out']
     ];
 
     // Primary tracking parameter mapping

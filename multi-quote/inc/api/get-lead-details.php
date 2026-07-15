@@ -6,12 +6,11 @@
 
 session_start();
 
-// Check authentication (optional for testing)
-if (!isset($_SESSION['admin_authenticated'])) {
-    // Commented out for testing - uncomment in production
-    // http_response_code(401);
-    // echo json_encode(['error' => 'Unauthorized']);
-    // exit;
+// Check authentication
+if (!isset($_SESSION['admin_authenticated']) || $_SESSION['admin_authenticated'] !== true) {
+    http_response_code(401);
+    echo json_encode(['error' => 'Unauthorized']);
+    exit;
 }
 
 header('Content-Type: application/json');

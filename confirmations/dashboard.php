@@ -25,6 +25,57 @@ function query_result($conn, $sql) {
     return $result;
 }
 
+function query_count_like($conn, $table, $search) {
+    if ($search === '') {
+        $result = mysqli_query($conn, "SELECT COUNT(*) as total FROM {$table}");
+        if (!$result) {
+            return 0;
+        }
+        $row = mysqli_fetch_assoc($result);
+        return (int)($row['total'] ?? 0);
+    }
+
+    $stmt = $conn->prepare("SELECT COUNT(*) as total FROM {$table} WHERE email LIKE ? OR ip_address LIKE ?");
+    if (!$stmt) {
+        return 0;
+    }
+
+    $pattern = '%' . $search . '%';
+    $stmt->bind_param('ss', $pattern, $pattern);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result ? $result->fetch_assoc() : ['total' => 0];
+    $stmt->close();
+
+    return (int)($row['total'] ?? 0);
+}
+
+function query_rows_like($conn, $table, $search, $offset, $limit) {
+    if ($search === '') {
+        $stmt = $conn->prepare("SELECT * FROM {$table} ORDER BY ID DESC LIMIT ?, ?");
+        if (!$stmt) {
+            return null;
+        }
+        $stmt->bind_param('ii', $offset, $limit);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+        return $result;
+    }
+
+    $stmt = $conn->prepare("SELECT * FROM {$table} WHERE email LIKE ? OR ip_address LIKE ? ORDER BY ID DESC LIMIT ?, ?");
+    if (!$stmt) {
+        return null;
+    }
+
+    $pattern = '%' . $search . '%';
+    $stmt->bind_param('ssii', $pattern, $pattern, $offset, $limit);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $stmt->close();
+    return $result;
+}
+
 // Get IP address
 function getClientIP() {
     $ip_keys = ['HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR'];
@@ -99,7 +150,7 @@ $stats['total_banned'] = query_count($conn, "SELECT COUNT(*) as count FROM badem
 $stats['week_leads'] = query_count($conn, "SELECT COUNT(*) as count FROM leads WHERE YEARWEEK(timestamp) = YEARWEEK(NOW())");
 
 // Get search parameter
-$search = isset($_GET['search']) ? mysqli_real_escape_string($conn, $_GET['search']) : '';
+$search = isset($_GET['search']) ? trim((string)$_GET['search']) : '';
 $view = isset($_GET['view']) ? $_GET['view'] : 'leads';
 
 // Pagination
@@ -443,17 +494,10 @@ $offset = ($page - 1) * $limit;
             <div class="table-container">
                 <?php if ($view == 'leads'): ?>
                     <?php
-                    $where = "";
-                    if ($search) {
-                        $where = "WHERE email LIKE '%$search%' OR ip_address LIKE '%$search%'";
-                    }
-                    
-                    $count_query = "SELECT COUNT(*) as total FROM leads $where";
-                    $total_records = query_count($conn, $count_query, 'total');
+                    $total_records = query_count_like($conn, 'leads', $search);
                     $total_pages = ceil($total_records / $limit);
-                    
-                    $query = "SELECT * FROM leads $where ORDER BY ID DESC LIMIT $offset, $limit";
-                    $result = query_result($conn, $query);
+
+                    $result = query_rows_like($conn, 'leads', $search, $offset, $limit);
                     ?>
                     
                     <div class="table-responsive">
@@ -501,17 +545,10 @@ $offset = ($page - 1) * $limit;
                     
                 <?php else: ?>
                     <?php
-                    $where = "";
-                    if ($search) {
-                        $where = "WHERE email LIKE '%$search%' OR ip_address LIKE '%$search%'";
-                    }
-                    
-                    $count_query = "SELECT COUNT(*) as total FROM bademail $where";
-                    $total_records = query_count($conn, $count_query, 'total');
+                    $total_records = query_count_like($conn, 'bademail', $search);
                     $total_pages = ceil($total_records / $limit);
-                    
-                    $query = "SELECT * FROM bademail $where ORDER BY ID DESC LIMIT $offset, $limit";
-                    $result = query_result($conn, $query);
+
+                    $result = query_rows_like($conn, 'bademail', $search, $offset, $limit);
                     ?>
                     
                     <div class="table-responsive">

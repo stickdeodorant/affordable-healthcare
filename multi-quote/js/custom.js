@@ -625,13 +625,13 @@ $(document).ready(function () {
             $('#type').val('23');
             $('input[name="SRC"]').val('WebPostMk');
             $('#src').val('WebPostMk');
-        } else if ($('#src').val() == 'Infinix-K-PingU') {
+        } else if ($('#src').val() == 'Infinix-M-PingU') {
             $('#type').val('24');
-            $('#src').val('Infinix-K-PingU');
+            $('#src').val('Infinix-M-PingU');
         } else {
             // Default values from the original
             $('#type').val('24');
-            $('#src').val('Infinix-K-Ping');
+            $('#src').val('Infinix-M-Ping');
         }
     }
 
@@ -719,7 +719,7 @@ $(document).ready(function () {
         sessionStorage.setItem('redirectType', type);
 
         // Get SRC value
-        var src = $('#src').val() || $('input[name="SRC"]').val() || 'Infinix-K-Ping';
+        var src = $('#src').val() || $('input[name="SRC"]').val() || 'Infinix-M-Ping';
 
         // Build redirect URL
         var urlParams = '?type=' + type +
@@ -1305,7 +1305,7 @@ $(document).ready(function () {
                 first_name: firstName,
                 did: sessionStorage.getItem('did') || 'standard',
                 Household: localStorage.getItem('Household') || $('#household').val() || '1',
-                src: btoa($('#src').val() || 'Infinix-K-Ping')
+                src: btoa($('#src').val() || 'Infinix-M-Ping')
             };
 
             console.log('Building redirect with params:', params);
@@ -1555,7 +1555,7 @@ $(document).ready(function () {
                 first_name: firstName,
                 did: sessionStorage.getItem('did') || 'standard',
                 Household: localStorage.getItem('Household') || '1',
-                src: btoa($('#src').val() || 'Infinix-K-Ping'),
+                src: btoa($('#src').val() || 'Infinix-M-Ping'),
                 email: localStorage.getItem('Email') || $('#email').val() || '',
                 phone: localStorage.getItem('Primary_Phone') || $('#phone').val() || ''
             };

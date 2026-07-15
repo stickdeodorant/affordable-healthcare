@@ -19,9 +19,8 @@ class SessionManager {
             
             session_name(self::$sessionName);
             session_start();
-            
-            // TEMPORARILY DISABLE session regeneration for debugging
-            // self::regenerateSession();
+
+            self::regenerateSession();
         }
     }
     

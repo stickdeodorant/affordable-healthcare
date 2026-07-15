@@ -567,7 +567,7 @@ $redirectParams = [
     'age' => $_POST['Age'] ?? '',
     'first_name' => $sanitizedData['First_Name'] ?? '',
     'did' => $_POST['did'] ?? 'standard',
-    'src' => base64_encode($_POST['SRC'] ?? 'Infinix-K-Ping')
+    'src' => base64_encode($_POST['SRC'] ?? 'Infinix-M-Ping')
 ];
 
 // Add submission status
