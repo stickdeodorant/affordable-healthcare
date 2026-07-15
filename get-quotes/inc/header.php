@@ -71,7 +71,7 @@ $phonemin = array_map(function($val) {
 				<!-- End Google Tag Manager -->
 			<?php endforeach; ?>
 
-			<?php if (!empty($googleAdsIds) || !empty($gaIds)): ?>
+			<?php /* if (!empty($googleAdsIds) || !empty($gaIds)): ?>
 				<?php $gtagBootstrapId = $googleAdsIds[0] ?? ($gaIds[0] ?? ''); ?>
 				<?php if (!empty($gtagBootstrapId)): ?>
 					<script async src="https://www.googletagmanager.com/gtag/js?id=<?= htmlspecialchars($gtagBootstrapId, ENT_QUOTES, 'UTF-8'); ?>"></script>
@@ -87,7 +87,7 @@ $phonemin = array_map(function($val) {
 					gtag('config', '<?= htmlspecialchars($gaId, ENT_QUOTES, 'UTF-8'); ?>');
 					<?php endforeach; ?>
 				</script>
-			<?php endif; ?>
+			<?php endif; */ ?>
 
 		<?php } ?>
 

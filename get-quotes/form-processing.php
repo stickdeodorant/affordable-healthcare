@@ -17,9 +17,9 @@ header('Content-Type: application/json');
 
 // Database configuration (env overrides, legacy defaults for production safety)
 $dbHost = env('DB_HOST', 'localhost');
-$dbUser = env('DB_USER', 'healthca_leads');
+$dbUser = env('DB_USER', 'afford_leads');
 $dbPass = env('DB_PASS', '');
-$dbName = env('DB_NAME', 'healthca_leads');
+$dbName = env('DB_NAME', 'afford_leads');
 
 $boberdooUrl = env('BOBERDOO_URL', 'https://infinixmedia.leadportal.com/genericPostlead.php?');
 $enableLeadPost = env_bool('ENABLE_BOBERDOO_POST', true);

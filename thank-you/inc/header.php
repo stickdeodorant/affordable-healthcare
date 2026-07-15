@@ -8,59 +8,6 @@
 <!DOCTYPE html>
 <?php 
     $_SESSION['gclid'] = $_GET['gclid'];
-    
-	$url = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-	if (strpos($url,'alpha') !== false) {
-			$phoneVer = 'kobe1';
-			$_SESSION['typ_phone'] = 'kobe_typ';
-			$phoneVer = 'kobe2';
-	} else {
-		$phoneVersion = $_GET['num'];
-		if ($phoneVersion == '1') {
-			$phoneVer = 'kobe1';
-		} else if ($phoneVersion == '2') {
-			$phoneVer = 'kobe2';
-		} else if ($phoneVersion == '3') {
-			$phoneVer = 'kobe3';
-		} else {
-			$phoneVer = 'popup';
-		}
-	}
-
-	if (isset($_GET['fb'])) {
-		$_SESSION['fb'] = $_GET['fb'];
-	}
-
-	if (isset($_GET['campaign'])) {
-		if ($_GET['campaign'] != 'Magenta') {
-			
-			if ($_GET['campaign'] == 'Fa1') {
-				$_SESSION['campaign'] = 'Falcons1';
-			} else if ($_GET['campaign'] == 'Fa2') {
-				$_SESSION['campaign'] = 'Falcons2';
-			} else if ($_GET['campaign'] == 'Fa3') {
-				$_SESSION['campaign'] = 'Falcons3';
-			} else {
-				$_SESSION['campaign'] = $_GET['campaign'];
-			}
-
-		} else {
-
-			$_SESSION['campaign'] = 'Magenta';
-			
-		}
-	
-		if (isset($_GET['affiliate_ID'])) {
-			$_SESSION['affiliate_ID'] = $_GET['affiliate_ID'];
-		}
-
-		if (isset($_GET['HIT_ID'])) {
-			$_SESSION['HIT_ID'] = $_GET['HIT_ID'];
-		}
-		if (isset($_GET['Sub_ID'])) {
-			$_SESSION['Sub_ID'] = $_GET['Sub_ID'];
-		}
-	}
 
 	if(isset($_GET['Notes'])) { 
 		$_SESSION['Notes'] = $_GET['Notes'];

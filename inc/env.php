@@ -189,9 +189,9 @@ if (!function_exists('get_db_config')) {
     function get_db_config() {
         return [
             'host' => env('DB_HOST', 'localhost'),
-            'user' => env('DB_USER', 'healthca_leads'),
+            'user' => env('DB_USER', 'afford_leads'),
             'pass' => env('DB_PASS', ''),
-            'name' => env('DB_NAME', 'healthca_leads'),
+            'name' => env('DB_NAME', 'afford_leads'),
         ];
     }
 }
