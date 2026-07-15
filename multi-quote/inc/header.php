@@ -5,9 +5,9 @@
 <!DOCTYPE html>
 <?php include 'inc/globalvars.php';
 	$analyticsEnabled = isset($enableAnalytics) ? $enableAnalytics : true;
-	$gtmContainers = isset($gtm_containers) ? $gtm_containers : ['GTM-5DHQH9H', 'GTM-NGLCRXJH', 'GTM-MJMNPM5'];
-	$googleAdsIds = isset($google_ads_ids) ? $google_ads_ids : ['AW-340114397'];
-	$gaIds = isset($ga_measurement_ids) ? $ga_measurement_ids : ['UA-203937944-1', 'UA-203921006-1'];
+	$gtmContainers = isset($gtm_containers) ? $gtm_containers : ['GTM-KPSJW24'];
+	// $googleAdsIds = isset($google_ads_ids) ? $google_ads_ids : ['AW-340114397'];
+	// $gaIds = isset($ga_measurement_ids) ? $ga_measurement_ids : ['UA-203937944-1', 'UA-203921006-1'];
 ?>
 
 <html lang="en" >
@@ -27,7 +27,7 @@
 			<!-- End Google Tag Manager -->
 		<?php endforeach; ?>
 
-		<?php if (!empty($googleAdsIds) || !empty($gaIds)): ?>
+		<?php /* if (!empty($googleAdsIds) || !empty($gaIds)): ?>
 			<?php $gtagBootstrapId = $googleAdsIds[0] ?? ($gaIds[0] ?? ''); ?>
 			<?php if (!empty($gtagBootstrapId)): ?>
 				<script async src="https://www.googletagmanager.com/gtag/js?id=<?= htmlspecialchars($gtagBootstrapId, ENT_QUOTES, 'UTF-8'); ?>"></script>
@@ -43,10 +43,9 @@
 				gtag('config', '<?= htmlspecialchars($gaId, ENT_QUOTES, 'UTF-8'); ?>');
 				<?php endforeach; ?>
 			</script>
-		<?php endif; ?>
+		<?php endif; */ ?>
 	<?php endif; ?>
 	<link rel='stylesheet' href='../css/bootstrap.min.css'>
-	<?php /*<link rel='stylesheet' href='/css/fonts.css'>*/ ?>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" integrity="sha512-yHknP1/AwR+yx26cB1y0cjvQUMvEa2PFzt1c9LlS4pRQ5NOTZFWbhBig+X9G9eYW/8m0/4OXNx8pxJ6z57x0dw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css">

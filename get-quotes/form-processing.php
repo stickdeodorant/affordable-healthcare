@@ -6,6 +6,7 @@ $appDebug = env_bool('APP_DEBUG', $appEnv !== 'production');
 
 ini_set('display_errors', $appDebug ? '1' : '0');
 error_reporting($appDebug ? E_ALL : E_ALL & ~E_NOTICE);
+header('Content-Type: application/json');
 /**********************************************************
  * 
  * Checking Email Isn't Blacklisted 
@@ -28,7 +29,8 @@ $mysqli = new mysqli($dbHost, $dbUser, $dbPass, $dbName);
 
 // Check connection
 if ($mysqli->connect_error) {
-    die(json_encode(['error' => "Connection failed: " . $mysqli->connect_error]));
+    $message = $appDebug ? ("Connection failed: " . $mysqli->connect_error) : 'Database connection failed';
+    die(json_encode(['error' => $message]));
 }
 
 // Ensure email and phone number are provided
@@ -59,7 +61,7 @@ if ($row = $result->fetch_assoc()) {
 
         // Update the blacklist entry to include phone number
         $updateStmt = $mysqli->prepare("UPDATE email_blacklist SET block_until = DATE_ADD(NOW(), INTERVAL 8 HOUR), submission_count = ?, is_permanent = ?, phone = ? WHERE email = ? OR phone = ?");
-        $updateStmt->bind_param("iissss", $submission_count, $is_permanent, $phone, $email, $phone);
+        $updateStmt->bind_param("iisss", $submission_count, $is_permanent, $phone, $email, $phone);
         $updateStmt->execute();
         $updateStmt->close();
         
@@ -116,11 +118,31 @@ $data = array_merge([
 $postdata = http_build_query($data);
 
 if ($enableLeadPost) {
+    if (empty($boberdooUrl)) {
+        error_log('form-processing.php error: BOBERDOO_URL is empty');
+        echo json_encode(['error' => 'Lead service URL is not configured']);
+        $mysqli->close();
+        exit;
+    }
+
     $cURLConnection = curl_init($boberdooUrl);
+    curl_setopt($cURLConnection, CURLOPT_POST, true);
     curl_setopt($cURLConnection, CURLOPT_POSTFIELDS, $postdata);
     curl_setopt($cURLConnection, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($cURLConnection, CURLOPT_TIMEOUT, 30);
+    curl_setopt($cURLConnection, CURLOPT_SSL_VERIFYHOST, 2);
+    curl_setopt($cURLConnection, CURLOPT_SSL_VERIFYPEER, 1);
 
     $apiResponse = curl_exec($cURLConnection);
+    if ($apiResponse === false) {
+        $curlError = curl_error($cURLConnection);
+        error_log('form-processing.php cURL error: ' . $curlError);
+        curl_close($cURLConnection);
+        echo json_encode(['error' => 'Unable to reach lead API service']);
+        $mysqli->close();
+        exit;
+    }
+
     curl_close($cURLConnection);
 } else {
     $apiResponse = json_encode([
@@ -187,8 +209,6 @@ function sendPermanentBlacklistEmail($email, $phone, $submission_count) {
     }
 }
 
- echo json_encode(['success' => 'Form processed successfully.']);
-
- $mysqli->close();
+$mysqli->close();
 
 ?>

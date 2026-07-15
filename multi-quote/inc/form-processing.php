@@ -351,7 +351,12 @@ $apiResponse = '';
 $httpCode = null;
 
 try {
-    $ch = curl_init('https://infinixmedia.leadportal.com/genericPostlead.php');
+    $boberdooUrl = env('BOBERDOO_URL', 'https://infinixmedia.leadportal.com/genericPostlead.php');
+    if (empty($boberdooUrl)) {
+        throw new Exception('BOBERDOO_URL is not configured');
+    }
+
+    $ch = curl_init($boberdooUrl);
     curl_setopt_array($ch, [
         CURLOPT_POST => true,
         CURLOPT_POSTFIELDS => http_build_query($boberdooData),

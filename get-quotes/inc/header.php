@@ -1,9 +1,7 @@
 <!doctype html>
 <?php include $_SERVER['DOCUMENT_ROOT'] . '/inc/globalvars.php';
 	$analyticsEnabled = isset($enableAnalytics) ? $enableAnalytics : true;
-	$gtmContainers = isset($gtm_containers) ? $gtm_containers : ['GTM-5DHQH9H', 'GTM-NGLCRXJH', 'GTM-MJMNPM5'];
-	$googleAdsIds = isset($google_ads_ids) ? $google_ads_ids : ['AW-340114397'];
-	$gaIds = isset($ga_measurement_ids) ? $ga_measurement_ids : ['UA-203937944-1', 'UA-203921006-1'];
+	$gtmContainers = isset($gtm_containers) ? $gtm_containers : ['GTM-KPSJW24'];
 ?>
 <?php 
 $phonemin = array_map(function($val) {

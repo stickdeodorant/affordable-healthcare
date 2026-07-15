@@ -13,9 +13,9 @@ $siteurl = env('APP_URL', (isset($_SERVER['HTTPS']) ? 'https' : 'http') . '://' 
 $url = isset($_SERVER['REQUEST_URI']) ? $siteurl . $_SERVER['REQUEST_URI'] : $siteurl;
 
 // Tracking / Marketing
-$gtm_containers = env_array('GTM_CONTAINERS', ['GTM-5DHQH9H', 'GTM-NGLCRXJH', 'GTM-MJMNPM5']);
-$google_ads_ids = env_array('GOOGLE_ADS_IDS', ['AW-340114397']);
-$ga_measurement_ids = env_array('GA_MEASUREMENT_IDS', ['UA-203937944-1', 'UA-203921006-1']);
+$gtm_containers = env_array('GTM_CONTAINERS', ['GTM-KPSJW24']);
+// $google_ads_ids = env_array('GOOGLE_ADS_IDS', ['AW-340114397']);
+// $ga_measurement_ids = env_array('GA_MEASUREMENT_IDS', ['UA-203937944-1', 'UA-203921006-1']);
 $enableAnalytics = env_bool('ENABLE_ANALYTICS', $appEnv !== 'local');
 $conversion_id = env('CONVERSION_ID', '809932216');
 $conversion_label = env('CONVERSION_LABEL', '2jwBCJKU5X8QuKuaggM');
@@ -44,30 +44,12 @@ $pivot_lpid = env('PIVOT_LPID', '1003');
 $year = date('Y');
 $month = date('n');
 $phone = [
-	// 'main' => '1 (888) 686-5921',
-	// 'typ' 		=> '(866) 218-2038',
-	// 'typ' 		=> '(866) 670-5961',
-	'typ' 		=> '(866) 296-4954',
-	// 'popup' 	=> '(866) 218-2178',
-	// 'popup' 	=> '(866) 670-4681',
-	// 'kobe1' 	=> '(855) 329-5850',
-	'kobe1' 	=> '(866) 670-5962',
-	// 'kobe2' 	=> '(855) 296-0322',
-	'kobe2' 	=> '(866) 670-6136',
-	'kobe3' 	=> '(855) 328-3572',
-	'fb-call' 	=> '(866) 209-5909',
-	'fb-typ' 	=> '(866) 670-4518',
-	'email' 	=> '(866) 418-6455',
-	'agent'		=> '(866) 670-4157',
-	'saints-typ'	=> '(866) 274-3950',
-	// 'standard'	=> '(877) 206-5525',
-	// 'premium'	=> '(877) 518-2037',
-	// 'h2'		=> '(855) 296-0322',
-	'medicare'	=> '(888) 670-1899',
-	'popup' 	=> '(866) 302-9552',
-	'standard'	=> '(866) 307-0165',
-	'premium'	=> '(866) 303-4071',
-	'h2'		=> '(866) 231-7963',
+	'typ' => env('PHONE_TYP', '(866) 670-4997'),
+	'popup' => env('PHONE_POPUP', '(866) 670-4993'),
+	'standard' => env('PHONE_STANDARD', '(866) 303-0563'),
+	'premium' => env('PHONE_PREMIUM', '(866) 472-8453'),
+	'h2' => env('PHONE_H2', '(855) 329-5850'),
+	'medicare' => env('PHONE_MEDICARE', '(866) 670-7041')
 ];
 
 $phoneOverrides = json_decode(env('PHONE_OVERRIDES_JSON', ''), true);
