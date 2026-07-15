@@ -638,7 +638,7 @@ $currentIncomeOptions = $incomeMatrix[$currentHousehold];
                                         placeholder="name@email.com"
                                         autocomplete="email"
                                         required
-                                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                                        pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
                                         value="<?= SecurityHelper::escape($_SESSION['form_data']['Email'] ?? '') ?>"
                                         data-parsley-type="email"
                                         data-parsley-error-message="Please enter a valid email address">

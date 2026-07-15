@@ -195,7 +195,7 @@ $did = $_SESSION['did'] ? $_SESSION['did'] : $_GET['did'];
             <div class="modal-body" style="background-color: #ffffff; width: 760px">
                 <a href="tel:<?php echo ($_GET['type'] == 'medicare') ? $phonemin['typ'] : $phonemin[$did]; ?>">
                     <p class="phone-number" style="border: thick;"></p>
-                    <img src="img/call-modal-bg.jpg" alt="" width="726px;">
+                    <img src="../img/call-modal-bg.jpg" alt="" width="726px;">
                 </a>
             </div>
         </div>

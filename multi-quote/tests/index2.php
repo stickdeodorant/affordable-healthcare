@@ -26,7 +26,6 @@
     <link rel="apple-touch-icon" href="./img/favicon.png">
     <link rel="icon" href="./img/favicon.png" type="image/x-icon">
     <script defer src="/fa5/svg-with-js/js/fontawesome-all.min.js"></script>
-    <!-- Additional tracking scripts (Bing, TrustedForm, etc.) -->
 </head>
 
 <body>

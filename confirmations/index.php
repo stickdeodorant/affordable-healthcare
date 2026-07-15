@@ -32,8 +32,6 @@ $conn = get_db_connection();
 	<link rel="apple-touch-icon" href="../img/favicon.png">
 	<link rel="icon" href="../img/favicon.png" type="image/x-icon">
 	<script defer src="/fa5/svg-with-js/js/fontawesome-all.min.js"></script>
-	<!-- Bing 07/29/2021 -->
-	<script>(function(w,d,t,r,u){var f,n,i;w[u]=w[u]||[],f=function(){var o={ti:"134598208"};o.q=w[u],w[u]=new UET(o),w[u].push("pageLoad")},n=d.createElement(t),n.src=r,n.async=1,n.onload=n.onreadystatechange=function(){var s=this.readyState;s&&s!=="loaded"&&s!=="complete"||(f(),n.onload=n.onreadystatechange=null)},i=d.getElementsByTagName(t)[0],i.parentNode.insertBefore(n,i)})(window,document,"script","//bat.bing.com/bat.js","uetq");</script>  
 </head>
 <body>
 	<!-- Google Tag Manager (noscript) -->
