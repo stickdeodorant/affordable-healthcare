@@ -15,6 +15,53 @@
  */
 
 if (!function_exists('env_load')) {
+    function env_parse_file($envPath) {
+        $envData = [];
+
+        if (!is_readable($envPath)) {
+            return $envData;
+        }
+
+        $lines = file($envPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        if ($lines === false) {
+            return $envData;
+        }
+
+        foreach ($lines as $line) {
+            $trimmed = trim($line);
+            if ($trimmed === '' || $trimmed[0] === '#' || $trimmed[0] === ';') {
+                continue;
+            }
+
+            $separatorPos = strpos($line, '=');
+            if ($separatorPos === false) {
+                continue;
+            }
+
+            $key = trim(substr($line, 0, $separatorPos));
+            $value = trim(substr($line, $separatorPos + 1));
+
+            if ($key === '' || preg_match('/\s/', $key)) {
+                continue;
+            }
+
+            $firstChar = substr($value, 0, 1);
+            $lastChar = substr($value, -1);
+            if (($firstChar === '"' && $lastChar === '"') || ($firstChar === "'" && $lastChar === "'")) {
+                $quote = $firstChar;
+                $value = substr($value, 1, -1);
+
+                if ($quote === '"') {
+                    $value = str_replace(['\\"', '\\\\'], ['"', '\\'], $value);
+                }
+            }
+
+            $envData[$key] = $value;
+        }
+
+        return $envData;
+    }
+
     function env_load() {
         static $envData = null;
         if ($envData !== null) {
@@ -24,12 +71,7 @@ if (!function_exists('env_load')) {
         $envData = [];
         $envPath = dirname(__DIR__) . '/.env';
 
-        if (is_readable($envPath)) {
-            $parsed = parse_ini_file($envPath, false, INI_SCANNER_RAW);
-            if ($parsed !== false) {
-                $envData = $parsed;
-            }
-        }
+        $envData = env_parse_file($envPath);
 
         return $envData;
     }
