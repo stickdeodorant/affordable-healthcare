@@ -129,7 +129,7 @@ if (isset($data['TYPE']) && $data['TYPE'] !== '') {
 } elseif (isset($data['lead_type']) && $data['lead_type'] !== '') {
     $leadType = $data['lead_type'];
 } else {
-    $leadType = env('BOBERDOO_DEFAULT_TYPE', '24');
+    $leadType = env('BOBERDOO_DEFAULT_TYPE', '29');
 }
 
 $data['TYPE'] = (string)$leadType;
