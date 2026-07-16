@@ -1364,6 +1364,10 @@ body .ah-hero .ah-layer-mountain {
 
 /* ── Responsive ──────────────────────────────────────────────── */
 @media (max-width: 767px) {
+	body .ah-header .ah-header-note {
+		line-height: 1.1;
+	}
+
 	body .ah-header .ah-header-logo {
 		max-height: 37px;
 	}
@@ -1417,14 +1421,16 @@ body .ah-hero .ah-layer-mountain {
 
 	body .ah-hero .ah-hero-title {
 		font-size: clamp(2rem, 8vw, 2.55rem);
-		max-width: 340px;
+		max-width: 100%;
 		line-height: 1.02;
+		text-align: center;
 	}
 
 	body .ah-hero .ah-hero-sub {
 		max-width: 345px;
 		font-size: 1rem;
 		margin-bottom: 0.75rem;
+		text-align: center;
 	}
 
 	body .ah-hero .ah-zip {
@@ -1439,9 +1445,17 @@ body .ah-hero .ah-layer-mountain {
 		padding: 12px 18px;
 	}
 
+	body .ah-hero .ah-hero-form {
+		align-items: center;
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+	}
+
 	body .ah-hero .zip-caption {
 		font-size: 1.05rem;
 		margin-top: 0.65rem !important;
+		text-align: center;
 	}
 
 	body .ah-hero #secure-icon {
@@ -2188,6 +2202,7 @@ body footer .footer-link-emphasis:hover {
 	display: inline-flex;
 	align-items: center;
 	transition: all 0.3s ease;
+	text-decoration: none;
 }
 
 #lastcall .phone-button:hover {

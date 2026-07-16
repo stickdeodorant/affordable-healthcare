@@ -21,14 +21,7 @@ if ($useMultiQuoteTaboolaDetection) {
 // Optional override: apply multi-quote default phone set when enabled.
 $useMultiQuotePhoneDefaults = env_bool('MQ_USE_PHONE_DEFAULTS', false);
 if ($useMultiQuotePhoneDefaults) {
-	$phone = array_merge($phone, [
-		'typ' => '(866) 670-4997',
-		'medicare' => '(866) 670-7041',
-		'popup' => '(866) 218-3021',
-		'standard' => '(866)218-2607',
-		'premium' => '(866) 218-2178',
-		'h2' => '(866) 207-0495',
-	]);
+	$phone = array_merge($phone, env_phone_defaults());
 }
 
 $phoneOverrides = json_decode(env('PHONE_OVERRIDES_JSON', ''), true);

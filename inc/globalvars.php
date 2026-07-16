@@ -43,14 +43,7 @@ $pivot_lpid = env('PIVOT_LPID', '1003');
 // Dyanmic Date & Time
 $year = date('Y');
 $month = date('n');
-$phone = [
-	'typ' => env('PHONE_TYP', '(866) 670-4997'),
-	'popup' => env('PHONE_POPUP', '(866) 670-4993'),
-	'standard' => env('PHONE_STANDARD', '(866) 303-0563'),
-	'premium' => env('PHONE_PREMIUM', '(866) 472-8453'),
-	'h2' => env('PHONE_H2', '(855) 329-5850'),
-	'medicare' => env('PHONE_MEDICARE', '(866) 670-7041')
-];
+$phone = env_phone_defaults();
 
 $phoneOverrides = json_decode(env('PHONE_OVERRIDES_JSON', ''), true);
 if (is_array($phoneOverrides)) {

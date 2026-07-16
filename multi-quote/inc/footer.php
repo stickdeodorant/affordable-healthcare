@@ -233,9 +233,7 @@
 </script>
 <noscript><img height="1" width="1" src="https://www.facebook.com/tr?id=1459473901156680&ev=PageView &noscript=1" /></noscript>
 <!-- End Facebook Pixel Code -->
-<?php if ($call_now === 'true') { ?>
-	<script type="text/javascript" src="//cdn.callrail.com/companies/447996446/375307dddfb93a0d4e5c/12/swap.js"></script>
-<?php } ?>
+<script type="text/javascript" src="//cdn.callrail.com/companies/631399289/2dc49fb8bb1148ee6b02/12/swap.js"></script>
 </body>
 
 </html>

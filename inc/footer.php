@@ -128,9 +128,9 @@
 										<div class="modal-text-section">
 											<h2 class="modal-title-custom">Looking For Affordable<br>Health Plans?</h2>
 
-											<a href="tel:<?= $phone[$phoneVer] ?>" class="phone-button">
+											<a href="tel:<?= $phonemin['popup'] ?>" class="phone-button">
 												<i class="ti ti-phone"></i>&nbsp;
-												<?= $phone[$phoneVer] ?>
+												<?= $phone['popup'] ?>
 											</a>
 
 											<p class="modal-description">
@@ -169,12 +169,12 @@
 													Looking For Affordable Health Plans?
 												</h3>
 												<div class="call-btn call-content col-auto">
-												<a class="ringpool click-to-call-only" href="tel:<?= $phone[$phoneVer] ?>">
+													<a class="ringpool click-to-call-only" href="tel:<?= $phonemin['popup'] ?>">
 													<div class="phone-text modal-phone-number d-flex align-items-center">
 														<svg xmlns="http://www.w3.org/2000/svg" width="35.675" height="40" class="icon-phone" fill="#FFF">
 															<path d="M4.292 2.353S-2.582 7.708 1.07 17.338s7.854 16.674 15.8 20.953 12.988-.835 12.988-.835L21.26 25.9s-3.653 6.422-9.236-.213c-4.083-5.14-4.514-8.56.214-11.77C12.47 9.317 6.212 2.9 4.29 2.354zm13.2 6.14l.285 3.8a5.96 5.96 0 015.081 2.251c.914 1.3 1.342 2.42.564 5.908a31.58 31.58 0 013.668 1.685s1.837-6.6-1.4-10.405a9.03 9.03 0 00-8.188-3.239zm.7-3.794l.064-4.7s11.236.57 15.317 8.915a22.485 22.485 0 01.8 16.98l-4.08-2.136s2.342-8.6-1.72-13.913A13.47 13.47 0 0018.192 4.7z"></path>
 														</svg>
-														<span class="phone-number"><?= $phone[$phoneVer] ?></span>
+															<span class="phone-number"><?= $phone['popup'] ?></span>
 													</div>
 												</a>
 											</div>
@@ -244,9 +244,7 @@
 					</script>
 					<noscript><img height="1" width="1" src="https://www.facebook.com/tr?id=1459473901156680&ev=PageView &noscript=1" /></noscript>
 					<!-- End Facebook Pixel Code -->
-					<?php if ($call_now === 'true') { ?>
-						<script type="text/javascript" src="//cdn.callrail.com/companies/447996446/375307dddfb93a0d4e5c/12/swap.js"></script>
-					<?php } ?>
+									<script type="text/javascript" src="//cdn.callrail.com/companies/631399289/2dc49fb8bb1148ee6b02/12/swap.js"></script>
 					<input type="hidden" value="<?= $current_date ?>" />
 					<input type="hidden" value="changes working" />
 					</body>

@@ -238,6 +238,19 @@ if (!function_exists('get_db_config')) {
     }
 }
 
+if (!function_exists('env_phone_defaults')) {
+    function env_phone_defaults() {
+        return [
+            'typ' => env('PHONE_TYP', '(866) 670-4997'),
+            'medicare' => env('PHONE_MEDICARE', '(866) 670-7041'),
+            'popup' => env('PHONE_POPUP', '(866) 670-4993'),
+            'standard' => env('PHONE_STANDARD', '(866) 303-0563'),
+            'premium' => env('PHONE_PREMIUM', '(866) 472-8453'),
+            'h2' => env('PHONE_H2', '(855) 329-5850'),
+        ];
+    }
+}
+
 /**
  * Create a mysqli connection using env config
  */

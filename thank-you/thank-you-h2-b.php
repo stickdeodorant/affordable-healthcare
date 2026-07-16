@@ -260,7 +260,7 @@ $('a[data-target="#myModal"]').click(function() {
 <script>fbq('track', 'Contact');</script>
 
 <?php if($call_now === 'true') { ?>
-	<script type="text/javascript" src="//cdn.callrail.com/companies/447996446/375307dddfb93a0d4e5c/12/swap.js"></script>
+	<script type="text/javascript" src="//cdn.callrail.com/companies/631399289/2dc49fb8bb1148ee6b02/12/swap.js"></script>
 <?php } ?>
 
 <script>
