@@ -25,12 +25,21 @@ $boberdooUrl = env('BOBERDOO_URL', 'https://infinixmedia.leadportal.com/genericP
 $enableLeadPost = env_bool('ENABLE_BOBERDOO_POST', true);
 
 // Create connection
-$mysqli = new mysqli($dbHost, $dbUser, $dbPass, $dbName);
+$mysqli = null;
+mysqli_report(MYSQLI_REPORT_OFF);
+try {
+    $mysqli = @new mysqli($dbHost, $dbUser, $dbPass, $dbName);
+} catch (Throwable $e) {
+    $message = $appDebug ? ('Database connection failed: ' . $e->getMessage()) : 'Database connection failed';
+    echo json_encode(['error' => $message]);
+    exit;
+}
 
 // Check connection
-if ($mysqli->connect_error) {
-    $message = $appDebug ? ("Connection failed: " . $mysqli->connect_error) : 'Database connection failed';
-    die(json_encode(['error' => $message]));
+if (!$mysqli || $mysqli->connect_errno) {
+    $message = $appDebug ? ('Connection failed: ' . ($mysqli ? $mysqli->connect_error : 'unknown')) : 'Database connection failed';
+    echo json_encode(['error' => $message]);
+    exit;
 }
 
 // Ensure email and phone number are provided
