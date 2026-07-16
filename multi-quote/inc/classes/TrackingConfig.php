@@ -15,10 +15,7 @@ class TrackingConfig
         'utm_content' => 'ad_id',
         'utm_term' => 'Keyword',
         'AdGroupId' => 'adset_id',
-        'AdId' => 'ad_id',
-        // Taboola
-        't_clickid' => 'taboola_click_id',
-        't_click' => 'taboola_click_id'
+        'AdId' => 'ad_id'
     ];
 
     // Priority mappings - later items override earlier ones
@@ -38,9 +35,6 @@ class TrackingConfig
         'referrer' => 'Referrer URL'
     ];
 
-    // Taboola detection keys
-    private static $taboolaKeys = ['t_clickid', 't_click'];
-
     // Legacy tracking params for backward compatibility
     private static $legacyTrackingParams = [
         'gclid' => 'Google Click ID',
@@ -57,32 +51,6 @@ class TrackingConfig
         // Routing is now normalized globally to TYPE 24 / SRC Infinix-M-Out
         // with server-side override for 65+ leads.
         return self::$campaigns['default'];
-    }
-
-    /**
-     * Detect Taboola click
-     */
-    private static function isTaboola($session = [], $get = [])
-    {
-        $source = strtolower($get['utm_source'] ?? $session['utm_source'] ?? '');
-        $hasSource = ($source === 'taboola');
-
-        // Check click id keys
-        foreach (self::$taboolaKeys as $key) {
-            if (!empty($get[$key]) || !empty($session[$key])) {
-                return true;
-            }
-        }
-
-        return $hasSource;
-    }
-
-    /**
-     * Public helper to detect Taboola requests
-     */
-    public static function isTaboolaRequest($session = [], $get = [])
-    {
-        return self::isTaboola($session, $get);
     }
 
     /**
@@ -184,13 +152,6 @@ class TrackingConfig
 
         // Merge page UTM params into tracking data (lower priority than direct params)
         $mergedGet = array_merge($pageUtmParams, $get);
-
-        // Taboola flag
-        $isTaboola = self::isTaboola($session, $mergedGet);
-        $outputFields['is_taboola'] = $isTaboola ? '1' : '0';
-        $output[] = self::createHiddenField('is_taboola', $outputFields['is_taboola']);
-        $emitted['is_taboola'] = true;
-        $debugData['is_taboola'] = $outputFields['is_taboola'];
 
         // First pass - capture base mappings (UTM parameters have lowest priority)
         foreach (self::$trackingMapping as $sourceKey => $targetName) {

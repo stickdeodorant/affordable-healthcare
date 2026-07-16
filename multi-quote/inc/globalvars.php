@@ -1,22 +1,5 @@
 <?php
 require_once __DIR__ . '/../../inc/globalvars.php';
-require_once __DIR__ . '/classes/TrackingConfig.php';
-
-// Optional override: when enabled, use multi-quote TrackingConfig Taboola detection.
-$useMultiQuoteTaboolaDetection = env_bool('MQ_USE_TRACKING_CONFIG_TABOOLA', false);
-if ($useMultiQuoteTaboolaDetection) {
-	$isTaboola = TrackingConfig::isTaboolaRequest($_SESSION, $_GET);
-	$_SESSION['tracking'] = $_SESSION['tracking'] ?? [];
-	$_SESSION['tracking']['utm_source'] = $_GET['utm_source'] ?? '';
-	$_SESSION['tracking']['utm_content'] = $_GET['utm_content'] ?? '';
-	$_SESSION['tracking']['t_clickid'] = $_GET['t_clickid'] ?? ($_GET['t_click'] ?? '');
-	$_SESSION['tracking']['is_taboola'] = $isTaboola;
-
-	$enableAnalytics = env_bool('ENABLE_ANALYTICS', $appEnv !== 'local');
-	if ($isTaboola) {
-		$enableAnalytics = false;
-	}
-}
 
 // Optional override: apply multi-quote default phone set when enabled.
 $useMultiQuotePhoneDefaults = env_bool('MQ_USE_PHONE_DEFAULTS', false);

@@ -20,24 +20,6 @@ $enableAnalytics = env_bool('ENABLE_ANALYTICS', $appEnv !== 'local');
 $conversion_id = env('CONVERSION_ID', '809932216');
 $conversion_label = env('CONVERSION_LABEL', '2jwBCJKU5X8QuKuaggM');
 
-// Taboola campaign tracking
-$utm_source = $_GET['utm_source'] ?? '';
-$utm_content = $_GET['utm_content'] ?? '';
-$taboola_click_id = $_GET['t_clickid'] ?? ($_GET['t_click'] ?? '');
-$isTaboola = ($taboola_click_id !== '') || (strtolower($utm_source) === 'taboola');
-
-// Persist attribution for downstream use
-$_SESSION['tracking'] = $_SESSION['tracking'] ?? [];
-$_SESSION['tracking']['utm_source'] = $utm_source;
-$_SESSION['tracking']['utm_content'] = $utm_content;
-$_SESSION['tracking']['t_clickid'] = $taboola_click_id;
-$_SESSION['tracking']['is_taboola'] = $isTaboola;
-
-// Disable Google/Bing analytics when Taboola click is present
-if ($isTaboola) {
-	$enableAnalytics = false;
-}
-
 // Pivot Integration
 $pivot_lpid = env('PIVOT_LPID', '1003');
 // Dyanmic Date & Time
