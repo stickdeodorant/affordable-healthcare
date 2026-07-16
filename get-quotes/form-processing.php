@@ -121,6 +121,20 @@ $stmt->close();
 $data = $_POST;
 unset($data['Redirect_URL']);
 
+$leadType = null;
+if (isset($data['TYPE']) && $data['TYPE'] !== '') {
+    $leadType = $data['TYPE'];
+} elseif (isset($data['Type']) && $data['Type'] !== '') {
+    $leadType = $data['Type'];
+} elseif (isset($data['lead_type']) && $data['lead_type'] !== '') {
+    $leadType = $data['lead_type'];
+} else {
+    $leadType = env('BOBERDOO_DEFAULT_TYPE', '24');
+}
+
+$data['TYPE'] = (string)$leadType;
+unset($data['Type'], $data['lead_type']);
+
 $data = array_merge([
     'Format' => 'JSON',
 ], $data);
