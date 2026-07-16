@@ -121,18 +121,24 @@ $stmt->close();
 $data = $_POST;
 unset($data['Redirect_URL']);
 
-$leadType = null;
-if (isset($data['TYPE']) && $data['TYPE'] !== '') {
-    $leadType = $data['TYPE'];
-} elseif (isset($data['Type']) && $data['Type'] !== '') {
-    $leadType = $data['Type'];
-} elseif (isset($data['lead_type']) && $data['lead_type'] !== '') {
-    $leadType = $data['lead_type'];
-} else {
-    $leadType = env('BOBERDOO_DEFAULT_TYPE', '29');
+// Server-side enforcement of routing rules:
+// 65+ => TYPE 23 / SRC WebPostM, otherwise TYPE 24 / SRC Infinix-M-Out.
+$ageValue = null;
+if (!empty($data['Age']) && is_numeric($data['Age'])) {
+    $ageValue = (int)$data['Age'];
+} elseif (!empty($data['DOB'])) {
+    $dobTs = strtotime((string)$data['DOB']);
+    if ($dobTs !== false) {
+        $ageValue = (int)floor((time() - $dobTs) / 31556926);
+    }
 }
 
+$isSeniorLead = ($ageValue !== null && $ageValue >= 65);
+$leadType = $isSeniorLead ? '23' : env('BOBERDOO_DEFAULT_TYPE', '24');
+$leadSrc = $isSeniorLead ? 'WebPostM' : env('BOBERDOO_DEFAULT_SRC', 'Infinix-M-Out');
+
 $data['TYPE'] = (string)$leadType;
+$data['SRC'] = (string)$leadSrc;
 unset($data['Type'], $data['lead_type']);
 
 $data = array_merge([

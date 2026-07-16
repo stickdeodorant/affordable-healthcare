@@ -108,6 +108,23 @@ if (!empty($errors)) {
  */
 $sanitizedData['Primary_Phone'] = preg_replace('/\D/', '', $sanitizedData['Primary_Phone']);
 
+$ageValue = null;
+if (!empty($_POST['Age']) && is_numeric($_POST['Age'])) {
+    $ageValue = (int)$_POST['Age'];
+} elseif (!empty($_POST['DOB'])) {
+    $dobTs = strtotime((string)$_POST['DOB']);
+    if ($dobTs !== false) {
+        $ageValue = (int)floor((time() - $dobTs) / 31556926);
+    }
+}
+
+$isSeniorLead = ($ageValue !== null && $ageValue >= 65);
+$normalizedType = $isSeniorLead ? '23' : '24';
+$normalizedSrc = $isSeniorLead ? 'WebPostM' : 'Infinix-M-Out';
+
+$_POST['TYPE'] = $normalizedType;
+$_POST['SRC'] = $normalizedSrc;
+
 /**
  * Capture additional data
  */
@@ -275,8 +292,8 @@ try {
         $_POST['Currently_Insured'] ?? null,
         $_POST['Urgency'] ?? null,
         $_POST['Reason'] ?? null,
-        $_POST['SRC'] ?? null,
-        $_POST['TYPE'] ?? null,
+        $normalizedSrc,
+        $normalizedType,
         $_POST['Campaign'] ?? null,
         $_POST['Sub_ID1'] ?? null,
         $_POST['Sub_ID2'] ?? null,
@@ -353,6 +370,8 @@ if (!$isBlacklisted) {
     
     // Add required Boberdoo fields
     $boberdooData['Format'] = 'JSON';
+    $boberdooData['TYPE'] = $normalizedType;
+    $boberdooData['SRC'] = $normalizedSrc;
     
     // Clean phone number for Boberdoo
     if (isset($boberdooData['Primary_Phone'])) {
@@ -486,9 +505,9 @@ try {
         $sanitizedData['City'],
         $sanitizedData['State'],
         $sanitizedData['Zip'],
-        $_POST['SRC'] ?? null,
+        $normalizedSrc,
         $_POST['Campaign'] ?? null,
-        $_POST['TYPE'] ?? null,
+        $normalizedType,
         $ipAddress,
         $userAgent,
         $historyStatus,
@@ -567,7 +586,7 @@ $redirectParams = [
     'age' => $_POST['Age'] ?? '',
     'first_name' => $sanitizedData['First_Name'] ?? '',
     'did' => $_POST['did'] ?? 'standard',
-    'src' => base64_encode($_POST['SRC'] ?? 'Infinix-M-Ping')
+    'src' => base64_encode($normalizedSrc)
 ];
 
 // Add submission status

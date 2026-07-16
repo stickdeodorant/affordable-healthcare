@@ -1,41 +1,8 @@
-<?php /*
-class TrackingConfig {
-    private static $campaigns = [
-        'fb' => ['type' => 19, 'src' => 'Infinix-MFB'],
-        'search_partners' => ['type' => 29, 'src' => 'InfinixMedia-Ksp'],
-        'default' => ['type' => 24, 'src' => 'Infinix-M-Ping']
-    ];
-    
-    private static $trackingParams = [
-        'gclid' => 'Google Click ID',
-        'msclkid' => 'Microsoft Click ID',
-        'fbclid' => 'Facebook Click ID'
-    ];
-    
-    public static function getCampaignConfig($session) {
-        if (isset($session['fb']) && $session['fb'] === 'true') {
-            return self::$campaigns['fb'];
-        }
-        
-        if (isset($session['search_partners']) && $session['search_partners'] === 'Search_partners') {
-            return self::$campaigns['search_partners'];
-        }
-        
-        return self::$campaigns['default'];
-    }
-    
-    public static function getTrackingParams() {
-        return self::$trackingParams;
-    }
-}
-    */
+<?php
 
 class TrackingConfig
 {
     private static $campaigns = [
-        // 'fb' => ['type' => 19, 'src' => 'Infinix-MFB'],
-        // 'search_partners' => ['type' => 29, 'src' => 'Infinix-Msp'],
-        // 'usha' => ['type' => 24, 'src' => 'Infinix-M-PingU'],
         'default' => ['type' => 24, 'src' => 'Infinix-M-Out']
     ];
 
@@ -86,45 +53,9 @@ class TrackingConfig
      */
     public static function getCampaignConfig($session)
     {
-        // If Taboola flag present, keep campaign mapping but allow downstream tracking to mark is_taboola
-
-        // Priority 1: Check for specific campaign in session
-        if (isset($session['campaign'])) {
-            $campaign = strtolower($session['campaign']);
-
-            // Check if this campaign exists in our configuration
-            if (isset(self::$campaigns[$campaign])) {
-                return self::$campaigns[$campaign];
-            }
-
-            // Handle special campaign mappings
-            switch ($campaign) {
-                case 'usha':
-                    return self::$campaigns['usha'];
-                case 'fb':
-                case 'facebook':
-                    return self::$campaigns['fb'];
-                case 'search_partners':
-                case 'sp':
-                    return self::$campaigns['search_partners'];
-            }
-        }
-
-        // Priority 2: Check legacy parameters
-        if (isset($session['fb']) && $session['fb'] === 'true') {
-            return self::$campaigns['fb'];
-        }
-
-        if (isset($session['search_partners']) && $session['search_partners'] === 'Search_partners') {
-            return self::$campaigns['search_partners'];
-        }
-
-        // Priority 3: Check for usha as separate parameter
-        if (isset($session['usha']) && in_array($session['usha'], ['true', '1', 'yes', 'usha'])) {
-            return self::$campaigns['usha'];
-        }
-
-        // Default fallback
+        // Campaign/source specific routing is intentionally removed.
+        // Routing is now normalized globally to TYPE 24 / SRC Infinix-M-Out
+        // with server-side override for 65+ leads.
         return self::$campaigns['default'];
     }
 

@@ -347,10 +347,24 @@ function submitToBoberdoo($formData) {
     $api_url = 'https://leads.boberdoo.com/leadimport.aspx';
     $api_key = 'YOUR_API_KEY'; // Update with actual API key
     
+    $ageValue = null;
+    if (!empty($formData['Age']) && is_numeric($formData['Age'])) {
+        $ageValue = (int)$formData['Age'];
+    } elseif (!empty($formData['DOB'])) {
+        $dobTs = strtotime((string)$formData['DOB']);
+        if ($dobTs !== false) {
+            $ageValue = (int)floor((time() - $dobTs) / 31556926);
+        }
+    }
+
+    $isSeniorLead = ($ageValue !== null && $ageValue >= 65);
+    $normalizedType = $isSeniorLead ? '23' : '24';
+    $normalizedSrc = $isSeniorLead ? 'WebPostM' : 'Infinix-M-Out';
+
     // Build Boberdoo request
     $boberdooData = [
-        'TYPE' => '85',
-        'SRC' => 'InfinixMedia',
+        'TYPE' => $normalizedType,
+        'SRC' => $normalizedSrc,
         'Landing_Page' => 'affordable-healthcare.com',
         'IP_Address' => $formData['ip_address'] ?? $_SERVER['REMOTE_ADDR'],
         'First_Name' => $formData['First_Name'] ?? '',

@@ -530,7 +530,7 @@ $failedTests = [];
                     <input type="hidden" name="Currently_Insured" value="Yes">
                     <input type="hidden" name="Urgency" value="30days">
                     <input type="hidden" name="Reason" value="Testing">
-                    <input type="hidden" name="SRC" value="Test">
+                    <input type="hidden" name="SRC" value="Infinix-M-Out">
                     <input type="hidden" name="TYPE" value="24">
                     <input type="hidden" name="Redirect_URL" value="/multi-quote/thank-you/test.php">
                 </form>

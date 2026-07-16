@@ -110,6 +110,23 @@ if (!empty($errors)) {
 // Process phone number
 $sanitizedData['Primary_Phone'] = preg_replace('/\D/', '', $sanitizedData['Primary_Phone']);
 
+$ageValue = null;
+if (!empty($_POST['Age']) && is_numeric($_POST['Age'])) {
+    $ageValue = (int)$_POST['Age'];
+} elseif (!empty($_POST['DOB'])) {
+    $dobTs = strtotime((string)$_POST['DOB']);
+    if ($dobTs !== false) {
+        $ageValue = (int)floor((time() - $dobTs) / 31556926);
+    }
+}
+
+$isSeniorLead = ($ageValue !== null && $ageValue >= 65);
+$normalizedType = $isSeniorLead ? '23' : '24';
+$normalizedSrc = $isSeniorLead ? 'WebPostM' : 'Infinix-M-Out';
+
+$_POST['TYPE'] = $normalizedType;
+$_POST['SRC'] = $normalizedSrc;
+
 // Extract email and phone for easier access
 $email = $sanitizedData['Email'];
 $phone = $sanitizedData['Primary_Phone'];
@@ -221,7 +238,7 @@ try {
     // Extract additional fields
     $dob = isset($_POST['DOB']) ? $_POST['DOB'] : null;
     $age = $_POST['Age'] ?? null;
-    $src = $_POST['SRC'] ?? $_POST['source'] ?? null;
+    $src = $normalizedSrc;
     $campaign = $_POST['campaign'] ?? null;
     $subId1 = $_POST['Sub_ID1'] ?? $_POST['sub_id1'] ?? null;
     $subId2 = $_POST['Sub_ID2'] ?? $_POST['sub_id2'] ?? null;
@@ -340,6 +357,8 @@ unset($boberdooData['Redirect_URL']);
 
 // Format data
 $boberdooData['Format'] = 'JSON';
+$boberdooData['TYPE'] = $normalizedType;
+$boberdooData['SRC'] = $normalizedSrc;
 if (isset($boberdooData['Primary_Phone'])) {
     $boberdooData['Primary_Phone'] = preg_replace('/\D/', '', $boberdooData['Primary_Phone']);
 }

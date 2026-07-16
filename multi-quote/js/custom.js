@@ -623,15 +623,13 @@ $(document).ready(function () {
         if (parseInt(age) >= 65) {
             $('input[name="TYPE"]').val('23');
             $('#type').val('23');
-            $('input[name="SRC"]').val('WebPostMk');
-            $('#src').val('WebPostMk');
-        } else if ($('#src').val() == 'Infinix-M-PingU') {
-            $('#type').val('24');
-            $('#src').val('Infinix-M-PingU');
+            $('input[name="SRC"]').val('WebPostM');
+            $('#src').val('WebPostM');
         } else {
-            // Default values from the original
+            $('input[name="TYPE"]').val('24');
             $('#type').val('24');
-            $('#src').val('Infinix-M-Ping');
+            $('#src').val('Infinix-M-Out');
+            $('input[name="SRC"]').val('Infinix-M-Out');
         }
     }
 
@@ -719,7 +717,7 @@ $(document).ready(function () {
         sessionStorage.setItem('redirectType', type);
 
         // Get SRC value
-        var src = $('#src').val() || $('input[name="SRC"]').val() || 'Infinix-M-Ping';
+        var src = $('#src').val() || $('input[name="SRC"]').val() || 'Infinix-M-Out';
 
         // Build redirect URL
         var urlParams = '?type=' + type +
@@ -1305,7 +1303,7 @@ $(document).ready(function () {
                 first_name: firstName,
                 did: sessionStorage.getItem('did') || 'standard',
                 Household: localStorage.getItem('Household') || $('#household').val() || '1',
-                src: btoa($('#src').val() || 'Infinix-M-Ping')
+                src: btoa($('#src').val() || 'Infinix-M-Out')
             };
 
             console.log('Building redirect with params:', params);
@@ -1555,7 +1553,7 @@ $(document).ready(function () {
                 first_name: firstName,
                 did: sessionStorage.getItem('did') || 'standard',
                 Household: localStorage.getItem('Household') || '1',
-                src: btoa($('#src').val() || 'Infinix-M-Ping'),
+                src: btoa($('#src').val() || 'Infinix-M-Out'),
                 email: localStorage.getItem('Email') || $('#email').val() || '',
                 phone: localStorage.getItem('Primary_Phone') || $('#phone').val() || ''
             };
