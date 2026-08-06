@@ -66,6 +66,31 @@ $isCall = isset($_GET['call']);
 $isSingleForm = isset($_GET['form']) && $_GET['form'] === 'single';
 $formAction = $isSingleForm ? '/get-quotes' : 'multi-quote';
 $zipValue = isset($_GET['Zip']) ? $_GET['Zip'] : '';
+
+// Experiment overrides (C main headline, I hero CTA line) for the ?debug=1 preview tool.
+if (function_exists('ah_experiment')) {
+	$ahHeadlineVariants = [
+		'ppo' => 'Find a <strong>PPO</strong> Plan',
+		'hmo' => 'Find an <strong>HMO</strong> Plan',
+		'fast_quotes' => 'Get Healthcare Quotes in <strong>Under 30 Seconds</strong>',
+		'free_quotes' => 'Find <strong>Free</strong> Healthcare Quotes',
+	];
+	$ahHeadline = ah_experiment('main_headline');
+	if (isset($ahHeadlineVariants[$ahHeadline])) {
+		$featureTitle = $ahHeadlineVariants[$ahHeadline];
+	}
+	$ahCtaVariants = [
+		'get_30' => 'Get healthcare quotes in under 30 seconds',
+		'get_quotes_30' => 'Get quotes in under 30 seconds',
+		'affordable_30' => 'Affordable healthcare quotes in under 30 seconds',
+		'save_hundreds' => '20 seconds could save you hundreds on your monthly premium',
+	];
+	$ahCta = ah_experiment('hero_cta');
+	if (isset($ahCtaVariants[$ahCta])) {
+		$featureSubtitle = $ahCtaVariants[$ahCta];
+	}
+}
+
 $captionHtml = ah_feature_normalize_caption(isset($featureCaption) ? $featureCaption : null);
 ?>
 
@@ -130,7 +155,7 @@ $captionHtml = ah_feature_normalize_caption(isset($featureCaption) ? $featureCap
 							echo '<input name="Pub_ID" type="hidden" value="' . htmlspecialchars($pubId, ENT_QUOTES, 'UTF-8') . '">';
 							?>
 
-							<input id="zip" name="zip" type="tel" pattern="\d{5}" maxlength="5" required="" placeholder="Zip code..." class="mx-auto h2 text-center mb-0 py-2 w-100" value="<?= $zipValue ?>">
+							<input id="zip" name="zip" type="tel" inputmode="numeric" autocomplete="postal-code" pattern="\d{5}" maxlength="5" required="" placeholder="ZIP code" aria-label="ZIP code" class="mx-auto h2 text-center mb-0 py-2 w-100" value="<?= $zipValue ?>">
 							<svg xmlns="http://www.w3.org/2000/svg" id="secure-form" class="ti-lock" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
 								<path fill="currentColor" d="M17 8h-1V6a4 4 0 0 0-8 0v2H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2Zm-6 8.73V18a1 1 0 0 0 2 0v-1.27a2 2 0 1 0-2 0ZM10 8V6a2 2 0 1 1 4 0v2h-4Z"/>
 							</svg>

@@ -77,13 +77,19 @@ $(function() {
 		$(this).siblings('.nav-item').find('.fa-layers svg.fa-circle').attr('data-prefix', 'fal');
 	});
 
-	$('#zip').keyup(function() {
-		if($(this).val().length >= 5) {
+	$('#zip').on('input', function() {
+		var digitsOnly = $(this).val().replace(/\D/g, '').slice(0, 5);
+		if ($(this).val() !== digitsOnly) {
+			$(this).val(digitsOnly);
+		}
+
+		if (digitsOnly.length >= 5) {
 			$('body').addClass('zip-filled');
 			$('.zip-submit').prop('disabled', false);
-			if ($(window).width() < 768) { $(this).blur(); }
-		}
-		else {
+			if ($(window).width() < 768) {
+				$(this).blur();
+			}
+		} else {
 			$('body').removeClass('zip-filled');
 			$('.zip-submit').prop('disabled', true);
 		}

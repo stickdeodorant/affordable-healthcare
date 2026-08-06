@@ -203,6 +203,37 @@ if (!in_array($currentHousehold, ['1', '2', '3'])) {
 }
 
 $currentIncomeOptions = $incomeMatrix[$currentHousehold];
+
+// ?debug=1 experiment values (safe fallback to control when registry not loaded)
+$ahx = function ($id) {
+    return function_exists('ah_experiment') ? ah_experiment($id) : null;
+};
+$xIncome = $ahx('income_field');        // V: required | optional_in | optional_beside
+$xReason = $ahx('reason_field');        // W: required | optional_paren | optional_placeholder | optional_inbox
+$xContact = $ahx('contact_explain');    // X: none | phone_link | email_info | both
+$xFinalCopy = $ahx('final_step_copy');  // T: control | almost_there | two_questions
+$xConfirm = $ahx('confirmation_headline'); // Y: progress | congrats
+$xSubmit = $ahx('submit_flow');         // Z: control | sms_info | sms_agent | callback (preview only)
+$xFirstName = htmlspecialchars($_SESSION['form_data']['First_Name'] ?? '', ENT_QUOTES, 'UTF-8');
+
+// V — Household income required/optional presentation
+$incomeRequired = ($xIncome === null || $xIncome === 'required') ? 'required' : '';
+$incomeLabelExtra = ($xIncome === 'optional_beside') ? ' <span class="text-muted small">(optional)</span>' : '';
+$incomePlaceholder = ($xIncome === 'optional_in') ? 'Select income range (optional)' : 'Select income range';
+
+// W — Reason required/optional presentation
+$reasonRequired = ($xReason === null || $xReason === 'required') ? 'required' : '';
+$reasonLabelExtra = ($xReason === 'optional_paren') ? ' (optional)' : '';
+$reasonPlaceholder = ($xReason === 'optional_placeholder') ? 'Optional — select reason' : 'Select reason';
+$reasonInbox = ($xReason === 'optional_inbox') ? '<span class="text-muted small d-block mt-1">This question is optional.</span>' : '';
+
+// Z — Post-submit flow preview copy (never auto-dials; preview only)
+$submitPreview = [
+    'sms_info' => 'Preview (Z): a text with a link to your plan info would be sent after submit.',
+    'sms_agent' => 'Preview (Z): a text with a link to reach a licensed agent would be sent after submit.',
+    'callback' => 'Preview (Z): an immediate-callback request would be queued after submit.',
+];
+$submitPreviewText = isset($submitPreview[$xSubmit]) ? $submitPreview[$xSubmit] : '';
 ?>
 
 <!-- MultiStep Form -->
@@ -365,10 +396,10 @@ $currentIncomeOptions = $incomeMatrix[$currentHousehold];
                                                 Today
                                             </option>
                                             <option value="Month" <?= isset($_SESSION['form_data']['urgency']) && $_SESSION['form_data']['urgency'] == 'Month' ? 'selected' : '' ?>>
-                                                Within a Month
+                                                Within a month
                                             </option>
                                             <option value="Shopping" <?= isset($_SESSION['form_data']['urgency']) && $_SESSION['form_data']['urgency'] == 'Shopping' ? 'selected' : '' ?>>
-                                                Just Shopping
+                                                Just shopping
                                             </option>
                                         </select>
                                     </div>
@@ -404,7 +435,7 @@ $currentIncomeOptions = $incomeMatrix[$currentHousehold];
                                         required
                                         minlength="2"
                                         maxlength="100"
-                                        pattern="[a-zA-Z\s\-']+"
+                                        pattern="[A-Za-zÀ-ÖØ-öø-ÿ\s\-']+"
                                         value="<?= SecurityHelper::escape($_SESSION['form_data']['First_Name'] ?? '') ?>"
                                         data-parsley-error-message="Please enter a valid first name">
                                 </div>
@@ -417,9 +448,9 @@ $currentIncomeOptions = $incomeMatrix[$currentHousehold];
                                         class="form-control"
                                         autocomplete="family-name"
                                         required
-                                        minlength="2"
+                                        minlength="1"
                                         maxlength="100"
-                                        pattern="[a-zA-Z\s\-']+"
+                                        pattern="[A-Za-zÀ-ÖØ-öø-ÿ\s\-']+"
                                         value="<?= SecurityHelper::escape($_SESSION['form_data']['Last_Name'] ?? '') ?>"
                                         data-parsley-error-message="Please enter a valid last name">
                                 </div>
@@ -556,21 +587,31 @@ $currentIncomeOptions = $incomeMatrix[$currentHousehold];
                         <fieldset class="form-step" data-step="6" <?= $currentStep === 6 ? 'data-active="true"' : 'style="display:none"' ?>>
                             <div class="form-card">
                                 <h2 class="form-headline step-6">
+                                    <?php if ($xFinalCopy === 'almost_there'): ?>
+                                        <span class="long-headline">
+                                            <strong>You're almost there<?= $xFirstName !== '' ? ', <span class="text-primary">' . $xFirstName . '</span>' : '' ?>!</strong>
+                                        </span>
+                                    <?php elseif ($xFinalCopy === 'two_questions'): ?>
+                                        <span class="long-headline">
+                                            <strong>For a valid quote, just two more questions.</strong>
+                                        </span>
+                                    <?php else: ?>
                                     <span class="long-headline">
                                         <strong>You're just moments away from discovering affordable options available in <br class="d-md-none">
                                             <span class="text-primary city-name"><?= SecurityHelper::escape(SessionManager::getCity() ?: 'your area') ?></span>,
                                             <span class="text-primary state-name"><?= SecurityHelper::escape(SessionManager::getState() ?: 'your state') ?></span>!</strong>
                                     </span>
+                                    <?php endif; ?>
                                 </h2>
 
                                 <div class="form-group text-left">
-                                    <label for="household_income">Household Income</label>
+                                    <label for="household_income">Household Income<?= $incomeLabelExtra ?></label>
                                     <select name="Household_Income"
                                         id="household_income"
-                                        required
+                                        <?= $incomeRequired ?>
                                         class="form-control"
                                         data-household="<?= SecurityHelper::escape($currentHousehold) ?>">
-                                        <option value="" disabled selected hidden>Select income range</option>
+                                        <option value="" disabled selected hidden><?= SecurityHelper::escape($incomePlaceholder) ?></option>
                                         <?php
                                         // Income options are populated server-side based on household selection from session
                                         foreach ($currentIncomeOptions as $value => $label):
@@ -585,12 +626,12 @@ $currentIncomeOptions = $incomeMatrix[$currentHousehold];
                                 </div>
 
                                 <div class="form-group text-left mt-4 mb-5">
-                                    <label for="reason">Reason for Shopping</label>
+                                    <label for="reason">Reason for Shopping<?= SecurityHelper::escape($reasonLabelExtra) ?></label>
                                     <select name="Reason"
                                         id="reason"
-                                        required
+                                        <?= $reasonRequired ?>
                                         class="form-control">
-                                        <option disable hidden value="">Select reason</option>
+                                        <option disable hidden value=""><?= SecurityHelper::escape($reasonPlaceholder) ?></option>
                                         <option value="New plan" <?= isset($_SESSION['form_data']['Reason']) && $_SESSION['form_data']['Reason'] == 'New plan' ? 'selected' : '' ?>>
                                             Find a new plan
                                         </option>
@@ -604,6 +645,7 @@ $currentIncomeOptions = $incomeMatrix[$currentHousehold];
                                             Just shopping
                                         </option>
                                     </select>
+                                    <?= $reasonInbox ?>
                                 </div>
 
                                 <button type="button"
@@ -623,9 +665,14 @@ $currentIncomeOptions = $incomeMatrix[$currentHousehold];
                         <fieldset class="form-step" data-step="7" <?= $currentStep === 7 ? 'data-active="true"' : 'style="display:none"' ?>>
                             <div class="form-card">
                                 <h2 class="form-headline">
+                                    <?php if ($xConfirm === 'congrats'): ?>
                                     <strong>Congratulations <span class="name text-primary text-capitalize"></span><span class="text-primary">!</span>
+                                        Your quote is ready!</strong>
+                                    <?php else: ?>
+                                    <strong>You're almost there <span class="name text-primary text-capitalize"></span><span class="text-primary">!</span>
                                         <? /* your <span class="text-primary state-name"><?= SecurityHelper::escape(SessionManager::getStateName() ?: 'state') ?></span> */ ?>
-                                        Your Health Quote is Ready!</strong>
+                                        Enter your details to view your options.</strong>
+                                    <?php endif; ?>
                                 </h2>
                                 <h3 class="fs-title text-primary"><b style="font-weight: 600;">Enter your information below to explore your options now.</b></h3>
 
@@ -642,6 +689,7 @@ $currentIncomeOptions = $incomeMatrix[$currentHousehold];
                                         value="<?= SecurityHelper::escape($_SESSION['form_data']['Email'] ?? '') ?>"
                                         data-parsley-type="email"
                                         data-parsley-error-message="Please enter a valid email address">
+                                    <span class="ah-contact-explain for-email text-muted small mt-1">We'll email your personalized plan information.</span>
                                 </div>
 
                                 <div class="form-group text-left mt-4 mb-5">
@@ -656,7 +704,14 @@ $currentIncomeOptions = $incomeMatrix[$currentHousehold];
                                         data-parsley-pattern="^\D*([2-9]\d{2})(\D*)([2-9]\d{2})(\D*)(\d{4})\D*$"
                                         data-parsley-error-message="Please enter a valid 10-digit phone number"
                                         value="<?= SecurityHelper::escape($_SESSION['form_data']['Primary_Phone'] ?? '') ?>">
+                                    <span class="ah-contact-explain for-phone text-muted small mt-1">We'll text you a link to your quote.</span>
                                 </div>
+
+                                <?php if ($submitPreviewText !== ''): ?>
+                                <div class="ah-submit-preview text-left small" style="border:1px dashed #b8860b;background:#fff8e6;color:#6b4e00;padding:8px 10px;border-radius:6px;margin-bottom:1rem;">
+                                    <strong>Debug preview:</strong> <?= SecurityHelper::escape($submitPreviewText) ?>
+                                </div>
+                                <?php endif; ?>
 
                                 <div class="disclaimer">
                                     <p class="small text-muted">

@@ -4,6 +4,13 @@ $(document).ready(function () {
     var animating = false;
     var isInitializing = false;
     var needsZip = $('#msform').data('needs-zip') === true || $('#msform').data('needs-zip') === 'true';
+    var debugEnabled = window.location.search.indexOf('debug=1') !== -1;
+
+    function debugLog() {
+        if (debugEnabled && window.console && typeof console.log === 'function') {
+            console.log.apply(console, arguments);
+        }
+    }
 
     // Function to get CSRF token dynamically
     function getCSRFToken() {
@@ -31,6 +38,53 @@ $(document).ready(function () {
     // Initialize form on load
     initializeForm();
 
+    function isMobileViewport() {
+        return window.matchMedia && window.matchMedia('(max-width: 767px)').matches;
+    }
+
+    function keepFieldVisible($field) {
+        if (!isMobileViewport() || !$field || !$field.length) {
+            return;
+        }
+
+        setTimeout(function () {
+            var field = $field.get(0);
+            if (field && typeof field.scrollIntoView === 'function') {
+                field.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+            }
+        }, 120);
+    }
+
+    function updateMobileKeyboardState() {
+        if (!window.visualViewport || !isMobileViewport()) {
+            document.body.classList.remove('mobile-keyboard-open');
+            return;
+        }
+
+        var keyboardOpen = window.visualViewport.height < (window.innerHeight - 120);
+        document.body.classList.toggle('mobile-keyboard-open', keyboardOpen);
+    }
+
+    if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', updateMobileKeyboardState);
+        window.visualViewport.addEventListener('scroll', updateMobileKeyboardState);
+    }
+
+    $(window).on('orientationchange resize', function () {
+        setTimeout(updateMobileKeyboardState, 150);
+    });
+
+    $(document).on('focus', '#msform input, #msform select, #msform textarea', function () {
+        keepFieldVisible($(this));
+        updateMobileKeyboardState();
+    });
+
+    $(document).on('blur', '#msform input, #msform select, #msform textarea', function () {
+        setTimeout(updateMobileKeyboardState, 80);
+    });
+
+    updateMobileKeyboardState();
+
     /**
      * Initialize form state from session
      */
@@ -42,7 +96,7 @@ $(document).ready(function () {
             type: 'GET',
             dataType: 'json',
             success: function (response) {
-                console.log('Session response:', response);
+                debugLog('Session response received');
 
                 if (response.success) {
                     var targetStep = 1;
@@ -56,7 +110,7 @@ $(document).ready(function () {
                         targetStep = 1;
                     }
 
-                    console.log('Restoring to step:', targetStep);
+                    debugLog('Restoring to step:', targetStep);
 
                     // Hide all steps first
                     $('.form-step').hide().attr('data-active', 'false');
@@ -205,7 +259,7 @@ $(document).ready(function () {
                         csrf_token: getCSRFToken()
                     },
                     success: function (response) {
-                        console.log('Household saved to session:', householdValue);
+                        debugLog('Household value saved to session');
 
                         // Update income options dynamically
                         updateIncomeOptions(householdValue);
@@ -471,7 +525,7 @@ $(document).ready(function () {
                 localStorage.setItem('first_name', firstName);
                 $('input[name="First_Name"]').val(firstName);
                 $('#First_Name').val(firstName);
-                console.log('First Name saved:', firstName);
+                debugLog('First name captured');
             }
             if (lastName) {
                 localStorage.setItem('Last_Name', lastName);
@@ -539,7 +593,7 @@ $(document).ready(function () {
             $('input[name="DOB"]').val(dob);
             localStorage.setItem('DOB', dob);
 
-            console.log('DOB formatted and saved:', dob);
+            debugLog('DOB formatted and saved');
 
             // Calculate age
             var age = calculateAge(year, month, day);
@@ -547,7 +601,7 @@ $(document).ready(function () {
             $('input[name="Age"]').val(age);
             localStorage.setItem('Age', age);
 
-            console.log('Age calculated:', age);
+            debugLog('Age calculated');
         }
     }
 
@@ -571,7 +625,7 @@ $(document).ready(function () {
      * Run settings for form data processing
      */
     function runSettings() {
-        console.log('Running settings...');
+        debugLog('Running settings');
         getAge();
         setSRC();
         redirectUrlUpdate();
@@ -607,8 +661,7 @@ $(document).ready(function () {
             $('#age').val(Math.floor(age));
             localStorage.setItem('Age', Math.floor(age));
 
-            console.log('Age set to:', Math.floor(age));
-            console.log('DOB set to:', DOB);
+            debugLog('Age and DOB fields updated');
         }
     }
 
@@ -618,7 +671,7 @@ $(document).ready(function () {
     function setSRC() {
         var age = $('#age').val() || $('input[name="Age"]').val() || localStorage.getItem('Age');
 
-        console.log('Setting SRC for age:', age);
+        debugLog('Setting SRC based on age threshold');
 
         if (parseInt(age) >= 65) {
             $('input[name="TYPE"]').val('23');
@@ -637,7 +690,7 @@ $(document).ready(function () {
      * Update redirect URL based on user data
      */
     function redirectUrlUpdate() {
-        console.log('Updating redirect URL...');
+        debugLog('Updating redirect URL');
 
         var redirectUrl = $('input[name="Redirect_URL"]');
 
@@ -654,17 +707,6 @@ $(document).ready(function () {
         var income = $('#household_income').val() || $('input[name="Household_Income"]').val() || localStorage.getItem('Household_Income') || '';
         var email = $('#email').val() || $('input[name="Email"]').val() || localStorage.getItem('Email') || '';
         var phone = $('#phone').val() || $('input[name="Primary_Phone"]').val() || localStorage.getItem('Primary_Phone') || '';
-
-        console.log('Redirect data:', {
-            fname: fname,
-            age: age,
-            city: city,
-            state: state,
-            household: household,
-            income: income,
-            email: email,
-            phone: phone
-        });
 
         var healthTwoStates = ["AL", "FL", "GA", "KS", "MS", "MO", "NC", "OH", "OK", "SC", "TN", "TX"];
         var lander, type, did;
@@ -734,7 +776,7 @@ $(document).ready(function () {
         var fullUrl = lander + urlParams;
         redirectUrl.val(fullUrl);
 
-        console.log('Final redirect URL:', fullUrl);
+        debugLog('Redirect URL prepared');
     }
 
     /**
@@ -758,7 +800,7 @@ $(document).ready(function () {
      */
     function transitionStep(fromStep, toStep) {
         if (animating) {
-            console.log('Animation in progress, skipping transition');
+            debugLog('Animation in progress, skipping transition');
             return false;
         }
 
@@ -798,7 +840,7 @@ $(document).ready(function () {
      */
     function saveCurrentStep(step) {
         if (lastSavedStep === step) {
-            console.log('Step ' + step + ' already saved, skipping');
+            debugLog('Step ' + step + ' already saved, skipping');
             return;
         }
 
@@ -826,7 +868,7 @@ $(document).ready(function () {
                     csrf_token: csrfToken
                 },
                 success: function (response) {
-                    console.log('Step saved:', response);
+                    debugLog('Step saved');
                 },
                 error: function (xhr, status, error) {
                     console.error('Error saving step:', xhr.responseJSON || error);
@@ -987,7 +1029,7 @@ $(document).ready(function () {
      * Submit form
      */
     function submitForm() {
-        console.log('Starting form submission...');
+        debugLog('Starting form submission');
 
         // CRITICAL: Ensure all data is captured before submission
         gatherAllFormData();
@@ -1026,8 +1068,6 @@ $(document).ready(function () {
         // Prepare form data
         var formData = $form.serialize();
 
-        console.log('Form data being submitted:', formData);
-
         // Store response for later use
         var formResponse = null;
         var responseStatus = null;
@@ -1049,7 +1089,7 @@ $(document).ready(function () {
                         handleBoberdooResponse(boberdooResponse.responseText);
                     }
                 } catch (e) {
-                    console.log('Could not parse Boberdoo response:', e);
+                    debugLog('Could not parse Boberdoo response');
                 }
             },
             error: function (xhr, status, error) {
@@ -1091,7 +1131,7 @@ $(document).ready(function () {
      * Gather all form data before submission - ENHANCED VERSION
      */
     function gatherAllFormData() {
-        console.log('Gathering all form data...');
+        debugLog('Gathering form data before submit');
 
         // CRITICAL: Ensure DOB is built from components
         var BM = $('#birthmonth').val() || $('select[name="birthmonth"]').val() || localStorage.getItem('birthmonth');
@@ -1109,7 +1149,7 @@ $(document).ready(function () {
             $('#dob').val(DOB);
             localStorage.setItem('DOB', DOB);
 
-            console.log('DOB built and set:', DOB);
+            debugLog('DOB rebuilt from components');
         }
 
         // Get all visible inputs from the form
@@ -1142,7 +1182,7 @@ $(document).ready(function () {
         if (firstName) {
             $('input[name="First_Name"]').val(firstName);
             $('#First_Name').val(firstName);
-            console.log('First Name explicitly set:', firstName);
+            debugLog('First name synchronized to hidden fields');
         }
 
         // Explicitly set critical fields from localStorage if they're missing
@@ -1169,8 +1209,6 @@ $(document).ready(function () {
             if (criticalFields[fieldName]) {
                 $('input[name="' + fieldName + '"]').val(criticalFields[fieldName]);
                 $('#' + fieldName.toLowerCase()).val(criticalFields[fieldName]);
-
-                console.log('Set ' + fieldName + ' to:', criticalFields[fieldName]);
             }
         }
     }
@@ -1204,7 +1242,7 @@ $(document).ready(function () {
             var responseMessage = 'Status: ' + statusFinal + '   ' + message;
             ajaxInsert(responseMessage);
         } catch (e) {
-            console.log('Error parsing Boberdoo response:', e);
+            debugLog('Error parsing Boberdoo response');
             ajaxInsert('Processing complete');
         }
     }
@@ -1226,7 +1264,7 @@ $(document).ready(function () {
                 '&error=' + response,
             success: function (data) {
                 sessionStorage.setItem('entryStatus', 'success');
-                console.log('Entry Status:', sessionStorage.getItem('entryStatus'));
+                debugLog('Entry status:', sessionStorage.getItem('entryStatus'));
 
                 if (sessionStorage.getItem('flex_lead') == 'true') {
                     flexPostback();
@@ -1236,7 +1274,7 @@ $(document).ready(function () {
             },
             error: function (data, jqXHR, textStatus, errorThrown) {
                 sessionStorage.setItem('entryStatus', 'error');
-                console.log('Entry Status:', sessionStorage.getItem('entryStatus'));
+                debugLog('Entry status:', sessionStorage.getItem('entryStatus'));
 
                 if (sessionStorage.getItem('flex_lead') == 'true') {
                     flexPostback();
@@ -1263,13 +1301,12 @@ $(document).ready(function () {
             dataType: "json",
             success: function (data) {
                 sessionStorage.setItem('flexStatus', 'success');
-                console.log('Flex Status:', sessionStorage.getItem('flexStatus'));
-                console.log(data);
+                debugLog('Flex postback status:', sessionStorage.getItem('flexStatus'));
                 completeRedirect();
             },
             error: function (data, jqXHR, textStatus, errorThrown) {
                 sessionStorage.setItem('flexStatus', 'error');
-                console.log('Flex Status:', sessionStorage.getItem('flexStatus'));
+                debugLog('Flex postback status:', sessionStorage.getItem('flexStatus'));
                 completeRedirect();
             }
         });
@@ -1285,8 +1322,6 @@ $(document).ready(function () {
         redirectUrlUpdate();
 
         var redirectUrl = $('input[name="Redirect_URL"]').val();
-
-        console.log('Final redirect URL:', redirectUrl);
 
         // If still no redirect URL, build one with all available data
         if (!redirectUrl || redirectUrl.indexOf('first_name=&') > -1) {
@@ -1306,7 +1341,7 @@ $(document).ready(function () {
                 src: btoa($('#src').val() || 'Infinix-M-Out')
             };
 
-            console.log('Building redirect with params:', params);
+            debugLog('Building fallback redirect URL');
 
             var queryString = $.param(params);
             redirectUrl = '../thank-you/thank-you-h3-b.php?' + queryString;
@@ -1536,8 +1571,6 @@ $(document).ready(function () {
         // Get redirect URL
         var redirectUrl = $('input[name="Redirect_URL"]').val();
 
-        console.log('Response redirect URL:', redirectUrl);
-
         // If still missing data, try one more time
         if (!redirectUrl || redirectUrl.indexOf('first_name=&') > -1 || redirectUrl.indexOf('city=&') > -1) {
             var firstName = localStorage.getItem('First_Name') ||
@@ -1614,7 +1647,7 @@ $(document).ready(function () {
             $('#First_Name').val(value);
             localStorage.setItem('First_Name', value);
             localStorage.setItem('first_name', value);
-            console.log('First name updated to:', value);
+            debugLog('First name field updated');
         }
     });
 
@@ -1640,8 +1673,7 @@ $(document).ready(function () {
             $('#dob').val(dob);
             $('input[name="DOB"]').val(dob);
             localStorage.setItem('DOB', dob);
-
-            console.log('DOB updated to:', dob);
+            debugLog('DOB field updated');
         }
     });
 

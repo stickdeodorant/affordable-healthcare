@@ -137,6 +137,45 @@
 		</div>
 	</div>
 </div>
+<?php
+// K — Exit-intent modal (control-panel experiment; accessible, no trapping)
+$xExitModal = function_exists('ah_experiment') ? ah_experiment('exit_modal') : 'off';
+if ($xExitModal && $xExitModal !== 'off'):
+?>
+<div class="modal fade ah-exit-modal" id="ahExitModal" tabindex="-1" role="dialog" aria-labelledby="ahExitModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content text-center">
+			<div class="modal-body p-4">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:absolute;top:10px;right:14px;">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<?php if ($xExitModal === 'agent'): ?>
+					<img src="../img/call-modal-bg.jpg" alt="" class="img-fluid mb-3" style="max-height:120px;object-fit:contain;" onerror="this.style.display='none'">
+				<?php endif; ?>
+				<h4 id="ahExitModalLabel" class="mb-2">Are you sure you want to leave?</h4>
+				<p class="text-muted mb-3">You're just a step away from comparing affordable health plans in your area.</p>
+				<button type="button" class="btn btn-primary action-button" data-dismiss="modal">Continue my quote</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+(function () {
+	var shown = false;
+	function showExit() {
+		if (shown) return;
+		shown = true;
+		if (window.jQuery && jQuery('#ahExitModal').modal) {
+			jQuery('#ahExitModal').modal('show');
+		}
+	}
+	document.addEventListener('mouseout', function (e) {
+		if (!e.relatedTarget && e.clientY <= 0) { showExit(); }
+	});
+})();
+</script>
+<?php endif; ?>
+
 
 <div class="modal fade" id="lastcall" tabindex="-1" role="dialog" aria-labelledby="lastcall">
 	<div class="modal-dialog modal-lg" role="document">

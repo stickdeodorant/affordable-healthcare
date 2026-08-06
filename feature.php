@@ -12,7 +12,7 @@
 						<input type="hidden" name="keyword" value="">
 						<input type="hidden" name="gclid_" value="<?php echo $_GET['gclid']; ?>">
 						<!-- <input name="zip" type="tel" placeholder="My zip code is..." class="form-control" maxlength="5" style="width: 90%; float: left;"> -->
-						<input id="zip" name="zip" type="tel" pattern="\d{5}" maxlength="5" required="" placeholder="Zip code..." class="mx-auto h2 text-center mb-0 py-2 w-100">
+						<input id="zip" name="zip" type="tel" inputmode="numeric" autocomplete="postal-code" pattern="\d{5}" maxlength="5" required="" placeholder="ZIP code" aria-label="ZIP code" class="mx-auto h2 text-center mb-0 py-2 w-100">
 						<i class="ti ti-lock"></i>
 					</div>
 					<div class="bottom-nav">

@@ -11,9 +11,30 @@
 	--color-accent: #f2c230;
 	--color-base: #d5dde5;
 	--color-input-border: #203a72;
+	--color-bg-page: #ffffff;
+	--color-bg-panel: #ffffff;
+	--color-svg: #13676b;
 	--shadow-soft: 0 12px 22px -12px rgba(8, 36, 74, 0.28);
 	--radius-md: 4px;
 	--radius-sm: 2px;
+}
+
+body[data-theme="logo-match"],
+body[data-theme="spectrum-vibrant"] {
+	--color-primary: #24add4;
+	--color-secondary: #f8be4e;
+	--color-tertiary: #136a80;
+	--color-accent: #8dc84a;
+	--color-input-border: #136a80;
+}
+
+body[data-theme="ohio-healthplans"],
+body[data-theme="ocean-fresh"] {
+	--color-primary: #124085;
+	--color-secondary: #6fbf4a;
+	--color-tertiary: #0c2f63;
+	--color-accent: #8bc34a;
+	--color-input-border: #124085;
 }
 
 section[class*="bg-"] {
@@ -685,6 +706,27 @@ body main {
 body p {
 	font-size: 1.5rem;
 	font-weight: 200;
+}
+body {
+	background-color: var(--color-bg-page);
+}
+
+#msform,
+#msform fieldset .form-card,
+.ah-header,
+.ah-header-bar,
+.ah-hero-disclaimer-wrap,
+.bg-base {
+	background-color: var(--color-bg-panel);
+}
+
+.ti-lock,
+#secure-icon,
+#secure-form,
+.icon-stack,
+.icon-stack svg {
+	color: var(--color-svg);
+	fill: currentColor;
 }
 
 body .modal p {
@@ -2806,3 +2848,26 @@ body footer .footer-link-emphasis:hover {
 		padding: 3rem 0;
 	}
 }
+
+/* ==== ?debug=1 experiment variants (control-panel driven) ==== */
+/* F — CTA button color: gold instead of green */
+body[data-x-cta_color="gold"] .button.bg-accent,
+body[data-x-cta_color="gold"] input.button.bg-accent {
+	background-color: var(--color-secondary) !important;
+	color: #062544 !important;
+}
+/* F — gold shade is applied in PHP (inline --color-secondary), see inc/header.php */
+/* E — ZIP alignment correction */
+body[data-x-zip_alignment="fixed"] #zip { text-align: center; text-indent: 0; }
+body[data-x-zip_alignment="fixed"] #zip::placeholder { text-align: center; opacity: .7; }
+body[data-x-zip_alignment="fixed"] .zip-caption { text-align: center; }
+/* H — numeric font mockups (affects ZIP entry) */
+body[data-x-numeric_font="a"] #zip { font-family: "Segoe UI", Roboto, system-ui, sans-serif; }
+body[data-x-numeric_font="b"] #zip { font-family: "Trebuchet MS", "Segoe UI", sans-serif; }
+body[data-x-numeric_font="c"] #zip { font-family: "Century Gothic", Futura, system-ui, sans-serif; }
+/* J — top-right phone number */
+.ah-header-phone { display: none; }
+body[data-x-phone_topright="on"] .ah-header-phone { display: inline-flex; align-items: center; }
+/* D — logo treatment */
+body[data-x-logo_treatment="full_color"] .ah-header-logo { filter: none; }
+body[data-x-logo_treatment="mono"] .ah-header-logo { filter: grayscale(1); }
