@@ -6,7 +6,7 @@
 require_once __DIR__ . '/../cms/bootstrap.php';
 require_once __DIR__ . '/_layout.php';
 
-cms_require_login();
+cms_require_role('admin');
 
 $base = CMS_ADMIN_PATH;
 

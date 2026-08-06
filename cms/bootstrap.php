@@ -12,6 +12,7 @@ require_once CMS_LIB . '/db.php';
 require_once CMS_LIB . '/sanitize.php';
 require_once CMS_LIB . '/csrf.php';
 require_once CMS_LIB . '/auth.php';
+require_once CMS_LIB . '/oauth-google.php';
 require_once CMS_LIB . '/audit.php';
 
 if (session_status() === PHP_SESSION_NONE) {

@@ -1,6 +1,6 @@
 <?php
 /**
- * Admin login. Uses the hardened CMS session + throttled cms_login().
+ * Admin login via Google OAuth (restricted to allowed company domain).
  */
 
 require_once __DIR__ . '/../cms/bootstrap.php';
@@ -12,18 +12,8 @@ if (cms_is_logged_in()) {
 }
 
 $error = '';
-$email = '';
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    cms_csrf_require();
-    $email = trim((string)($_POST['email'] ?? ''));
-    $password = (string)($_POST['password'] ?? '');
-    $result = cms_login($email, $password);
-    if ($result['ok']) {
-        header('Location: ' . CMS_ADMIN_PATH . '/');
-        exit;
-    }
-    $error = $result['error'];
+if (!empty($_GET['error'])) {
+    $error = (string)$_GET['error'];
 }
 
 admin_header('Sign in');
@@ -31,21 +21,21 @@ admin_header('Sign in');
 <div class="login-wrap">
     <h1>CMS Admin</h1>
     <div class="card">
+        <?php if (!cms_oauth_google_configured()): ?>
+            <div class="flash error">Google OAuth is not configured. Set GOOGLE_OAUTH_CLIENT_ID, GOOGLE_OAUTH_CLIENT_SECRET, and GOOGLE_OAUTH_REDIRECT_URI in .env.</div>
+        <?php endif; ?>
         <?php if ($error !== ''): ?>
             <div class="flash error"><?= cms_e($error) ?></div>
         <?php endif; ?>
-        <form method="post" action="<?= cms_e(CMS_ADMIN_PATH) ?>/login.php" autocomplete="off">
-            <?= cms_csrf_field() ?>
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" value="<?= cms_e($email) ?>" required autofocus>
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" required>
+        <p style="margin:0 0 1rem;">Sign in with your company Google account to access the CMS.</p>
+        <p class="muted" style="margin-top:0;">Allowed domain: @<?= cms_e(CMS_OAUTH_ALLOWED_DOMAIN) ?></p>
+        <?php if (cms_oauth_google_configured()): ?>
             <div style="margin-top:1.25rem;">
-                <button class="btn btn-primary" type="submit">Sign in</button>
+                <a class="btn btn-primary" href="<?= cms_e(CMS_ADMIN_PATH) ?>/oauth-google-start.php">Sign in with Google</a>
             </div>
-        </form>
+        <?php endif; ?>
     </div>
-    <p class="muted">Accounts are provisioned by an administrator.</p>
+    <p class="muted">Roles are assigned by configured email mapping.</p>
 </div>
 <?php
 admin_footer();

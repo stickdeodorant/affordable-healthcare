@@ -29,6 +29,11 @@ $restorable = [
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     cms_csrf_require();
     if ((string)($_POST['action'] ?? '') === 'rollback') {
+        if (!cms_user_can('reviewer')) {
+            admin_flash_set('error', 'You do not have permission to restore revisions.');
+            header('Location: ' . $base . '/revisions.php?page_id=' . $pageId);
+            exit;
+        }
         $revId = (int)($_POST['revision_id'] ?? 0);
         $rev = cms_select_one(
             'SELECT snapshot_json FROM cms_page_revisions WHERE id = ? AND page_id = ? LIMIT 1',

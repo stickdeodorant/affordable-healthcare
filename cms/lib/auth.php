@@ -22,6 +22,33 @@ function cms_role_level(string $role): int {
 }
 
 /**
+ * True if the email is allowed to log in to CMS via OAuth.
+ */
+function cms_email_allowed(string $email): bool {
+    $email = strtolower(trim($email));
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        return false;
+    }
+    $domain = strtolower(CMS_OAUTH_ALLOWED_DOMAIN);
+    if ($domain === '') {
+        return true;
+    }
+    return (bool)preg_match('/@' . preg_quote($domain, '/') . '$/i', $email);
+}
+
+/**
+ * Resolve role from explicit email mapping, then fallback role.
+ */
+function cms_role_for_email(string $email): string {
+    $email = strtolower(trim($email));
+    $map = $GLOBALS['CMS_ROLE_EMAIL_MAP'] ?? [];
+    if (isset($map[$email]) && isset($GLOBALS['CMS_ROLES'][$map[$email]])) {
+        return $map[$email];
+    }
+    return isset($GLOBALS['CMS_ROLES'][CMS_OAUTH_DEFAULT_ROLE]) ? CMS_OAUTH_DEFAULT_ROLE : 'marketer';
+}
+
+/**
  * True if the current user's role meets or exceeds $minRole.
  */
 function cms_user_can(string $minRole): bool {
@@ -87,6 +114,56 @@ function cms_upsert_user(string $email, string $password, string $role = 'market
 }
 
 /**
+ * Create or update a CMS user from OAuth identity and return the user row.
+ */
+function cms_upsert_oauth_user(string $email, string $name, string $provider, string $oauthSub): ?array {
+    $email = strtolower(trim($email));
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        return null;
+    }
+    if (!cms_email_allowed($email)) {
+        return null;
+    }
+
+    $provider = trim($provider);
+    $oauthSub = trim($oauthSub);
+    $role = cms_role_for_email($email);
+
+    cms_write(
+        'INSERT INTO cms_users (email, name, password_hash, role, active, oauth_provider, oauth_sub)
+         VALUES (?, ?, ?, ?, 1, ?, ?)
+         ON DUPLICATE KEY UPDATE
+            name = VALUES(name),
+            role = VALUES(role),
+            active = 1,
+            oauth_provider = VALUES(oauth_provider),
+            oauth_sub = VALUES(oauth_sub)',
+        'ssssss',
+        [$email, $name, '', $role, $provider !== '' ? $provider : null, $oauthSub !== '' ? $oauthSub : null]
+    );
+
+    return cms_select_one(
+        'SELECT id, email, name, role, active FROM cms_users WHERE email = ? LIMIT 1',
+        's',
+        [$email]
+    );
+}
+
+/**
+ * Establish session for a valid user row.
+ */
+function cms_login_user(array $user): void {
+    session_regenerate_id(true);
+    $_SESSION['cms_user'] = [
+        'id'    => (int)$user['id'],
+        'email' => (string)$user['email'],
+        'name'  => (string)($user['name'] ?? ''),
+        'role'  => (string)$user['role'],
+    ];
+    cms_write('UPDATE cms_users SET last_login_at = NOW() WHERE id = ?', 'i', [(int)$user['id']]);
+}
+
+/**
  * Attempt login. Returns [ok=>bool, error=>string].
  * Applies per-IP throttling and constant-time password verification.
  */
@@ -115,14 +192,7 @@ function cms_login(string $email, string $password): array {
     }
 
     cms_login_reset($ip);
-    session_regenerate_id(true);
-    $_SESSION['cms_user'] = [
-        'id'    => (int)$user['id'],
-        'email' => $user['email'],
-        'name'  => $user['name'],
-        'role'  => $user['role'],
-    ];
-    cms_write('UPDATE cms_users SET last_login_at = NOW() WHERE id = ?', 'i', [(int)$user['id']]);
+    cms_login_user($user);
     cms_audit('login', 'cms_user', $user['id']);
 
     return ['ok' => true, 'error' => ''];

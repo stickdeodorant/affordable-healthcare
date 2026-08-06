@@ -18,7 +18,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($pageId > 0 && $action === 'set_status') {
         $status = (string)($_POST['status'] ?? '');
-        if (in_array($status, $GLOBALS['CMS_STATUSES'], true)) {
+        if (!cms_user_can('reviewer')) {
+            admin_flash_set('error', 'You do not have permission to change publish status.');
+        } elseif (in_array($status, $GLOBALS['CMS_STATUSES'], true)) {
             $publishedAt = $status === 'published' ? date('Y-m-d H:i:s') : null;
             if ($status === 'published') {
                 cms_write(

@@ -8,6 +8,8 @@ if (defined('CMS_ROOT')) {
     return;
 }
 
+require_once dirname(__DIR__) . '/inc/env.php';
+
 define('CMS_ROOT', __DIR__);
 define('CMS_APP_ROOT', dirname(__DIR__));
 define('CMS_LIB', CMS_ROOT . '/lib');
@@ -40,3 +42,31 @@ $GLOBALS['CMS_UPLOAD_MAX_BYTES'] = 5 * 1024 * 1024;
 
 // Session cookie name for the admin area (kept separate from the public site).
 define('CMS_SESSION_NAME', 'AHCMSSESS');
+
+// Google OAuth login configuration for /admin.
+define('CMS_OAUTH_ALLOWED_DOMAIN', strtolower((string)env('CMS_OAUTH_ALLOWED_DOMAIN', 'infinixmedia.com')));
+define('CMS_OAUTH_DEFAULT_ROLE', (string)env('CMS_OAUTH_DEFAULT_ROLE', 'marketer'));
+define('CMS_OAUTH_GOOGLE_CLIENT_ID', (string)env('GOOGLE_OAUTH_CLIENT_ID', ''));
+define('CMS_OAUTH_GOOGLE_CLIENT_SECRET', (string)env('GOOGLE_OAUTH_CLIENT_SECRET', ''));
+define(
+    'CMS_OAUTH_GOOGLE_REDIRECT_URI',
+    (string)env('GOOGLE_OAUTH_REDIRECT_URI', rtrim((string)env('APP_URL', 'http://localhost'), '/') . CMS_ADMIN_PATH . '/oauth-google-callback.php')
+);
+
+$GLOBALS['CMS_ROLE_EMAIL_MAP'] = [];
+$adminEmail = strtolower(trim((string)env('CMS_ROLE_ADMIN_EMAIL', 'cruby@infinixmedia.com')));
+if ($adminEmail !== '') {
+    $GLOBALS['CMS_ROLE_EMAIL_MAP'][$adminEmail] = 'admin';
+}
+foreach (env_array('CMS_ROLE_REVIEWER_EMAILS', []) as $email) {
+    $email = strtolower(trim((string)$email));
+    if ($email !== '') {
+        $GLOBALS['CMS_ROLE_EMAIL_MAP'][$email] = 'reviewer';
+    }
+}
+foreach (env_array('CMS_ROLE_MARKETER_EMAILS', []) as $email) {
+    $email = strtolower(trim((string)$email));
+    if ($email !== '') {
+        $GLOBALS['CMS_ROLE_EMAIL_MAP'][$email] = 'marketer';
+    }
+}

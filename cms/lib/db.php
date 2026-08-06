@@ -81,6 +81,8 @@ function cms_ensure_schema(mysqli $conn) {
             email VARCHAR(191) NOT NULL,
             name VARCHAR(120) NOT NULL DEFAULT '',
             password_hash VARCHAR(255) NOT NULL,
+            oauth_provider VARCHAR(32) NULL,
+            oauth_sub VARCHAR(191) NULL,
             role ENUM('marketer','reviewer','admin') NOT NULL DEFAULT 'marketer',
             active TINYINT(1) NOT NULL DEFAULT 1,
             last_login_at DATETIME NULL,
@@ -88,6 +90,7 @@ function cms_ensure_schema(mysqli $conn) {
             updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
             UNIQUE KEY uq_cms_users_email (email),
+            UNIQUE KEY uq_cms_users_oauth (oauth_provider, oauth_sub),
             KEY idx_cms_users_active (active)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
 
@@ -127,6 +130,10 @@ function cms_ensure_schema(mysqli $conn) {
             KEY idx_admin_activity_log_action (action_type),
             KEY idx_admin_activity_log_created (created_at)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+
+        "ALTER TABLE cms_users ADD COLUMN IF NOT EXISTS oauth_provider VARCHAR(32) NULL AFTER password_hash",
+        "ALTER TABLE cms_users ADD COLUMN IF NOT EXISTS oauth_sub VARCHAR(191) NULL AFTER oauth_provider",
+        "ALTER TABLE cms_users ADD UNIQUE KEY IF NOT EXISTS uq_cms_users_oauth (oauth_provider, oauth_sub)",
     ];
 
     foreach ($statements as $sql) {
