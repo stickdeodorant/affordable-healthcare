@@ -30,6 +30,13 @@ $GLOBALS['CMS_STATUSES'] = ['draft', 'review', 'published', 'archived'];
 // Block types the renderer/editor understands.
 $GLOBALS['CMS_BLOCK_TYPES'] = ['hero', 'rich_text', 'cta_banner', 'image', 'faq_list'];
 
+// Page template families the CMS can render (mirrors top-level landing page styles).
+$GLOBALS['CMS_PAGE_TEMPLATES'] = [
+    'default' => 'Modern landing page',
+    'feature' => 'Legacy feature layout',
+    'feature-og' => 'Legacy feature OG layout',
+];
+
 // Login throttling.
 define('CMS_LOGIN_MAX_ATTEMPTS', 8);
 define('CMS_LOGIN_LOCK_MINUTES', 15);

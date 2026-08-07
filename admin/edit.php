@@ -87,6 +87,7 @@ $form = [
     'meta_description' => $page['meta_description'] ?? '',
     'canonical' => $page['canonical'] ?? '',
     'og_image' => $page['og_image'] ?? '',
+    'template' => $page['template'] ?? 'default',
     'theme' => $page['theme'] ?? 'default',
     'status' => $page['status'] ?? 'draft',
     'hero_headline' => $page['hero_headline'] ?? '',
@@ -107,6 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $form['meta_description'] = mb_substr(trim((string)($_POST['meta_description'] ?? '')), 0, 320);
     $form['canonical'] = trim((string)($_POST['canonical'] ?? ''));
     $form['og_image'] = trim((string)($_POST['og_image'] ?? ''));
+    $form['template'] = in_array((string)($_POST['template'] ?? ''), array_keys($GLOBALS['CMS_PAGE_TEMPLATES']), true) ? (string)$_POST['template'] : 'default';
     $form['theme'] = in_array((string)($_POST['theme'] ?? ''), admin_theme_options(), true) ? (string)$_POST['theme'] : 'default';
     $form['status'] = in_array((string)($_POST['status'] ?? ''), $GLOBALS['CMS_STATUSES'], true) ? (string)$_POST['status'] : 'draft';
     $form['hero_headline'] = trim((string)($_POST['hero_headline'] ?? ''));
@@ -158,13 +160,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             cms_write(
                 'UPDATE cms_pages SET
                     slug = ?, title = ?, meta_description = ?, canonical = ?, og_image = ?,
+                    template = ?,
                     theme = ?, status = ?, hero_headline = ?, hero_subtitle = ?, cta_text = ?, cta_href = ?,
                     body_json = ?, updated_by = ?, published_at = ?
                  WHERE id = ?',
-                'ssssssssssssssi',
+                'sssssssssssssssi',
                 [
                     $form['slug'], $form['title'], $form['meta_description'], $form['canonical'], $form['og_image'],
-                    $form['theme'], $form['status'], $form['hero_headline'], $form['hero_subtitle'], $form['cta_text'], $form['cta_href'],
+                    $form['template'], $form['theme'], $form['status'], $form['hero_headline'], $form['hero_subtitle'], $form['cta_text'], $form['cta_href'],
                     $form['body_json'], $user, $publishedAt, $id,
                 ]
             );
@@ -187,7 +190,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'ssssssssssssssss',
                 [
                     $form['slug'], $form['title'], $form['meta_description'], $form['canonical'], $form['og_image'],
-                    'default', $form['theme'], $form['status'],
+                    $form['template'], $form['theme'], $form['status'],
                     $form['hero_headline'], $form['hero_subtitle'], $form['cta_text'], $form['cta_href'],
                     $form['body_json'], $user, $user, $publishedAt,
                 ]
@@ -251,6 +254,15 @@ admin_header($isNew ? 'New page' : 'Edit page');
             </div>
         </div>
         <div class="row">
+            <div class="col">
+                <label for="template">Template</label>
+                <select id="template" name="template">
+                    <?php foreach ($GLOBALS['CMS_PAGE_TEMPLATES'] as $templateKey => $templateLabel): ?>
+                        <option value="<?= cms_e($templateKey) ?>" <?= $form['template'] === $templateKey ? 'selected' : '' ?>><?= cms_e($templateLabel) ?></option>
+                    <?php endforeach; ?>
+                </select>
+                <div class="hint">Matches the shared landing-page template families used by the root pages.</div>
+            </div>
             <div class="col">
                 <label for="theme">Theme</label>
                 <select id="theme" name="theme">

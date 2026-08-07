@@ -69,6 +69,7 @@ $title = $page['title'] !== '' ? $page['title'] : ucwords(str_replace('-', ' ', 
 $metaDescription = (string)($page['meta_description'] ?? '');
 $canonical = (string)($page['canonical'] ?? '');
 $ogImage = (string)($page['og_image'] ?? '');
+$template = strtolower(trim((string)($page['template'] ?? 'default')));
 $headline = $page['hero_headline'] !== '' ? $page['hero_headline'] : $title;
 $featureTitle = cms_e($headline);
 $subtitle = cms_e($page['hero_subtitle']);
@@ -78,7 +79,15 @@ $featureCaption = ['default' => '', 'mobile' => '', 'filled' => '', 'mfilled' =>
 $blocks = cms_json_decode($page['body_json']);
 
 include $appRoot . '/inc/header.php';
-include $appRoot . '/inc/hero.php';
+if ($template === 'feature') {
+    $url = '/' . $slug;
+    include $appRoot . '/inc/feature.php';
+} elseif ($template === 'feature-og') {
+    $url = '/' . $slug;
+    include $appRoot . '/inc/feature-OG.php';
+} else {
+    include $appRoot . '/inc/hero.php';
+}
 echo '<main role="main">';
 cms_render_blocks($blocks, $page);
 echo '</main>';
