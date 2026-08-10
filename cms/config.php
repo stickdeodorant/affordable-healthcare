@@ -28,7 +28,7 @@ $GLOBALS['CMS_ROLES'] = [
 $GLOBALS['CMS_STATUSES'] = ['draft', 'review', 'published', 'archived'];
 
 // Block types the renderer/editor understands.
-$GLOBALS['CMS_BLOCK_TYPES'] = ['hero', 'rich_text', 'cta_banner', 'image', 'faq_list'];
+$GLOBALS['CMS_BLOCK_TYPES'] = ['hero', 'rich_text', 'legacy_html', 'snapshot_html', 'cta_banner', 'image', 'faq_list'];
 
 // Page template families the CMS can render (mirrors top-level landing page styles).
 $GLOBALS['CMS_PAGE_TEMPLATES'] = [

@@ -14,6 +14,8 @@ require_once CMS_LIB . '/csrf.php';
 require_once CMS_LIB . '/auth.php';
 require_once CMS_LIB . '/oauth-google.php';
 require_once CMS_LIB . '/audit.php';
+require_once CMS_LIB . '/snippets.php';
+require_once CMS_LIB . '/legacy-sections.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     $secure = function_exists('is_production') ? is_production() : false;

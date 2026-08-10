@@ -1,0 +1,70 @@
+{
+    "compliance_disclaimer": {
+        "label": "Compliance disclaimer",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "html": "<p><strong>Important:</strong> Affordable Healthcare is a third-party lead generation website. We are not an insurance company and cannot guarantee coverage, pricing, or eligibility. Before enrolling, ask for written plan details.</p>"
+            }
+        ]
+    },
+    "cta_bundle": {
+        "label": "CTA banner block",
+        "blocks": [
+            {
+                "type": "cta_banner",
+                "text": "Find Affordable Healthcare Options",
+                "href": "/multi-quote/",
+                "cta_text": "Get Quotes"
+            }
+        ]
+    },
+    "faq_bundle": {
+        "label": "FAQ starter bundle",
+        "blocks": [
+            {
+                "type": "faq_list",
+                "heading": "Common Questions",
+                "items": [
+                    {
+                        "q": "When can I change plans?",
+                        "a": "<p>You can usually make changes during open enrollment, or during a special enrollment period after a qualifying life event.</p>"
+                    },
+                    {
+                        "q": "How do I compare plans?",
+                        "a": "<p>Compare monthly cost, deductible, provider network, prescription coverage, and maximum out-of-pocket limits.</p>"
+                    },
+                    {
+                        "q": "What should I ask before enrolling?",
+                        "a": "<p>Ask whether your doctors are in-network, how prescriptions are covered, and whether the plan is comprehensive coverage.</p>"
+                    }
+                ]
+            }
+        ]
+    },
+    "legacy_home_sections": {
+        "label": "Legacy home sections stack",
+        "blocks": [
+            {
+                "type": "legacy_section",
+                "section_key": "cta_banner"
+            },
+            {
+                "type": "legacy_section",
+                "section_key": "steps_cards"
+            },
+            {
+                "type": "legacy_section",
+                "section_key": "plane_banner"
+            },
+            {
+                "type": "legacy_section",
+                "section_key": "testimonials_slider"
+            },
+            {
+                "type": "legacy_section",
+                "section_key": "faq_accordion"
+            }
+        ]
+    }
+}

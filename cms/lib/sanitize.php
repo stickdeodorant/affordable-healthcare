@@ -1,6 +1,6 @@
 <?php
 /**
- * Output escaping, slugs, and an allowlist HTML sanitizer for marketer rich-text.
+ * Output escaping, slugs, and HTML sanitization helpers.
  */
 
 /**
@@ -22,25 +22,43 @@ function cms_slug(string $value): string {
 
 /**
  * Sanitize marketer-supplied HTML down to a safe allowlist of tags/attributes.
- * Strips scripts, event handlers, styles, and neutralizes dangerous URLs.
  */
 function cms_sanitize_html(string $html): string {
+    return cms_sanitize_html_fragment($html, [
+        'p', 'br', 'h2', 'h3', 'h4', 'ul', 'ol', 'li',
+        'a', 'strong', 'em', 'b', 'i', 'blockquote',
+    ], [
+        'a' => ['href', 'title'],
+    ]);
+}
+
+/**
+ * Sanitize imported legacy landing-page HTML with a broader structural allowlist.
+ */
+function cms_sanitize_legacy_html(string $html): string {
+    return cms_sanitize_html_fragment($html, [
+        'div', 'section', 'header', 'footer', 'main', 'article', 'aside', 'nav',
+        'span', 'p', 'br', 'hr', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+        'ul', 'ol', 'li', 'a', 'strong', 'em', 'b', 'i', 'blockquote',
+        'img', 'picture', 'source', 'figure', 'figcaption',
+        'button', 'form', 'label', 'input', 'textarea', 'select', 'option',
+        'svg', 'path', 'circle', 'g', 'defs', 'polyline', 'rect', 'line', 'ellipse', 'text', 'tspan', 'use',
+        'table', 'thead', 'tbody', 'tr', 'th', 'td',
+        'small', 'sup', 'sub', 'code', 'pre',
+    ], []);
+}
+
+/**
+ * Shared fragment sanitizer used by the stricter rich-text and broader legacy blocks.
+ */
+function cms_sanitize_html_fragment(string $html, array $allowedTags, array $allowedAttrsByTag): string {
     $html = trim($html);
     if ($html === '') {
         return '';
     }
 
-    $allowedTags = [
-        'p', 'br', 'h2', 'h3', 'h4', 'ul', 'ol', 'li',
-        'a', 'strong', 'em', 'b', 'i', 'blockquote',
-    ];
-    $allowedAttrs = [
-        'a' => ['href', 'title'],
-    ];
-
     $dom = new DOMDocument('1.0', 'UTF-8');
     $prev = libxml_use_internal_errors(true);
-    // Wrap so we can parse a fragment as UTF-8 without adding <html>/<body> noise on output.
     $wrapped = '<?xml encoding="UTF-8"><div id="cms-frag">' . $html . '</div>';
     $dom->loadHTML($wrapped, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
     libxml_clear_errors();
@@ -51,7 +69,7 @@ function cms_sanitize_html(string $html): string {
         return '';
     }
 
-    cms_sanitize_node($frag, $allowedTags, $allowedAttrs);
+    cms_sanitize_node($frag, $allowedTags, $allowedAttrsByTag);
 
     $out = '';
     foreach (iterator_to_array($frag->childNodes) as $child) {
@@ -62,10 +80,9 @@ function cms_sanitize_html(string $html): string {
 
 /**
  * Recursively enforce the tag/attribute allowlist on a DOM subtree.
- * Disallowed elements are unwrapped (children kept); disallowed attributes removed.
+ * Disallowed elements are unwrapped (children kept); unsafe attributes removed.
  */
 function cms_sanitize_node(DOMNode $node, array $allowedTags, array $allowedAttrs): void {
-    // Snapshot children first: the list mutates as we unwrap/remove.
     foreach (iterator_to_array($node->childNodes) as $child) {
         if ($child->nodeType === XML_TEXT_NODE) {
             continue;
@@ -77,12 +94,9 @@ function cms_sanitize_node(DOMNode $node, array $allowedTags, array $allowedAttr
 
         /** @var DOMElement $child */
         $tag = strtolower($child->tagName);
-
-        // Recurse before deciding, so kept-but-disallowed wrappers still surface clean children.
         cms_sanitize_node($child, $allowedTags, $allowedAttrs);
 
         if (!in_array($tag, $allowedTags, true)) {
-            // Unwrap: move children up in place, then drop the element.
             while ($child->firstChild) {
                 $node->insertBefore($child->firstChild, $child);
             }
@@ -90,20 +104,31 @@ function cms_sanitize_node(DOMNode $node, array $allowedTags, array $allowedAttr
             continue;
         }
 
-        // Strip disallowed attributes.
         $permitted = $allowedAttrs[$tag] ?? [];
         foreach (iterator_to_array($child->attributes) as $attr) {
             $name = strtolower($attr->name);
-            if (!in_array($name, $permitted, true)) {
+
+            if (str_starts_with($name, 'on')) {
                 $child->removeAttribute($attr->name);
                 continue;
             }
-            if ($name === 'href' && !cms_url_is_safe($attr->value)) {
+
+            if (in_array($name, ['href', 'src', 'xlink:href', 'action', 'formaction', 'poster'], true) && !cms_url_is_safe($attr->value)) {
                 $child->removeAttribute($attr->name);
+                continue;
             }
+
+            if (in_array($name, $permitted, true)) {
+                continue;
+            }
+
+            if (str_starts_with($name, 'aria-') || str_starts_with($name, 'data-')) {
+                continue;
+            }
+
+            $child->removeAttribute($attr->name);
         }
 
-        // Harden external links.
         if ($tag === 'a' && $child->hasAttribute('href')) {
             $child->setAttribute('rel', 'noopener nofollow');
         }
@@ -121,7 +146,6 @@ function cms_url_is_safe(string $url): bool {
     if (preg_match('#^(https?:|mailto:|tel:)#i', $url)) {
         return true;
     }
-    // Relative or root-relative paths and fragments.
     return (bool)preg_match('#^(/|\./|\.\./|\#)#', $url);
 }
 

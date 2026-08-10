@@ -78,6 +78,17 @@ $featureCaption = ['default' => '', 'mobile' => '', 'filled' => '', 'mfilled' =>
 
 $blocks = cms_json_decode($page['body_json']);
 
+// Whole-page snapshot fast path: a lone snapshot block is the entire captured
+// page, so echo it verbatim. Pages split into multiple blocks (which may still
+// contain section-level snapshot_html) fall through to normal block rendering.
+if (count($blocks) === 1 && is_array($blocks[0] ?? null) && (($blocks[0]['type'] ?? '') === 'snapshot_html')) {
+    $onlyHtml = (string)($blocks[0]['html'] ?? '');
+    if (trim($onlyHtml) !== '') {
+        echo $onlyHtml;
+        exit;
+    }
+}
+
 include $appRoot . '/inc/header.php';
 if ($template === 'feature') {
     $url = '/' . $slug;

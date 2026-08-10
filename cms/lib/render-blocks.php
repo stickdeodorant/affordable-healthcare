@@ -5,6 +5,7 @@
  */
 
 require_once __DIR__ . '/sanitize.php';
+require_once __DIR__ . '/legacy-sections.php';
 
 /**
  * Render an ordered list of body blocks.
@@ -18,6 +19,12 @@ function cms_render_blocks(array $blocks, array $page): void {
             case 'rich_text':
                 cms_block_rich_text($block);
                 break;
+            case 'legacy_html':
+                cms_block_legacy_html($block);
+                break;
+            case 'snapshot_html':
+                cms_block_snapshot_html($block);
+                break;
             case 'cta_banner':
                 cms_block_cta_banner($block, $page);
                 break;
@@ -27,9 +34,20 @@ function cms_render_blocks(array $blocks, array $page): void {
             case 'faq_list':
                 cms_block_faq_list($block);
                 break;
+            case 'legacy_section':
+                cms_block_legacy_section($block);
+                break;
             // 'hero' is rendered by inc/hero.php; ignore here.
         }
     }
+}
+
+function cms_block_legacy_section(array $block): void {
+    $key = trim((string)($block['section_key'] ?? ''));
+    if ($key === '' || !cms_legacy_section_exists($key)) {
+        return;
+    }
+    cms_render_legacy_section($key);
 }
 
 function cms_block_rich_text(array $block): void {
@@ -40,6 +58,22 @@ function cms_block_rich_text(array $block): void {
     echo '<section class="container py-4"><div class="row"><div class="col-lg-10 offset-lg-1 cms-richtext">'
         . $html
         . '</div></div></section>';
+}
+
+function cms_block_legacy_html(array $block): void {
+    $html = cms_sanitize_legacy_html((string)($block['html'] ?? ''));
+    if ($html === '') {
+        return;
+    }
+    echo $html;
+}
+
+function cms_block_snapshot_html(array $block): void {
+    $html = (string)($block['html'] ?? '');
+    if (trim($html) === '') {
+        return;
+    }
+    echo $html;
 }
 
 function cms_block_cta_banner(array $block, array $page): void {
