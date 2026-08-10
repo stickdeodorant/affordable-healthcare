@@ -72,9 +72,17 @@ $ogImage = (string)($page['og_image'] ?? '');
 $template = strtolower(trim((string)($page['template'] ?? 'default')));
 $headline = $page['hero_headline'] !== '' ? $page['hero_headline'] : $title;
 $featureTitle = cms_sanitize_headline($headline);
+// An explicit per-page CMS headline wins over the main_headline experiment override.
+$GLOBALS['ah_cms_headline_lock'] = ($page['hero_headline'] !== '');
 $subtitle = cms_e($page['hero_subtitle']);
 $featureSubtitle = cms_e($page['hero_subtitle']);
 $featureCaption = ['default' => '', 'mobile' => '', 'filled' => '', 'mfilled' => ''];
+
+// Per-page experiment defaults (applied before header includes inc/experiments.php).
+$ahPageDefaults = cms_json_decode((string)($page['experiment_defaults'] ?? ''));
+if (is_array($ahPageDefaults) && $ahPageDefaults) {
+    $GLOBALS['ah_experiment_page_defaults'] = $ahPageDefaults;
+}
 
 $blocks = cms_json_decode($page['body_json']);
 

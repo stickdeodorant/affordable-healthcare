@@ -52,6 +52,7 @@ function cms_ensure_schema(mysqli $conn) {
             cta_text VARCHAR(120) NOT NULL DEFAULT '',
             cta_href VARCHAR(255) NOT NULL DEFAULT '',
             body_json LONGTEXT NULL,
+            experiment_defaults TEXT NULL,
             redirect_to VARCHAR(255) NOT NULL DEFAULT '',
             created_by VARCHAR(100) NULL,
             updated_by VARCHAR(100) NULL,

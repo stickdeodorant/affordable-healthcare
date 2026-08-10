@@ -290,10 +290,17 @@ if (!defined('AH_EXPERIMENTS_LOADED')) {
 	$_SESSION['ah_experiments'] = $stored;
 
 	$GLOBALS['ah_experiment_values'] = [];
+	$ahPageDefaults = isset($GLOBALS['ah_experiment_page_defaults']) && is_array($GLOBALS['ah_experiment_page_defaults'])
+		? $GLOBALS['ah_experiment_page_defaults']
+		: [];
 	foreach ($GLOBALS['ah_experiments'] as $id => $cfg) {
+		// Per-page default (set before header include) applies unless the visitor's session overrides it.
+		$pageDefault = isset($ahPageDefaults[$id]) && isset($cfg['options'][$ahPageDefaults[$id]])
+			? $ahPageDefaults[$id]
+			: $cfg['default'];
 		$GLOBALS['ah_experiment_values'][$id] = isset($stored[$id]) && isset($cfg['options'][$stored[$id]])
 			? $stored[$id]
-			: $cfg['default'];
+			: $pageDefault;
 	}
 }
 

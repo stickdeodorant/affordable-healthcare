@@ -543,6 +543,7 @@ function admin_header(string $pageTitle): void {
                 'compose' => ($self === 'edit.php'),
                 'redirects' => ($self === 'redirects.php'),
                 'snippets' => ($self === 'snippets.php'),
+                'media' => ($self === 'media.php'),
                 'guide' => ($self === 'guide.php'),
             ];
         ?>
@@ -589,6 +590,10 @@ function admin_header(string $pageTitle): void {
                     <a class="<?= $active['redirects'] ? 'active' : '' ?>" href="<?= cms_e($base) ?>/redirects.php">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h13l-3-3"/><path d="M20 17H7l3 3"/></svg>
                         Redirects
+                    </a>
+                    <a class="<?= $active['media'] ? 'active' : '' ?>" href="<?= cms_e($base) ?>/media.php">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                        Media library
                     </a>
                     <?php if (cms_user_can('admin')): ?>
                         <a class="<?= $active['snippets'] ? 'active' : '' ?>" href="<?= cms_e($base) ?>/snippets.php">

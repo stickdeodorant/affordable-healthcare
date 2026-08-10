@@ -76,7 +76,7 @@ if (function_exists('ah_experiment')) {
 		'free_quotes' => 'Find <strong>Free</strong> Healthcare Quotes',
 	];
 	$ahHeadline = ah_experiment('main_headline');
-	if (isset($ahHeadlineVariants[$ahHeadline])) {
+	if (isset($ahHeadlineVariants[$ahHeadline]) && empty($GLOBALS['ah_cms_headline_lock'])) {
 		$featureTitle = $ahHeadlineVariants[$ahHeadline];
 	}
 	$ahCtaVariants = [

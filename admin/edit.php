@@ -14,6 +14,35 @@ $base = CMS_ADMIN_PATH;
 $id = (int)($_GET['id'] ?? 0);
 $errors = [];
 
+// Experiment registry (for per-page default variant controls).
+require_once CMS_APP_ROOT . '/inc/experiments.php';
+$ahExperimentRegistry = isset($GLOBALS['ah_experiments']) && is_array($GLOBALS['ah_experiments']) ? $GLOBALS['ah_experiments'] : [];
+
+/**
+ * Keep only registered experiment ids whose chosen variant is a valid, non-default
+ * option; returns a compact JSON string (or '' when nothing is overridden).
+ */
+function admin_clean_experiment_defaults($raw): string {
+    $registry = isset($GLOBALS['ah_experiments']) && is_array($GLOBALS['ah_experiments']) ? $GLOBALS['ah_experiments'] : [];
+    $out = [];
+    if (is_array($raw)) {
+        foreach ($raw as $id => $variant) {
+            if (!isset($registry[$id])) {
+                continue;
+            }
+            $variant = (string)$variant;
+            $cfg = $registry[$id];
+            if ($variant === '' || $variant === (string)($cfg['default'] ?? '')) {
+                continue;
+            }
+            if (isset($cfg['options'][$variant])) {
+                $out[$id] = $variant;
+            }
+        }
+    }
+    return $out ? (string)json_encode($out, JSON_UNESCAPED_SLASHES) : '';
+}
+
 /**
  * Validate/sanitize marketer-submitted blocks down to the renderer's contract.
  */
@@ -223,6 +252,7 @@ $form = [
     'hero_subtitle' => $page['hero_subtitle'] ?? '',
     'cta_text' => $page['cta_text'] ?? '',
     'cta_href' => $page['cta_href'] ?? '',
+    'experiment_defaults' => $page['experiment_defaults'] ?? '',
     'handoff_note' => '',
     'reviewer_note' => '',
     'body_json' => $page['body_json'] ?? '[]',
@@ -256,6 +286,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $form['reviewer_note'] = mb_substr(trim((string)($_POST['reviewer_note'] ?? '')), 0, 900);
     $ctaHref = trim((string)($_POST['cta_href'] ?? ''));
     $form['cta_href'] = ($ctaHref === '' || cms_url_is_safe($ctaHref)) ? $ctaHref : '';
+
+    // Per-page experiment defaults: keep only registered ids with valid variant keys.
+    $form['experiment_defaults'] = admin_clean_experiment_defaults($_POST['experiment_default'] ?? []);
 
     // Blocks arrive as a JSON string from the editor.
     $rawBlocks = cms_json_decode((string)($_POST['body_json'] ?? '[]'));
@@ -319,13 +352,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     slug = ?, title = ?, meta_description = ?, canonical = ?, og_image = ?,
                     template = ?,
                     theme = ?, status = ?, hero_headline = ?, hero_subtitle = ?, cta_text = ?, cta_href = ?,
-                    body_json = ?, updated_by = ?, published_at = ?
+                    body_json = ?, experiment_defaults = ?, updated_by = ?, published_at = ?
                  WHERE id = ?',
-                'sssssssssssssssi',
+                'ssssssssssssssssi',
                 [
                     $form['slug'], $form['title'], $form['meta_description'], $form['canonical'], $form['og_image'],
                     $form['template'], $form['theme'], $form['status'], $form['hero_headline'], $form['hero_subtitle'], $form['cta_text'], $form['cta_href'],
-                    $form['body_json'], $user, $publishedAt, $id,
+                    $form['body_json'], $form['experiment_defaults'], $user, $publishedAt, $id,
                 ]
             );
             // Auto-redirect old slug -> new slug so links don't break.
@@ -342,14 +375,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = (int)cms_write(
                 'INSERT INTO cms_pages
                     (slug, title, meta_description, canonical, og_image, template, theme, status,
-                     hero_headline, hero_subtitle, cta_text, cta_href, body_json, created_by, updated_by, published_at)
-                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-                'ssssssssssssssss',
+                     hero_headline, hero_subtitle, cta_text, cta_href, body_json, experiment_defaults, created_by, updated_by, published_at)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                'sssssssssssssssss',
                 [
                     $form['slug'], $form['title'], $form['meta_description'], $form['canonical'], $form['og_image'],
                     $form['template'], $form['theme'], $form['status'],
                     $form['hero_headline'], $form['hero_subtitle'], $form['cta_text'], $form['cta_href'],
-                    $form['body_json'], $user, $user, $publishedAt,
+                    $form['body_json'], $form['experiment_defaults'], $user, $user, $publishedAt,
                 ]
             );
         }
@@ -677,6 +710,38 @@ admin_header($isNew ? 'New page' : 'Edit page');
                 <label for="og_image">Social share image</label>
                 <input type="text" id="og_image" name="og_image" value="<?= cms_e($form['og_image']) ?>" maxlength="255" placeholder="/img/...">
             </div>
+        </div>
+    </div>
+
+    <?php
+        $ahPageDefaults = cms_json_decode((string)($form['experiment_defaults'] ?? ''));
+        if (!is_array($ahPageDefaults)) { $ahPageDefaults = []; }
+    ?>
+    <div class="card advanced-only step-card">
+        <div class="section-head">
+            <span class="section-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21v-7"/><path d="M4 10V3"/><path d="M12 21v-9"/><path d="M12 8V3"/><path d="M20 21v-5"/><path d="M20 12V3"/><circle cx="4" cy="12" r="2"/><circle cx="12" cy="10" r="2"/><circle cx="20" cy="14" r="2"/></svg></span>
+            <div>
+                <h2 class="section-title">Page variants</h2>
+                <p class="section-desc">Set a default headline/copy/color variant for THIS page. A visitor's own debug-panel choice still overrides these.</p>
+            </div>
+        </div>
+        <div class="row" style="flex-wrap:wrap; gap:1rem;">
+            <?php foreach ($ahExperimentRegistry as $expId => $expCfg): ?>
+                <?php $current = (string)($ahPageDefaults[$expId] ?? ''); ?>
+                <div class="col" style="min-width:260px;">
+                    <label for="exp_<?= cms_e($expId) ?>"><?= cms_e($expCfg['label'] ?? $expId) ?></label>
+                    <select id="exp_<?= cms_e($expId) ?>" name="experiment_default[<?= cms_e($expId) ?>]">
+                        <option value="">Use site default</option>
+                        <?php foreach (($expCfg['options'] ?? []) as $optKey => $optLabel): ?>
+                            <?php if ((string)$optKey === (string)($expCfg['default'] ?? '')) { continue; } ?>
+                            <option value="<?= cms_e($optKey) ?>" <?= $current === (string)$optKey ? 'selected' : '' ?>><?= cms_e($optLabel) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                    <?php if (!empty($expCfg['note'])): ?>
+                        <div class="hint"><?= cms_e($expCfg['note']) ?></div>
+                    <?php endif; ?>
+                </div>
+            <?php endforeach; ?>
         </div>
     </div>
 
