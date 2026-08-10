@@ -11,6 +11,21 @@ function cms_e($value): string {
 }
 
 /**
+ * Escape a hero headline while keeping a tiny inline whitelist so marketers can
+ * highlight part of it (<span class="text-secondary">), add a line break, or use
+ * basic emphasis. Everything else is escaped first, so the result is XSS-safe:
+ * only these exact, fixed constructs are restored (no arbitrary attributes).
+ */
+function cms_sanitize_headline($value): string {
+    $out = htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
+    $out = preg_replace('/&lt;span\s+class=(?:&quot;|&#0?39;)?text-secondary(?:&quot;|&#0?39;)?&gt;/i', '<span class="text-secondary">', $out);
+    $out = str_ireplace('&lt;/span&gt;', '</span>', $out);
+    $out = preg_replace('/&lt;br\s*\/?&gt;/i', '<br>', $out);
+    $out = preg_replace('#&lt;(/?)(strong|em|b|i)&gt;#i', '<$1$2>', $out);
+    return $out;
+}
+
+/**
  * Normalize an arbitrary string into a URL-safe slug.
  */
 function cms_slug(string $value): string {

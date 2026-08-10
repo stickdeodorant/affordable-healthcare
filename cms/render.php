@@ -71,7 +71,7 @@ $canonical = (string)($page['canonical'] ?? '');
 $ogImage = (string)($page['og_image'] ?? '');
 $template = strtolower(trim((string)($page['template'] ?? 'default')));
 $headline = $page['hero_headline'] !== '' ? $page['hero_headline'] : $title;
-$featureTitle = cms_e($headline);
+$featureTitle = cms_sanitize_headline($headline);
 $subtitle = cms_e($page['hero_subtitle']);
 $featureSubtitle = cms_e($page['hero_subtitle']);
 $featureCaption = ['default' => '', 'mobile' => '', 'filled' => '', 'mfilled' => ''];

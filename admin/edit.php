@@ -579,6 +579,16 @@ admin_header($isNew ? 'New page' : 'Edit page');
                 <label for="hero_headline">Headline</label>
                 <input type="text" id="hero_headline" name="hero_headline" value="<?= cms_e($form['hero_headline']) ?>" maxlength="255">
                 <div class="hint">Recommended 35-80 chars.<span class="char-count" data-count-for="hero_headline"></span></div>
+                <div class="headline-tools" style="margin-top:.4rem; display:flex; gap:.5rem; align-items:center; flex-wrap:wrap;">
+                    <button type="button" class="btn btn-ghost btn-sm" id="hero_highlight_btn">Highlight selection</button>
+                    <button type="button" class="btn btn-ghost btn-sm" id="hero_highlight_clear">Clear highlight</button>
+                    <span class="hint" style="margin:0;">Select part of the headline, then Highlight to color it.</span>
+                </div>
+                <div class="headline-preview" id="hero_headline_preview" aria-live="polite" style="margin-top:.4rem;"></div>
+                <style>
+                    #hero_headline_preview { font-weight:700; font-size:1.05rem; line-height:1.3; }
+                    #hero_headline_preview .text-secondary { color:#c9a227; } /* preview highlight only */
+                </style>
             </div>
             <div class="col">
                 <label for="hero_subtitle">Subtitle</label>
@@ -1261,6 +1271,58 @@ admin_header($isNew ? 'New page' : 'Edit page');
             updateDirtyState();
         });
     });
+
+    // Headline highlight: wrap the selected text in <span class="text-secondary">.
+    (function () {
+        var hh = document.getElementById('hero_headline');
+        if (!hh) { return; }
+        var hlBtn = document.getElementById('hero_highlight_btn');
+        var clrBtn = document.getElementById('hero_highlight_clear');
+        var prev = document.getElementById('hero_headline_preview');
+        var OPEN = '<span class="text-secondary">';
+        var CLOSE = '</span>';
+
+        function renderPreview() {
+            if (!prev) { return; }
+            var esc = (hh.value || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            esc = esc
+                .replace(/&lt;span\s+class=(?:&quot;|&#0?39;|")?text-secondary(?:&quot;|&#0?39;|")?&gt;/gi, OPEN)
+                .replace(/&lt;\/span&gt;/gi, CLOSE)
+                .replace(/&lt;br\s*\/?&gt;/gi, '<br>')
+                .replace(/&lt;(\/?)(strong|em|b|i)&gt;/gi, '<$1$2>');
+            prev.innerHTML = esc || '<span class="muted">Headline preview appears here</span>';
+        }
+
+        function afterChange() {
+            renderPreview();
+            updateCharCounters();
+            renderChecklist();
+            scheduleAutosave();
+            updateDirtyState();
+        }
+
+        function wrapSelection() {
+            var s = hh.selectionStart, e = hh.selectionEnd, val = hh.value || '';
+            if (s === null || e === null || s === e) { hh.focus(); return; }
+            hh.value = val.slice(0, s) + OPEN + val.slice(s, e) + CLOSE + val.slice(e);
+            hh.focus();
+            hh.selectionStart = s + OPEN.length;
+            hh.selectionEnd = e + OPEN.length;
+            afterChange();
+        }
+
+        function clearHighlight() {
+            hh.value = (hh.value || '')
+                .replace(/<span\s+class=(?:"|')?text-secondary(?:"|')?>/gi, '')
+                .replace(/<\/span>/gi, '');
+            afterChange();
+        }
+
+        if (hlBtn) { hlBtn.addEventListener('click', wrapSelection); }
+        if (clrBtn) { clrBtn.addEventListener('click', clearHighlight); }
+        hh.addEventListener('input', renderPreview);
+        renderPreview();
+    })();
 
     modeInputs.forEach(function (input) {
         input.addEventListener('change', function () {
