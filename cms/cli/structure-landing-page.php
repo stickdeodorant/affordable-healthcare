@@ -175,7 +175,7 @@ function cms_blocks_from_snapshot(string $snapshot): array {
 /** Map one top-level section to its best block representation. */
 function cms_classify_chunk(string $chunk): array {
     if (stripos($chunk, 'id="steps"') !== false || stripos($chunk, 'id="steps-quote"') !== false) {
-        return ['type' => 'legacy_section', 'section_key' => 'steps_tabs'];
+        return ['type' => 'legacy_section', 'section_key' => 'steps_cards'];
     }
     if (stripos($chunk, 'waiting-room.svg') !== false) {
         return ['type' => 'legacy_section', 'section_key' => 'cta_banner'];
