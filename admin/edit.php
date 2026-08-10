@@ -11,12 +11,15 @@ require_once __DIR__ . '/_layout.php';
 cms_require_login();
 
 $base = CMS_ADMIN_PATH;
-$id = (int)($_GET['id'] ?? 0);
-$errors = [];
 
-// Experiment registry (for per-page default variant controls).
+// Experiment registry (for per-page default variant controls). Load this BEFORE
+// assigning $id: experiments.php runs file-scope `foreach (... as $id => $cfg)`
+// loops that would otherwise clobber this editor's $id.
 require_once CMS_APP_ROOT . '/inc/experiments.php';
 $ahExperimentRegistry = isset($GLOBALS['ah_experiments']) && is_array($GLOBALS['ah_experiments']) ? $GLOBALS['ah_experiments'] : [];
+
+$id = (int)($_GET['id'] ?? 0);
+$errors = [];
 
 /**
  * Keep only registered experiment ids whose chosen variant is a valid, non-default
