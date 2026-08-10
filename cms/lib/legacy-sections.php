@@ -25,6 +25,21 @@ function cms_legacy_section_catalog(): array {
             'include' => 'inc/sections/plane-banner.php',
             'description' => 'SVG banner section with curved text path treatment.',
         ],
+        'searching_intro' => [
+            'label' => 'Searching Intro + Testimonials',
+            'include' => 'inc/sections/searching-intro.php',
+            'description' => 'Home "Searching For Affordable Healthcare Plans Made Easy" intro with testimonials.',
+        ],
+        'open_enrollment' => [
+            'label' => 'Open Enrollment & QLE',
+            'include' => 'inc/sections/open-enrollment.php',
+            'description' => 'Home "Open Enrollment And Qualifying Life Events" grassy section.',
+        ],
+        'consumer_caution' => [
+            'label' => 'Consumer Caution',
+            'include' => 'inc/sections/consumer-caution.php',
+            'description' => 'Home consumer caution card with link to the caution page.',
+        ],
         'faq_accordion' => [
             'label' => 'Legacy FAQ Accordion',
             'include' => 'inc/sections/faq-section.php',
