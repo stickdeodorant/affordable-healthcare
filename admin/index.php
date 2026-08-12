@@ -284,9 +284,12 @@ if ((string)($_GET['export_activity'] ?? '') === '1') {
 }
 $canDelete = cms_user_can('admin');
 
-admin_header('Pages');
+$newPageBtn = '<a class="btn btn-primary" href="' . cms_e($base) . '/edit.php">'
+    . '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>'
+    . ' New page</a>';
+
+admin_header('Pages', 'Create, review, and publish every landing page.', $newPageBtn);
 ?>
-<h1>Pages</h1>
 
 <form class="toolbar" method="get" action="<?= cms_e($base) ?>/">
     <div>
@@ -303,7 +306,6 @@ admin_header('Pages');
         </select>
     </div>
     <div><button class="btn btn-ghost" type="submit">Filter</button></div>
-    <div><a class="btn btn-primary" href="<?= cms_e($base) ?>/edit.php">New page</a></div>
 </form>
 
 <div class="card">
@@ -436,6 +438,7 @@ admin_header('Pages');
             <div class="muted">Status changes require reviewer access. Delete requires admin access.</div>
         </div>
     </div>
+<div class="table-wrap">
 <table>
     <thead>
         <tr>
@@ -444,7 +447,6 @@ admin_header('Pages');
             <th>Slug</th>
             <th>Status</th>
             <th>Risk</th>
-            <th>Theme</th>
             <th>Updated</th>
             <th>Actions</th>
         </tr>
@@ -461,7 +463,6 @@ admin_header('Pages');
                     <span class="badge badge-risk-<?= cms_e($risk['level']) ?>"><?= cms_e(ucfirst($risk['level'])) ?></span>
                     <div class="muted"><?= cms_e((string)$risk['reason']) ?></div>
                 </td>
-                <td class="muted"><?= cms_e($p['theme']) ?></td>
                 <td class="muted">
                     <?= cms_e(date('M j, Y g:i a', strtotime($p['updated_at']))) ?><br>
                     <?= cms_e($p['updated_by'] ?? '') ?>
@@ -501,6 +502,7 @@ admin_header('Pages');
         <?php endforeach; ?>
     </tbody>
 </table>
+</div>
 </form>
 <script>
 (function () {

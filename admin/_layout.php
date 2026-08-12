@@ -38,7 +38,7 @@ function admin_status_badge(string $status): string {
     return '<span class="badge badge-' . cms_e($status) . '">' . cms_e($label) . '</span>';
 }
 
-function admin_header(string $pageTitle): void {
+function admin_header(string $pageTitle, string $pageSubtitle = '', string $topbarActions = ''): void {
     $user = cms_current_user();
     $base = CMS_ADMIN_PATH;
     $flash = admin_flash_get();
@@ -48,13 +48,14 @@ function admin_header(string $pageTitle): void {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex,nofollow">
+    <link rel="icon" type="image/svg+xml" href="/img/cms-favicon.svg">
     <title><?= cms_e($pageTitle) ?> &middot; CMS Admin</title>
     <style>
         :root {
-            --ah:#0d7d6e;
-            --ah-strong:#0a6153;
+            --ah:#e8551d;
+            --ah-strong:#c2400f;
             --ah-dark:#0b1220;
-            --ah-soft:#e7f3f0;
+            --ah-soft:#fdeadf;
             --ink:#18212e;
             --ink-soft:#586675;
             --ink-faint:#8a97a5;
@@ -85,7 +86,7 @@ function admin_header(string $pageTitle): void {
             -webkit-font-smoothing:antialiased;
             text-rendering:optimizeLegibility;
             background:
-                radial-gradient(820px 340px at 100% -6%, rgba(13,125,110,.06), transparent 60%),
+                radial-gradient(820px 340px at 100% -6%, rgba(232,85,29,.06), transparent 60%),
                 var(--bg);
         }
         a { color:var(--ah); text-decoration:none; }
@@ -127,9 +128,8 @@ function admin_header(string $pageTitle): void {
             display:inline-flex;
             align-items:center;
             justify-content:center;
-            background:linear-gradient(140deg, var(--ah) 0%, #14b39b 100%);
+            background:transparent;
             color:#fff;
-            box-shadow:0 6px 16px rgba(13,125,110,.4);
             font-size:.95rem;
         }
         .cms-sidebar .who {
@@ -187,9 +187,9 @@ function admin_header(string $pageTitle): void {
         }
         .cms-nav a:hover svg { opacity:1; }
         .cms-nav a.active {
-            background:linear-gradient(135deg, rgba(13,125,110,.9) 0%, rgba(16,140,122,.72) 100%);
+            background:linear-gradient(135deg, rgba(232,85,29,.95) 0%, rgba(249,138,30,.8) 100%);
             color:#fff;
-            box-shadow:0 6px 16px rgba(13,125,110,.32);
+            box-shadow:0 6px 16px rgba(232,85,29,.32);
         }
         .cms-nav a.active svg { opacity:1; }
         .cms-nav-cta {
@@ -203,8 +203,8 @@ function admin_header(string $pageTitle): void {
             font-weight:700;
             font-size:.88rem;
             color:#fff;
-            background:linear-gradient(135deg, var(--ah) 0%, #12a58f 100%);
-            box-shadow:0 8px 18px rgba(13,125,110,.35);
+            background:linear-gradient(135deg, var(--ah) 0%, #f98a1e 100%);
+            box-shadow:0 8px 18px rgba(232,85,29,.35);
         }
         .cms-nav-cta:hover { text-decoration:none; color:#fff; filter:brightness(1.05); }
         .cms-logout {
@@ -249,6 +249,17 @@ function admin_header(string $pageTitle): void {
             color:var(--ink);
             font-size:1.02rem;
             font-weight:700;
+        }
+        .cms-topbar .page-subtitle {
+            color:var(--ink-soft);
+            font-size:.82rem;
+            margin-top:.15rem;
+        }
+        .cms-topbar .topbar-actions {
+            display:flex;
+            align-items:center;
+            gap:.55rem;
+            flex-shrink:0;
         }
         .ah-main { max-width:1240px; width:100%; margin:1.6rem auto; padding:0 1.6rem 3.5rem; }
         h1 {
@@ -344,7 +355,7 @@ function admin_header(string $pageTitle): void {
         input:focus, select:focus, textarea:focus {
             outline:none;
             border-color:var(--ah);
-            box-shadow:0 0 0 3px rgba(13,125,110,.16);
+            box-shadow:0 0 0 3px rgba(232,85,29,.16);
         }
         .hint { font-size:.78rem; color:var(--ink-soft); margin-top:.28rem; }
         .row { display:flex; gap:1rem; flex-wrap:wrap; }
@@ -365,14 +376,14 @@ function admin_header(string $pageTitle): void {
             transition:transform .1s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease, color .18s ease;
         }
         .btn:hover { text-decoration:none; }
-        .btn:focus-visible { outline:none; box-shadow:0 0 0 3px rgba(13,125,110,.3); }
+        .btn:focus-visible { outline:none; box-shadow:0 0 0 3px rgba(232,85,29,.3); }
         .btn:active { transform:translateY(1px); }
         .btn-primary {
             background:linear-gradient(135deg, var(--ah) 0%, var(--ah-strong) 100%);
             color:#fff;
-            box-shadow:0 6px 16px rgba(13,125,110,.26);
+            box-shadow:0 6px 16px rgba(232,85,29,.26);
         }
-        .btn-primary:hover { filter:brightness(1.06); box-shadow:0 8px 20px rgba(13,125,110,.32); }
+        .btn-primary:hover { filter:brightness(1.06); box-shadow:0 8px 20px rgba(232,85,29,.32); }
         .btn-ghost {
             background:#fff;
             color:var(--ink);
@@ -386,7 +397,11 @@ function admin_header(string $pageTitle): void {
         }
         .btn-danger:hover { background:#fdf0f0; border-color:#e2b3b4; }
         .btn-sm { padding:.36rem .66rem; font-size:.78rem; border-radius:8px; }
-        .actions { display:flex; gap:.4rem; align-items:center; flex-wrap:wrap; }
+        .actions { display:flex; gap:.4rem; align-items:center; flex-wrap:nowrap; justify-content:flex-end; }
+        tbody td:last-child { white-space:nowrap; width:1%; }
+        td .badge + .muted { margin-top:.2rem; max-width:150px; }
+        .table-wrap { overflow-x:auto; border-radius:var(--radius); }
+        .table-wrap table { margin:0; }
         .toolbar {
             display:flex;
             gap:.85rem;
@@ -500,8 +515,66 @@ function admin_header(string $pageTitle): void {
             color:#235d78;
         }
         .faq-item { border:1px dashed #c8d8e8; border-radius:9px; padding:.62rem; margin-bottom:.6rem; }
-        .login-wrap { max-width:420px; margin:7vh auto; }
-        .login-wrap .card { padding:1.8rem; }
+        body.auth-body {
+            min-height:100vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background:
+                radial-gradient(700px 320px at 15% 0%, rgba(232,85,29,.10), transparent 60%),
+                radial-gradient(760px 360px at 100% 100%, rgba(249,138,30,.08), transparent 60%),
+                var(--bg);
+        }
+        body.auth-body .ah-main { margin:0; padding:1.5rem; max-width:none; }
+        .login-wrap {
+            max-width:430px;
+            width:100%;
+            margin:0 auto;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            gap:1.1rem;
+            text-align:center;
+        }
+        .login-brand {
+            display:flex;
+            align-items:center;
+            gap:.6rem;
+            font-family:"Avenir Next Demi Bold","Montserrat","Segoe UI",sans-serif;
+            font-weight:700;
+            font-size:1.16rem;
+            color:var(--ink);
+            letter-spacing:.01em;
+        }
+        .login-brand .login-logo { width:38px; height:38px; display:inline-flex; }
+        .login-brand .login-logo svg { width:100%; height:100%; }
+        .login-card {
+            width:100%;
+            padding:2rem 1.9rem;
+            text-align:left;
+            border-radius:var(--radius-lg);
+            box-shadow:var(--shadow-lg);
+            margin:0;
+        }
+        .login-card .login-title { font-size:1.4rem; font-weight:700; margin:0 0 .35rem; color:var(--ink); }
+        .login-card .login-sub { color:var(--ink-soft); margin:0 0 1.4rem; font-size:.92rem; line-height:1.55; }
+        .btn-google {
+            width:100%;
+            justify-content:center;
+            padding:.72rem 1rem;
+            font-size:.92rem;
+            gap:.65rem;
+            background:#fff;
+            color:#3c4043;
+            border:1px solid var(--line-strong);
+            box-shadow:var(--shadow-sm);
+            font-weight:700;
+        }
+        .btn-google:hover { background:#fbfbfc; border-color:#c2ccd6; box-shadow:var(--shadow); text-decoration:none; color:#3c4043; }
+        .btn-google svg { flex:0 0 18px; }
+        .login-domain { margin:1.15rem 0 0; font-size:.82rem; color:var(--ink-faint); text-align:center; }
+        .login-domain strong { color:var(--ink-soft); font-weight:700; }
+        .login-foot { font-size:.78rem; color:var(--ink-faint); margin:0; }
         code {
             background:#f0f5fa;
             border:1px solid #dbe6f1;
@@ -528,7 +601,7 @@ function admin_header(string $pageTitle): void {
         }
     </style>
 </head>
-<body>
+<body class="<?= $user ? 'app-body' : 'auth-body' ?>">
     <?php $isAuth = !$user; ?>
     <?php if ($isAuth): ?>
         <div class="ah-main">
@@ -556,9 +629,17 @@ function admin_header(string $pageTitle): void {
             <aside class="cms-sidebar">
                 <a class="cms-brand" href="<?= cms_e($base) ?>/">
                     <span class="brand-mark" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.35-9.5-8.5C1 10 2 6.5 5.5 6.5c2 0 3 1.2 3.5 2 .5-.8 1.5-2 3.5-2C16 6.5 17 10 15.5 12.5 13 16.65 12 21 12 21z"/></svg>
+                        <svg viewBox="0 0 24 24" width="28" height="28" role="img" aria-hidden="true">
+                            <defs>
+                                <linearGradient id="cmsBrandGrad" x1="0" y1="0" x2="1" y2="1">
+                                    <stop offset="0" stop-color="#F98A1E"/>
+                                    <stop offset="1" stop-color="#E5431C"/>
+                                </linearGradient>
+                            </defs>
+                            <path d="M7 3 L20 12 L7 21 L12 12 Z" fill="url(#cmsBrandGrad)"/>
+                        </svg>
                     </span>
-                    <span>Healthcare CMS</span>
+                    <span>Health Plans CMS</span>
                 </a>
                 <div class="who">
                     <span class="who-avatar" aria-hidden="true"><?= cms_e($initials) ?></span>
@@ -618,10 +699,16 @@ function admin_header(string $pageTitle): void {
 
             <section class="cms-workspace">
                 <header class="cms-topbar">
-                    <div>
+                    <div class="topbar-heading">
                         <div class="page-kicker">Content Management</div>
                         <div class="page-title"><?= cms_e($pageTitle) ?></div>
+                        <?php if ($pageSubtitle !== ''): ?>
+                            <div class="page-subtitle"><?= cms_e($pageSubtitle) ?></div>
+                        <?php endif; ?>
                     </div>
+                    <?php if ($topbarActions !== ''): ?>
+                        <div class="topbar-actions"><?= $topbarActions ?></div>
+                    <?php endif; ?>
                 </header>
                 <div class="ah-main">
                     <?php if ($flash): ?>
