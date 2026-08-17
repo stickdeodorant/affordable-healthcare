@@ -329,7 +329,7 @@ body.zip-filled .zip-caption-unfilled {
 	display: none;
 }
 
-#secure-icon {
+.ah-zip-icon {
 	max-height: 50px;
 } 
 
@@ -722,6 +722,7 @@ body {
 
 .ti-lock,
 #secure-icon,
+.ah-zip-icon,
 #secure-form,
 .icon-stack,
 .icon-stack svg {
@@ -1092,7 +1093,8 @@ body .ah-hero .ah-hero-sub {
 	max-width: 560px;
 	line-height: 1.5;
 	color: var(--color-text);
-	margin: 0 0 1.5rem;
+	text-align: center;
+	margin: 0 auto 1.5rem;
 }
 
 /* ── Form ────────────────────────────────────────────────────── */
@@ -1111,7 +1113,7 @@ body .ah-hero .ah-zip {
 	font-weight: 700;
 	text-align: center;
 	background: #fff;
-	padding: 0 48px 0 16px;
+	padding: 0 16px;
 }
 
 body .ah-hero .ah-lock {
@@ -1122,6 +1124,16 @@ body .ah-hero .ah-lock {
 	width: 20px;
 	height: 20px;
 	color: var(--color-input-border);
+	pointer-events: none;
+}
+
+body .ah-hero .ah-zip-icon {
+	position: absolute;
+	right: 14px;
+	top: 50%;
+	transform: translateY(-50%);
+	max-height: 30px;
+	padding-left: 0 !important;
 	pointer-events: none;
 }
 
@@ -1473,7 +1485,7 @@ body .ah-hero .ah-layer-mountain {
 	body .ah-hero .ah-hero-sub {
 		max-width: 345px;
 		font-size: 1rem;
-		margin-bottom: 0.75rem;
+		margin: 0 auto 0.75rem;
 		text-align: center;
 	}
 
@@ -1481,7 +1493,6 @@ body .ah-hero .ah-layer-mountain {
 		height: 60px;
 		font-size: 1.65rem;
 		width: 100%;
-		padding-right: 46px;
 	}
 
 	body .ah-hero .ah-btn {
@@ -1504,8 +1515,8 @@ body .ah-hero .ah-layer-mountain {
 		text-align: center;
 	}
 
-	body .ah-hero #secure-icon {
-		max-height: 26px;
+	body .ah-hero .ah-zip-icon {
+		max-height: 40px;
 		position: absolute;
 		right: 12px;
 		top: 50%;
