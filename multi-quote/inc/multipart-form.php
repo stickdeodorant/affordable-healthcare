@@ -692,7 +692,7 @@ $submitPreviewText = isset($submitPreview[$xSubmit]) ? $submitPreview[$xSubmit] 
                                     <span class="ah-contact-explain for-email text-muted small mt-1">We'll email your personalized plan information.</span>
                                 </div>
 
-                                <div class="form-group text-left mt-4 mb-5">
+                                <div class="form-group text-left mt-4 mb-4">
                                     <label for="phone">Phone Number</label>
                                     <input type="tel"
                                         name="Primary_Phone"
@@ -713,6 +713,17 @@ $submitPreviewText = isset($submitPreview[$xSubmit]) ? $submitPreview[$xSubmit] 
                                 </div>
                                 <?php endif; ?>
 
+                                <button type="button"
+                                    class="prev btn btn-secondary action-button mr-2 hidden"
+                                    data-prev-step="6">
+                                    Back
+                                </button>
+                                <button type="submit"
+                                    class="btn btn-success action-button submit mb-5"
+                                    id="submit-form">
+                                    Get My Quote
+                                </button>
+
                                 <div class="disclaimer">
                                     <p class="small text-muted">
                                         <?php /*
@@ -730,17 +741,6 @@ $submitPreviewText = isset($submitPreview[$xSubmit]) ? $submitPreview[$xSubmit] 
                                         <a data-toggle="modal" data-target="#termsModal" style="cursor: pointer;" href="#">Terms of Service</a>
                                     </p>
                                 </div>
-
-                                <button type="button"
-                                    class="prev btn btn-secondary action-button mr-2 hidden"
-                                    data-prev-step="6">
-                                    Back
-                                </button>
-                                <button type="submit"
-                                    class="btn btn-success action-button submit"
-                                    id="submit-form">
-                                    Get My Quote
-                                </button>
                             </div>
                         </fieldset>
 
