@@ -1042,6 +1042,37 @@ select+.parsley-errors-list {
 		min-height: 275px;
 	}
 }
+
+/* Bottom-of-page white fade above the Safari navigation bar (hidden by default) */
+.ah-safari-bottom-fade {
+	display: none;
+}
+
+/* iOS Safari/WebKit only: keep the bottom content above the browser toolbar and
+   fade the bottom of the page from transparent to solid white so it doesn't look cluttered. */
+@supports (-webkit-touch-callout: none) {
+	@media (max-width: 767px) {
+		body {
+			padding-bottom: env(safe-area-inset-bottom, 0px);
+		}
+		body > footer {
+			padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+			/* keep the footer clear of the fixed bottom fade (its height) */
+			margin-bottom: calc(3.25rem + env(safe-area-inset-bottom, 0px));
+		}
+		/* .ah-safari-bottom-fade {
+			display: block;
+			position: fixed;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			height: calc(3.25rem + env(safe-area-inset-bottom, 0px));
+			background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #ffffff 60%);
+			pointer-events: none;
+			z-index: 998;
+		} */
+	}
+}
 /* Progress Circle Animation Styles - No Modal Styling */
 .submit-text {
     text-align: center;
@@ -1440,8 +1471,15 @@ select+.parsley-errors-list {
 	border-bottom: none;
 }
 
-body.mobile-keyboard-open #msform fieldset .form-card {
-	padding-bottom: calc(7rem + env(safe-area-inset-bottom));
+:root {
+	--ah-vv-height: 100vh;
+	--ah-kb-offset: 0px;
+	--ah-action-reserve: 132px;
+}
+
+body.mobile-keyboard-open #msform fieldset .form-card,
+body.mobile-form-focus #msform fieldset .form-card {
+	padding-bottom: calc(var(--ah-action-reserve, 132px) + var(--ah-kb-offset, 0px) + env(safe-area-inset-bottom, 0px));
 }
 
 #msform .btn.hidden,
@@ -1497,6 +1535,30 @@ body.mobile-keyboard-open #msform fieldset .form-card {
 	#msform .action-button + .action-button {
 		margin-left: 0.45rem;
 	}
+
+	body.mobile-keyboard-open #msform .form-step[data-active="true"] .action-button:not(.hidden),
+	body.mobile-form-focus #msform .form-step[data-active="true"] .action-button:not(.hidden) {
+		position: sticky;
+		bottom: calc(var(--ah-kb-offset, 0px) + 0.6rem + env(safe-area-inset-bottom, 0px));
+		z-index: 20;
+	}
+
+	body.mobile-keyboard-open #msform .parsley-errors-list.filled,
+	body.mobile-form-focus #msform .parsley-errors-list.filled {
+		position: relative;
+		z-index: 21;
+		margin-bottom: 0.6rem;
+	}
+
+	body.mobile-phone-focus #msform .form-step[data-step="7"][data-active="true"] .form-card {
+		padding-bottom: calc(var(--ah-action-reserve, 172px) + 4.2rem + env(safe-area-inset-bottom, 0px));
+	}
+
+	body.mobile-phone-focus #msform .form-step[data-step="7"][data-active="true"] .action-button:not(.hidden) {
+		position: static;
+		bottom: auto;
+		z-index: auto;
+	}
 }
 /* ==== ?debug=1 experiment variants (control-panel driven, funnel) ==== */
 /* N — Auto-advance Next bar: hide Next on radio (auto-advance) steps */
@@ -1523,11 +1585,11 @@ body[data-x-form_layout="calm"] #msform .form-card {
 }
 /* L — Mobile trust strip position (footer badges row) */
 @media (max-width: 767.98px) {
-	body[data-x-trust_strip_pos="lower"] .disclaimer .badges {
+	body[data-x-trust_strip_pos="lower"] .badges {
 		margin-top: 1.5rem;
 		order: 2;
 	}
-	body[data-x-trust_strip_pos="behind"] .disclaimer .badges {
+	body[data-x-trust_strip_pos="behind"] .badges {
 		opacity: 0.55;
 		transform: scale(0.9);
 		margin-top: 0.25rem;

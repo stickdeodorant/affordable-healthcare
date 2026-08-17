@@ -1,4 +1,4 @@
-<div class="disclaimer">
+<div class="badges-wrap">
 	<div class="container">
 		<div class="row badges justify-content-center mt-md-3">
 			<div class="col-auto">
@@ -11,6 +11,10 @@
 				<img id="ssl-secured" src="../img/ssl-badge.webp" alt="SSL Secured" />
 			</div>
 		</div>
+	</div>
+</div>
+<div class="disclaimer">
+	<div class="container">
 		<div class="row">
 			<div class="col text-centern pt-3">
 				<?php
@@ -91,6 +95,9 @@
 </div>
 </div>
 
+<!-- iOS Safari: fade the very bottom of the page above the browser navigation bar -->
+<div class="ah-safari-bottom-fade" aria-hidden="true"></div>
+
 <script src='./js/jquery.min.js'></script>
 <script src='./js/bootstrap.bundle.min.js'></script>
 <script src='./js/parsley.min.js'></script>
@@ -99,6 +106,7 @@
 <script src="https://cdn.jsdelivr.net/gh/tigrr/circle-progress@v0.2.4/dist/circle-progress.min.js"></script>
 <script src='./inc/shared/loading-modal/loading-modal.js'></script>
 <script src='./js/custom.js'></script>
+<script src='./js/grad1-fit.js'></script>
 
 <!-- Modal -->
 <div class="modal fade" id="policyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

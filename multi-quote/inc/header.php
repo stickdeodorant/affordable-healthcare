@@ -218,7 +218,7 @@
 <html lang="en" >
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1,user-scalable=no">
+	<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1,user-scalable=no,viewport-fit=cover">
 	<title><?php if(isset($title) == true && !empty($title)) { echo $title . ' | '; } echo $sitename; ?></title>
 	<?php if ($analyticsEnabled): ?>
 		<?php foreach ($gtmContainers as $gtmId): ?>

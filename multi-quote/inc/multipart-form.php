@@ -671,10 +671,10 @@ $submitPreviewText = isset($submitPreview[$xSubmit]) ? $submitPreview[$xSubmit] 
                                     <?php else: ?>
                                     <strong>You're almost there <span class="name text-primary text-capitalize"></span><span class="text-primary">!</span>
                                         <? /* your <span class="text-primary state-name"><?= SecurityHelper::escape(SessionManager::getStateName() ?: 'state') ?></span> */ ?>
-                                        Enter your details to view your options.</strong>
+                                        <br><span style="font-size: .8em;">Enter your details to view your&nbsp;options.</span></strong>
                                     <?php endif; ?>
                                 </h2>
-                                <h3 class="fs-title text-primary"><b style="font-weight: 600;">Enter your information below to explore your options now.</b></h3>
+                                <h3 class="fs-title text-primary"><b style="font-weight: 600;">Let agents help you find a plan that meets both your needs and budget.</b></h3>
 
                                 <div class="form-group text-left">
                                     <label for="email">Email Address</label>

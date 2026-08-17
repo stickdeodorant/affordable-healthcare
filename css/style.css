@@ -792,9 +792,9 @@ body .ah-header.ah-header-scrolled .ah-header-bar::before {
 
 body .ah-header .ah-header-note {
 	background: #eee;
-	font-size: 0.84rem;
+	font-size: 0.74rem;
 	font-weight: 100;
-	padding: 3px 15px;
+	padding: 5px 15px;
 	text-align: center;
 	overflow: hidden;
 	max-height: 42px;
@@ -1441,6 +1441,8 @@ body .ah-hero .ah-layer-mountain {
 
 	body .ah-hero .input-container {
 		width: min(100%, 340px);
+		display: block;
+		position: relative;
 	}
 
 	body .ah-hero .ah-hero-art {
@@ -1478,6 +1480,8 @@ body .ah-hero .ah-layer-mountain {
 	body .ah-hero .ah-zip {
 		height: 60px;
 		font-size: 1.65rem;
+		width: 100%;
+		padding-right: 46px;
 	}
 
 	body .ah-hero .ah-btn {
@@ -1501,7 +1505,13 @@ body .ah-hero .ah-layer-mountain {
 	}
 
 	body .ah-hero #secure-icon {
-		max-height: 34px;
+		max-height: 26px;
+		position: absolute;
+		right: 12px;
+		top: 50%;
+		transform: translateY(-50%);
+		padding-left: 0 !important;
+		pointer-events: none;
 	}
 
 	body .ah-hero .ah-disclaimer {

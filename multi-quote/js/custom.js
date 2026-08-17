@@ -42,45 +42,154 @@ $(document).ready(function () {
         return window.matchMedia && window.matchMedia('(max-width: 767px)').matches;
     }
 
-    function keepFieldVisible($field) {
+    function getKeyboardOffset() {
+        if (!window.visualViewport || !isMobileViewport()) {
+            return 0;
+        }
+
+        return Math.max(0, Math.round(window.innerHeight - window.visualViewport.height - window.visualViewport.offsetTop));
+    }
+
+    function updateViewportCssVars() {
+        var viewportHeight = window.visualViewport ? Math.round(window.visualViewport.height) : window.innerHeight;
+        var keyboardOffset = getKeyboardOffset();
+        var activeElement = document.activeElement;
+        var phoneFieldActive = !!(activeElement && activeElement.id === 'phone');
+        var actionReserve = keyboardOffset > 0 ? 172 : 132;
+
+        if (phoneFieldActive) {
+            actionReserve = keyboardOffset > 0 ? 212 : 172;
+        }
+
+        document.documentElement.style.setProperty('--ah-vv-height', viewportHeight + 'px');
+        document.documentElement.style.setProperty('--ah-kb-offset', keyboardOffset + 'px');
+        document.documentElement.style.setProperty('--ah-action-reserve', actionReserve + 'px');
+        document.body.classList.toggle('mobile-phone-focus', phoneFieldActive);
+    }
+
+    function keepFieldVisible($field, behavior) {
         if (!isMobileViewport() || !$field || !$field.length) {
             return;
         }
 
         setTimeout(function () {
             var field = $field.get(0);
-            if (field && typeof field.scrollIntoView === 'function') {
-                field.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+            if (!field) {
+                return;
+            }
+
+            var viewportHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+            var actionReserve = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--ah-action-reserve'), 10) || 132;
+            var topPadding = 14;
+            var bottomLimit = Math.max(topPadding + 80, viewportHeight - actionReserve);
+            var rect = field.getBoundingClientRect();
+            var scrollDelta = 0;
+
+            if ($field.is('#phone')) {
+                // Place phone input near the top so lower content (disclaimer + submit) remains in normal flow view.
+                var phoneTopTarget = 10;
+                var phoneDelta = rect.top - phoneTopTarget;
+                if (Math.abs(phoneDelta) > 6 && typeof window.scrollBy === 'function') {
+                    window.scrollBy({
+                        top: phoneDelta,
+                        behavior: behavior || 'smooth'
+                    });
+                }
+                return;
+            }
+
+            if (rect.top < topPadding) {
+                scrollDelta = rect.top - topPadding;
+            } else if (rect.bottom > bottomLimit) {
+                scrollDelta = rect.bottom - bottomLimit;
+            }
+
+            if (scrollDelta !== 0 && typeof window.scrollBy === 'function') {
+                window.scrollBy({
+                    top: scrollDelta,
+                    behavior: behavior || 'smooth'
+                });
+            } else if (typeof field.scrollIntoView === 'function') {
+                field.scrollIntoView({ behavior: behavior || 'smooth', block: 'center', inline: 'nearest' });
             }
         }, 120);
     }
 
+    function getActiveFormField() {
+        var active = document.activeElement;
+        if (!active) {
+            return $();
+        }
+
+        var $active = $(active);
+        if ($active.is('#msform input, #msform select, #msform textarea')) {
+            return $active;
+        }
+
+        return $();
+    }
+
+    function keepActiveFieldVisible() {
+        var $active = getActiveFormField();
+        if ($active.length) {
+            keepFieldVisible($active, 'auto');
+        }
+    }
+
+    function updateMobileFormFocusState() {
+        if (!isMobileViewport()) {
+            document.body.classList.remove('mobile-form-focus');
+            document.body.classList.remove('mobile-phone-focus');
+            return;
+        }
+
+        var $active = getActiveFormField();
+        var phoneFieldActive = $active.length && $active.is('#phone');
+        document.body.classList.toggle('mobile-form-focus', $active.length > 0);
+        document.body.classList.toggle('mobile-phone-focus', phoneFieldActive);
+    }
+
     function updateMobileKeyboardState() {
+        updateViewportCssVars();
+        updateMobileFormFocusState();
+
         if (!window.visualViewport || !isMobileViewport()) {
             document.body.classList.remove('mobile-keyboard-open');
             return;
         }
 
-        var keyboardOpen = window.visualViewport.height < (window.innerHeight - 120);
+        var keyboardOpen = getKeyboardOffset() > 90;
         document.body.classList.toggle('mobile-keyboard-open', keyboardOpen);
     }
 
     if (window.visualViewport) {
-        window.visualViewport.addEventListener('resize', updateMobileKeyboardState);
-        window.visualViewport.addEventListener('scroll', updateMobileKeyboardState);
+        window.visualViewport.addEventListener('resize', function () {
+            updateMobileKeyboardState();
+            keepActiveFieldVisible();
+        });
+        window.visualViewport.addEventListener('scroll', function () {
+            updateMobileKeyboardState();
+            keepActiveFieldVisible();
+        });
     }
 
     $(window).on('orientationchange resize', function () {
-        setTimeout(updateMobileKeyboardState, 150);
+        setTimeout(function () {
+            updateMobileKeyboardState();
+            keepActiveFieldVisible();
+        }, 150);
     });
 
     $(document).on('focus', '#msform input, #msform select, #msform textarea', function () {
-        keepFieldVisible($(this));
+        keepFieldVisible($(this), 'smooth');
         updateMobileKeyboardState();
     });
 
     $(document).on('blur', '#msform input, #msform select, #msform textarea', function () {
-        setTimeout(updateMobileKeyboardState, 80);
+        setTimeout(function () {
+            updateMobileKeyboardState();
+            keepActiveFieldVisible();
+        }, 80);
     });
 
     updateMobileKeyboardState();
@@ -479,6 +588,13 @@ $(document).ready(function () {
 
         if (!isValid) {
             parsleyForm.validate({ group: groupName });
+
+            var $step = $('.form-step[data-step="' + stepNumber + '"]');
+            var $firstErrorField = $step.find('.parsley-error:visible').first();
+            if ($firstErrorField.length) {
+                keepFieldVisible($firstErrorField, 'smooth');
+                $firstErrorField.trigger('focus');
+            }
         }
 
         return isValid;
@@ -814,12 +930,19 @@ $(document).ready(function () {
             $toStep.fadeIn(400, function () {
                 $(this).attr('data-active', 'true');
                 saveCurrentStep(toStep);
+                keepActiveFieldVisible();
                 animating = false;
             });
         });
 
         updateProgressBar(toStep);
-        $('html, body').animate({ scrollTop: 0 }, 300);
+        if (!document.body.classList.contains('mobile-keyboard-open')) {
+            $('html, body').animate({ scrollTop: 0 }, 300);
+        }
+
+        setTimeout(function () {
+            keepActiveFieldVisible();
+        }, 180);
     }
 
     /**

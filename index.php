@@ -11,7 +11,7 @@ if (isset($state)) {
 $featureSubtitle = 'Don\'t overpay for health coverage';
 // Use 0 or '0' for a caption value to hide the value, defaults to main otherwise
 $featureCaption = [
-	'default' => 'Healthcare quotes are moments away.',
+	'default' => 'Healthcare quotes are moments&nbsp;away.',
 	'mobile' => '',
 	'filled' => '',
 	'mfilled' => '',
